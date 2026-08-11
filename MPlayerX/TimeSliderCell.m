@@ -170,7 +170,12 @@
 			rcBounds.size.width -= 0.5f;
 			rcBounds.size.height = 8.0f;
 			
-			rcBounds.size.width *= ([self floatValue]/[self maxValue]);
+			// maxValue is 0 before the movie's duration is known (e.g. the very
+			// first draw after playback starts); floatValue/maxValue would then
+			// be 0/0 or x/0, producing a NaN/infinite rect that crashes
+			// appendBezierPathWithRoundedRect:.
+			double maxValue = [self maxValue];
+			rcBounds.size.width *= (maxValue > 0) ? ([self floatValue] / maxValue) : 0.0;
 			
 			path = [[NSBezierPath alloc] init];
 			[path appendBezierPathWithRoundedRect:rcBounds xRadius:4 yRadius:4];
