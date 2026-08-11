@@ -51,6 +51,7 @@ NSString * const kMPCMplayerNameMT		= @"mplayer-mt";
 NSString * const kMPCMplayerName		= @"mplayer";
 NSString * const kMPCFMTMplayerPathM32	= @"binaries/m32/%@";
 NSString * const kMPCFMTMplayerPathX64	= @"binaries/x86_64/%@";
+NSString * const kMPCFMTMplayerPathArm64 = @"binaries/arm64/%@";
 
 NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 
@@ -76,7 +77,7 @@ enum {
 @end
 
 @interface PlayerController (PlayerControllerInternal)
--(BOOL) shouldRun64bitMPlayer;
+-(NSString*) preferredMPlayerArchKey;
 -(void) playMedia:(NSURL*)url;
 -(NSURL*) findFirstMediaFileFromSubFile:(NSString*)path;
 -(void) enablePowerSave:(BOOL)en;
@@ -180,8 +181,8 @@ enum {
 		/////////////////////////setup CoreController////////////////////
 		[self setMultiThreadMode:[ud boolForKey:kUDKeyEnableMultiThread]];
 
-		// 决定是否使用64bit的mplayer
-		[mplayer.pm setPrefer64bMPlayer:[self shouldRun64bitMPlayer]];
+		// 决定使用哪种arch的mplayer
+		[mplayer.pm setMplayerArch:[self preferredMPlayerArchKey]];
 
 		lastPlayedPath = nil;
 		lastPlayedPathPre = nil;
@@ -659,9 +660,10 @@ static BOOL isNetworkPath(const char *path)
     }
 	[mplayer.pm setThreads: threadNum];
 	
-	[mplayer setMpPathPair: [NSDictionary dictionaryWithObjectsAndKeys: 
+	[mplayer setMpPathPair: [NSDictionary dictionaryWithObjectsAndKeys:
 							 [resPath stringByAppendingPathComponent:[NSString stringWithFormat:kMPCFMTMplayerPathM32, mplayerName]], kI386Key,
 							 [resPath stringByAppendingPathComponent:[NSString stringWithFormat:kMPCFMTMplayerPathX64, mplayerName]], kX86_64Key,
+							 [resPath stringByAppendingPathComponent:[NSString stringWithFormat:kMPCFMTMplayerPathArm64, mplayerName]], kArm64Key,
 							 nil]];
 }
 
@@ -887,15 +889,39 @@ static BOOL isNetworkPath(const char *path)
 	[mplayer.pm setAudioFilePath:path];
 }
 //////////////////////////////////////private methods////////////////////////////////////////////////////
--(BOOL) shouldRun64bitMPlayer
+-(NSString*) preferredMPlayerArchKey
 {
-	int value = 0 ;
-	unsigned long length = sizeof(value);
-	
-	if ((sysctlbyname("hw.optional.x86_64", &value, &length, NULL, 0) == 0) && (value == 1))
-		return [ud boolForKey:kUDKeyPrefer64bitMPlayer];
-	
-	return NO;
+	// The keys are tried in order and the first one whose binary is actually
+	// present in the bundle wins. Compile-time detection is enough here: the
+	// app ships as a universal binary, so the arm64 slice only ever runs on
+	// Apple Silicon and the x86_64 slice only on Intel (or under Rosetta,
+	// where an x86_64 mplayer is the right choice anyway).
+	NSArray *candidates;
+
+#if defined(__arm64__)
+	// Native first, then the Intel build as a Rosetta fallback.
+	candidates = [NSArray arrayWithObjects:kArm64Key, kX86_64Key, nil];
+#else
+	// 32bit mplayer only remains usable on macOS 10.14 and earlier.
+	candidates = ([ud boolForKey:kUDKeyPrefer64bitMPlayer]) ?
+				 [NSArray arrayWithObjects:kX86_64Key, kI386Key, nil] :
+				 [NSArray arrayWithObjects:kI386Key, kX86_64Key, nil];
+#endif
+
+	NSFileManager *fm = [NSFileManager defaultManager];
+	NSDictionary *pathPair = [mplayer mpPathPair];
+
+	for (NSString *key in candidates) {
+		NSString *path = [pathPair objectForKey:key];
+
+		if (path && [fm isExecutableFileAtPath:path]) {
+			return key;
+		}
+	}
+
+	// Nothing usable was found; return the preferred key anyway so that the
+	// failure surfaces as a normal playback error instead of a silent no-op.
+	return [candidates objectAtIndex:0];
 }
 
 ///////////////////////////////////////MPlayer Notifications/////////////////////////////////////////////

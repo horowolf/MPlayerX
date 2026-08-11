@@ -55,7 +55,7 @@
 	unsigned int letterBoxMode;
 	float letterBoxHeight;
 	unsigned int subAlign;
-	BOOL prefer64bMPlayer;
+	NSString *mplayerArch;
 	BOOL guessSubCP;
 	BOOL forceIndex;
 	BOOL dtsPass;
@@ -80,7 +80,7 @@
 }
 
 @property (assign, readwrite) SUBFILE_NAMERULE subNameRule;
-@property (assign, readwrite) BOOL prefer64bMPlayer;
+@property (copy, readwrite) NSString *mplayerArch;
 @property (assign, readwrite) BOOL guessSubCP;
 @property (assign, readwrite) float startTime;
 @property (assign, readwrite) float volume;

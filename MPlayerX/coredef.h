@@ -131,6 +131,7 @@ typedef enum {
 // 指定两种arch的mplayer路径时所用的key
 extern NSString * const kI386Key;
 extern NSString * const kX86_64Key;
+extern NSString * const kArm64Key;
 
 extern NSString * const kPMValDemuxFFMpeg;
 

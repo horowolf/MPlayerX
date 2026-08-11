@@ -144,7 +144,7 @@ NSString * const kCmdStringFMTTimeSeek	= @"%@ %@ %f %d\n";
 
 		imageData = NULL;
 		imageSize = 0;
-		sharedBufferName = [[NSString alloc] initWithFormat:@"MPlayerX_%X", self];
+		sharedBufferName = [[NSString alloc] initWithFormat:@"MPlayerX_%lX", (unsigned long)self];
 		
 		renderThread = [[NSThread alloc] initWithTarget:self selector:@selector(renderRoutine) object:nil];
 		[renderThread setThreadPriority:0.9];
@@ -397,7 +397,7 @@ NSString * const kCmdStringFMTTimeSeek	= @"%@ %@ %f %d\n";
 	[movieInfo.playingInfo resetWithParameterManager:pm];
 
 	if ( [playerCore playMedia:moviePath 
-					  withExec:[mpPathPair objectForKey:(pm.prefer64bMPlayer)?kX86_64Key:kI386Key] 
+					  withExec:[mpPathPair objectForKey:pm.mplayerArch]
 					withParams:[pm arrayOfParametersWithName:(dispDelegate)?(sharedBufferName):(nil)]]
 	   ) {
 		state = kMPCOpenedState;

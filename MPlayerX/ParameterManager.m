@@ -119,7 +119,7 @@ NSString * const kPMParAudioFile			= @"-audiofile";
 @implementation ParameterManager
 
 @synthesize subNameRule;
-@synthesize prefer64bMPlayer;
+@synthesize mplayerArch;
 @synthesize guessSubCP;
 @synthesize startTime;
 @synthesize volume;
@@ -177,7 +177,7 @@ NSString * const kPMParAudioFile			= @"-audiofile";
 		borderColor = 0x0000000F; //RRGGBBAA
 		assSubMarginV = kPMAssSubMarginVDefault;
 		
-		prefer64bMPlayer = YES;
+		mplayerArch = [kX86_64Key copy];
 		guessSubCP = YES;
 		startTime = -1;
 		volume = 100;
@@ -221,6 +221,7 @@ NSString * const kPMParAudioFile			= @"-audiofile";
 -(void) dealloc
 {
 	[paramArray release];
+	[mplayerArch release];
 	[font release];
 	[ao release];
 	[vo release];
@@ -393,7 +394,7 @@ NSString * const kPMParAudioFile			= @"-audiofile";
 		
 		subBorderWidth = MIN(kPMSubBorderWidthMax, subBorderWidth);
 		
-		otherStyles = [NSString stringWithFormat:kPMValAssForceStylePrefixMarginVOutline, assSubMarginV, subBorderWidth];
+		otherStyles = [NSString stringWithFormat:kPMValAssForceStylePrefixMarginVOutline, (int)assSubMarginV, (int)subBorderWidth];
 		
 		if (subAlign != kPMSubAlignDefault) {
 			otherStyles = [otherStyles stringByAppendingFormat:kPMValFmtAssSubAlginment, subAlign];
