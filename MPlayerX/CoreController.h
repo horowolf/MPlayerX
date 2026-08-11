@@ -42,6 +42,7 @@
 	// render things
 	void *imageData;
 	unsigned int imageSize;
+	NSUInteger imageBufferCount;	/**< 共享内存里的帧缓冲个数，取决于mplayer的版本 */
 	NSString *sharedBufferName;
 	NSThread *renderThread;
 

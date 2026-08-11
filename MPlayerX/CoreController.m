@@ -53,6 +53,13 @@ NSString * const kCmdStringFMTTimeSeek	= @"%@ %@ %f %d\n";
 -(void) render:(bycopy NSUInteger)frameNum;
 -(void) toggleFullscreen;
 -(void) ontop;
+// Upstream mplayer's vo_corevideo speaks a slightly different dialect of this
+// protocol than the patched build MPlayerX used to ship: it reports bytes per
+// pixel rather than a pixel format, gives the aspect as an integer scaled by
+// 100, renders a single shared buffer rather than two, and takes no frame
+// number. Both spellings are declared so either binary can drive MPlayerX.
+-(int) startWithWidth:(bycopy int)width withHeight:(bycopy int)height withBytes:(bycopy int)bytes withAspect:(bycopy int)aspect;
+-(void) render;
 @end
 
 /// 内部方法声明
@@ -62,6 +69,13 @@ NSString * const kCmdStringFMTTimeSeek	= @"%@ %@ %f %d\n";
 -(void) render:(bycopy NSUInteger)frameNum;
 -(void) toggleFullscreen;
 -(void) ontop;
+// Upstream mplayer's vo_corevideo speaks a slightly different dialect of this
+// protocol than the patched build MPlayerX used to ship: it reports bytes per
+// pixel rather than a pixel format, gives the aspect as an integer scaled by
+// 100, renders a single shared buffer rather than two, and takes no frame
+// number. Both spellings are declared so either binary can drive MPlayerX.
+-(int) startWithWidth:(bycopy int)width withHeight:(bycopy int)height withBytes:(bycopy int)bytes withAspect:(bycopy int)aspect;
+-(void) render;
 @end
 
 @interface CoreController (LogAnalyzerDelegate)
@@ -144,6 +158,7 @@ NSString * const kCmdStringFMTTimeSeek	= @"%@ %@ %f %d\n";
 
 		imageData = NULL;
 		imageSize = 0;
+		imageBufferCount = 0;
 		sharedBufferName = [[NSString alloc] initWithFormat:@"MPlayerX_%lX", (unsigned long)self];
 		
 		renderThread = [[NSThread alloc] initWithTarget:self selector:@selector(renderRoutine) object:nil];
@@ -269,7 +284,46 @@ NSString * const kCmdStringFMTTimeSeek	= @"%@ %@ %f %d\n";
 }
 
 //////////////////////////////////////////////protocol for render/////////////////////////////////////////////////////
+-(int) startWithWidth:(bycopy int)width withHeight:(bycopy int)height withBytes:(bycopy int)bytes withAspect:(bycopy int)aspect
+{
+	// Upstream mplayer's entry point. It reports bytes per pixel instead of a
+	// pixel format, so the format has to be inferred. The mapping is ambiguous
+	// in principle -- vo_corevideo accepts YUY2 and UYVY at two bytes, and ARGB
+	// and BGRA at four -- but it advertises them in that order, so the first of
+	// each pair is what a decoder actually gets handed.
+	OSType pixelFormat;
+
+	switch (bytes) {
+		case 2:
+			pixelFormat = kYUVSPixelFormat;
+			break;
+		case 3:
+			pixelFormat = k24RGBPixelFormat;
+			break;
+		default:
+			pixelFormat = k32ARGBPixelFormat;
+			break;
+	}
+
+	// The aspect arrives as d_width * 100 / d_height.
+	return [self startWithWidth:(NSUInteger)width
+					 withHeight:(NSUInteger)height
+				withPixelFormat:pixelFormat
+					 withAspect:((float)aspect) / 100.0f
+					bufferCount:1];
+}
+
 -(int) startWithWidth:(bycopy NSUInteger)width withHeight:(bycopy NSUInteger)height withPixelFormat:(bycopy OSType)pixelFormat withAspect:(bycopy float)aspect
+{
+	// MPlayerX's own mplayer build double-buffers the shared memory.
+	return [self startWithWidth:width
+					 withHeight:height
+				withPixelFormat:pixelFormat
+					 withAspect:aspect
+					bufferCount:2];
+}
+
+-(int) startWithWidth:(NSUInteger)width withHeight:(NSUInteger)height withPixelFormat:(OSType)pixelFormat withAspect:(float)aspect bufferCount:(NSUInteger)bufferCount
 {
 	// MPLog(@"start");
 	if (dispDelegate) {
@@ -280,7 +334,7 @@ NSString * const kCmdStringFMTTimeSeek	= @"%@ %@ %f %d\n";
 		fmt.height = height;
 		fmt.pixelFormat = pixelFormat;
 		fmt.aspect = aspect;
-		
+
 		switch (pixelFormat) {
 			case kYUVSPixelFormat:
 				fmt.bytes = 2;
@@ -293,7 +347,8 @@ NSString * const kCmdStringFMTTimeSeek	= @"%@ %@ %f %d\n";
 				break;
 		}
 		imageSize = fmt.bytes * width * height;
-		
+		imageBufferCount = bufferCount;
+
 		// 打开shmem
 		int shMemID = shm_open([sharedBufferName UTF8String], O_RDONLY, S_IRUSR);
 		if (shMemID == -1) {
@@ -301,10 +356,12 @@ NSString * const kCmdStringFMTTimeSeek	= @"%@ %@ %f %d\n";
 			return 1;
 		}
 		
-		imageData = mmap(NULL, imageSize * 2, PROT_READ, MAP_SHARED, shMemID, 0);
+		// Mapping more than the writer created would fault on access, so the
+		// mapping has to match the number of buffers on the other end.
+		imageData = mmap(NULL, imageSize * bufferCount, PROT_READ, MAP_SHARED, shMemID, 0);
 		// whatever succeed or fail, it should be OK of close the shm
 		close(shMemID);
-		
+
 		if (imageData == MAP_FAILED) {
 			imageData = NULL;
 			MPLog(@"mmap Failed");
@@ -312,9 +369,9 @@ NSString * const kCmdStringFMTTimeSeek	= @"%@ %@ %f %d\n";
 		}
 		char *dataBuf[2];
 		dataBuf[0] = imageData;
-		dataBuf[1] = imageData + imageSize;
-		
-		return [dispDelegate coreController:self startWithFormat:fmt buffer:dataBuf total:2];
+		dataBuf[1] = (bufferCount > 1) ? (imageData + imageSize) : imageData;
+
+		return [dispDelegate coreController:self startWithFormat:fmt buffer:dataBuf total:bufferCount];
 	}
 	return 1;
 }
@@ -325,9 +382,10 @@ NSString * const kCmdStringFMTTimeSeek	= @"%@ %@ %f %d\n";
 		[dispDelegate coreControllerStop:self];
 	}
 	if (imageData) {
-		munmap(imageData, imageSize * 2);
+		munmap(imageData, imageSize * MAX(imageBufferCount, (NSUInteger)1));
 		imageData = NULL;
 		imageSize = 0;
+		imageBufferCount = 0;
 	}
 }
 
@@ -336,6 +394,12 @@ NSString * const kCmdStringFMTTimeSeek	= @"%@ %@ %f %d\n";
 	if (dispDelegate) {
 		[dispDelegate coreController:self draw:frameNum];
 	}
+}
+
+-(void) render
+{
+	// Upstream mplayer renders a single shared buffer and sends no frame number.
+	[self render:0];
 }
 
 - (void) toggleFullscreen {/* This function should be realized at up-level */}
