@@ -171,9 +171,9 @@ static BOOL init_ed = NO;
 			if (mask & kLoadMIMaskTrackInfo) {
 				NSMutableArray *tracks = [[NSMutableArray alloc] initWithCapacity:3];
 				
-				cnt = [[mi videoInfo] count]; if (cnt) { [tracks addObject:[NSString stringWithFormat:kMPXStringInfoTrackInfoVideo, cnt]]; }
-				cnt = [[mi audioInfo] count]; if (cnt) { [tracks addObject:[NSString stringWithFormat:kMPXStringInfoTrackInfoAudio, cnt]]; }
-				cnt = [[mi subInfo] count];   if (cnt) { [tracks addObject:[NSString stringWithFormat:kMPXStringInfoTrackInfoSubtitle, cnt]]; }
+				cnt = [[mi videoInfo] count]; if (cnt) { [tracks addObject:[NSString stringWithFormat:kMPXStringInfoTrackInfoVideo, (int)cnt]]; }
+				cnt = [[mi audioInfo] count]; if (cnt) { [tracks addObject:[NSString stringWithFormat:kMPXStringInfoTrackInfoAudio, (int)cnt]]; }
+				cnt = [[mi subInfo] count];   if (cnt) { [tracks addObject:[NSString stringWithFormat:kMPXStringInfoTrackInfoSubtitle, (int)cnt]]; }
 				[trackInfo setStringValue:[[tracks componentsJoinedByString:@", "] stringByAppendingString:kMPXStringInfoTrackTrackText]];
 				
 				[tracks release];				

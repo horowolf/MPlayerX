@@ -298,7 +298,7 @@ static BOOL init_ed = NO;
 			// 设定这个Rep的存储方式
 			NSData *imData = [NSBitmapImageRep representationOfImageRepsInArray:[NSArray arrayWithObject:imRep]
 																	  usingType:NSPNGFileType
-																	 properties:nil];
+																	 properties:[NSDictionary dictionary]];
 			// 写文件
 			[imData writeToFile:savePath atomically:YES];
 			[imRep release];			
@@ -332,7 +332,7 @@ static BOOL init_ed = NO;
 
 	[[NSWorkspace sharedWorkspace] openURL:
 	 [NSURL URLWithString:[NSString stringWithFormat:
-						   @"https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=mplayerx%%2eqzy%%40gmail%%2ecom&lc=US&item_name=MPlayerX&no_note=0&currency_code=%@&bn=PP%%2dDonationsBF%%3abtn_donate_LG%2egif%%3aNonHostedGuest", currency]]];
+						   @"https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=mplayerx%%2eqzy%%40gmail%%2ecom&lc=US&item_name=MPlayerX&no_note=0&currency_code=%@&bn=PP%%2dDonationsBF%%3abtn_donate_LG%%2egif%%3aNonHostedGuest", currency]]];
 }
 
 -(IBAction) gotoFeedbackPage:(id)sender

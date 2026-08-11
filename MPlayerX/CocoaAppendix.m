@@ -683,7 +683,7 @@ SInt32 MPXGetSysVersion()
 @implementation NSObject (MPXAdditional)
 -(void) showAlertPanelModal:(NSString*) str
 {
-	id alertPanel = NSGetAlertPanel(kMPXStringError, str, kMPXStringOK, nil, nil);
+	id alertPanel = NSGetAlertPanel(kMPXStringError, @"%@", kMPXStringOK, nil, nil, str);
 	[NSApp runModalForWindow:alertPanel];
 	NSReleaseAlertPanel(alertPanel);
 }

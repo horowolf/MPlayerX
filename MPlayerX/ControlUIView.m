@@ -32,6 +32,7 @@
 #import "CocoaAppendix.h"
 #import "TimeFormatter.h"
 #import "DisplayLayer.h"
+#import "TimeSliderCell.h"
 
 #define CONTROLALPHA		(1)
 #define BACKGROUNDALPHA		(0.9)
@@ -628,7 +629,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	
 	// when dragging, use absolute seeking
 	float time = [playerController seekTo:[sender floatValue]
-									 mode:([[timeSlider cell] isDragging])?kMPCSeekModeAbsolute:kMPCSeekModeRelative];
+									 mode:([(TimeSliderCell*)[timeSlider cell] isDragging])?kMPCSeekModeAbsolute:kMPCSeekModeRelative];
 
 	[self updateHintTime];
 	
