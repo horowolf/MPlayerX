@@ -82,9 +82,16 @@ export PKG_CONFIG_PATH="${BREW_PREFIX}/lib/pkgconfig:${PKG_CONFIG_PATH:-}"
 
 if [ ! -f config.mak ]; then
     echo "==> configuring"
-    # --enable-corevideo is what matters most: MPlayerX renders through
+    # corevideo, freetype, fontconfig and fribidi are all deliberately left to
+    # autodetection rather than forced on with --enable-*. In MPlayer's
+    # configure, --enable-foo means "assume yes and skip the check", which also
+    # skips collecting that dependency's compiler and linker flags -- the build
+    # then fails at link time with undefined _Fc* and _fribidi_* symbols. The
+    # autodetected path finds them through pkg-config and records the flags.
+    #
+    # corevideo matters most of the four: MPlayerX renders through
     # "-vo corevideo:shared_buffer", so a build without it cannot display video
-    # in the MPlayerX window at all.
+    # in the MPlayerX window at all. It is verified after configure below.
     #
     # Newer clang rejects two constructs that MPlayer 1.5 still contains, hence
     # the two -Wno- flags.
@@ -92,16 +99,20 @@ if [ ! -f config.mak ]; then
         --cc=clang \
         --host-cc=clang \
         --prefix="${WORK}/prefix" \
-        --enable-corevideo \
-        --enable-freetype \
-        --enable-fontconfig \
-        --enable-fribidi \
         --disable-x11 \
         --disable-caca \
         --disable-cdparanoia \
         --disable-libbs2b \
         --extra-cflags="-Wno-int-conversion -Wno-incompatible-function-pointer-types -I${BREW_PREFIX}/include" \
         --extra-ldflags="-L${BREW_PREFIX}/lib"
+
+    for feature in corevideo freetype fontconfig fribidi; do
+        if ! grep -qE "^#define CONFIG_$(echo "${feature}" | tr '[:lower:]' '[:upper:]') 1" config.h; then
+            echo "error: ${feature} was not detected; check config.log." >&2
+            echo "       'brew install pkgconf freetype fontconfig fribidi speex' first." >&2
+            exit 1
+        fi
+    done
 fi
 
 echo "==> building (this takes a while; ffmpeg is built from source)"
@@ -160,8 +171,18 @@ if otool -L "${DEST}/mplayer" | tail -n +2 | grep -vE '^\s+(/usr/lib|/System|@ex
     exit 1
 fi
 
-"${DEST}/mplayer" -ao null -vo null -frames 0 "${REPO_ROOT}/MPlayerX/wqy-microhei.ttc" >/dev/null 2>&1 || true
-"${DEST}/mplayer" -v 2>&1 | head -2
+# The binary must at least start and report itself, and it must list the
+# corevideo video output that MPlayerX drives.
+"${DEST}/mplayer" -v 2>&1 | head -1
+
+# Captured first rather than piped: mplayer exits non-zero after printing the
+# driver list, which under `set -o pipefail` would fail the whole pipeline.
+vo_list="$("${DEST}/mplayer" -vo help 2>/dev/null || true)"
+
+if ! printf '%s\n' "${vo_list}" | grep -q '[[:space:]]corevideo[[:space:]]'; then
+    echo "error: the built mplayer has no corevideo video output." >&2
+    exit 1
+fi
 
 echo
 echo "done. staged in ${DEST}"

@@ -58,6 +58,13 @@ through `@executable_path/lib`.
 | `libfontconfig.1.dylib` | MIT-style (fontconfig license) | <https://www.freedesktop.org/wiki/Software/fontconfig/> |
 | `libfribidi.0.dylib` | GNU Lesser General Public License, version 2.1 or later | <https://github.com/fribidi/fribidi> |
 | `libspeex.1.dylib` | BSD 3-Clause (Xiph.Org) | <https://www.speex.org/> |
+| `libpng16.16.dylib` | PNG Reference Library License v2 (zlib-style) | <http://www.libpng.org/pub/png/libpng.html> |
+| `libintl.8.dylib` | GNU Lesser General Public License, version 2.1 or later (GNU gettext runtime) | <https://www.gnu.org/software/gettext/> |
+
+`libpng16` and `libintl` are transitive: they are pulled in by freetype and
+fontconfig respectively rather than used by MPlayer directly. They are bundled
+for the arm64 build only; the 2011 x86_64 and i386 bundles predate those
+dependencies.
 
 The versions bundled for arm64 are recorded in
 [`tools/build-mplayer-arm64.sh`](tools/build-mplayer-arm64.sh), which copies
