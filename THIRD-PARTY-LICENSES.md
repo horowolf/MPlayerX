@@ -12,14 +12,15 @@ can be met.
 
 ## Redistributed as prebuilt binaries inside the application bundle
 
-These live under `MPlayerX/binaries/<arch>/` and are copied into
-`MPlayerX.app/Contents/Resources/binaries/<arch>/` at build time.
+This lives under `MPlayerX/binaries/arm64/` and is copied into
+`MPlayerX.app/Contents/Resources/binaries/arm64/` at build time. It is not
+committed to the repository — it is built locally, see below.
 
 ### MPlayer
 
 | | |
 |---|---|
-| Location | `MPlayerX/binaries/<arch>/mplayer` |
+| Location | `MPlayerX/binaries/arm64/mplayer` |
 | License | GNU General Public License, version 2 |
 | Upstream | <https://www.mplayerhq.hu/> |
 
@@ -36,20 +37,22 @@ it is committed alongside this file as
 [`tools/build-mplayer-arm64.sh`](tools/build-mplayer-arm64.sh); running it
 reproduces the shipped binary.
 
-**x86_64 and i386 builds.** Inherited from the original MPlayerX repository,
-where they were committed as prebuilt binaries in 2011 without a record of
-which revision or configure line produced them. They self-report as
+**x86_64 and i386 builds — removed.** These were inherited from the original
+MPlayerX repository, committed as prebuilt binaries in 2011 without a record
+of which revision or configure line produced them. They self-reported as
 `MPlayer UNKNOWN-4.2.1 (C) 2000-2011 MPlayer Team`, which indicates a
 development snapshot rather than a release, so the exact corresponding source
-cannot be identified after the fact. This is a pre-existing compliance gap
-carried over from upstream, not something introduced here. Anyone
-redistributing those two binaries should either rebuild them from an
-identified MPlayer revision or drop them; the arm64 binary above is not
-affected.
+could never be identified after the fact — a pre-existing compliance gap
+carried over from upstream. This branch now builds arm64 only and no longer
+ships either binary, which removes that gap along with the x86_64 app slice
+that used to select between them. They remain available in the git history of
+`MPlayerX/binaries/x86_64/` and `MPlayerX/binaries/m32/` for anyone building
+an Intel version instead, with the same unresolved-provenance caveat as
+before.
 
 ### Support libraries used by MPlayer
 
-Shipped next to the `mplayer` executable in `binaries/<arch>/lib/` and loaded
+Shipped next to the `mplayer` executable in `binaries/arm64/lib/` and loaded
 through `@executable_path/lib`.
 
 | Library | License | Upstream |
@@ -62,15 +65,13 @@ through `@executable_path/lib`.
 | `libintl.8.dylib` | GNU Lesser General Public License, version 2.1 or later (GNU gettext runtime) | <https://www.gnu.org/software/gettext/> |
 
 `libpng16` and `libintl` are transitive: they are pulled in by freetype and
-fontconfig respectively rather than used by MPlayer directly. They are bundled
-for the arm64 build only; the 2011 x86_64 and i386 bundles predate those
-dependencies.
+fontconfig respectively rather than used by MPlayer directly.
 
 The versions bundled for arm64 are recorded in
 [`tools/build-mplayer-arm64.sh`](tools/build-mplayer-arm64.sh), which copies
-them out of the build environment and rewrites their install names. As with the
-`mplayer` executable itself, the provenance of the x86_64 and i386 copies was
-never recorded upstream.
+them out of the build environment and rewrites their install names. The 2011
+x86_64 and i386 library bundles predated these dependencies and have been
+removed along with those `mplayer` binaries.
 
 ## Redistributed as a resource
 

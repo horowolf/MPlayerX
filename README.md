@@ -4,15 +4,16 @@ A movie player for macOS, built as a graphical front end to
 [MPlayer](https://www.mplayerhq.hu/). MPlayerX does not decode anything itself:
 it spawns an `mplayer` process and drives it over the MPlayer slave protocol.
 
-This branch revives the project on Apple Silicon. Upstream development stopped
-in November 2011, and the tree as it stood could not be built by any current
-version of Xcode.
+This branch revives the project on Apple Silicon and builds arm64 only. It
+targets Apple Silicon Macs exclusively; Intel Mac users should keep using the
+original 2011-2012 release. Upstream development stopped in November 2011,
+and the tree as it stood could not be built by any current version of Xcode.
 
 ## Status
 
 | | |
 |---|---|
-| Builds | Xcode 26 on macOS 26, as a universal binary (arm64 + x86_64) |
+| Builds | Xcode 26 on macOS 26, arm64 only |
 | Minimum macOS | 10.13 |
 | Playback backend | MPlayer 1.5, built natively for arm64 |
 
@@ -34,9 +35,8 @@ Then press Build. There is no separate bootstrap step: the submodule sources
 are compiled directly into the application, so nothing has to be built by hand
 first.
 
-The repository ships a prebuilt `mplayer` for each architecture under
-`MPlayerX/binaries/`, which is what a normal build copies into the bundle. To
-rebuild the arm64 one from source instead:
+The repository does not ship a prebuilt `mplayer` binary; `MPlayerX/binaries/arm64/`
+must be built locally before the app has anything to spawn:
 
 ```
 brew install pkgconf freetype fontconfig fribidi speex
@@ -50,16 +50,21 @@ on nothing from Homebrew at runtime. Homebrew is a build-time requirement only.
 
 ## What changed
 
-- **Universal binary.** `VALID_ARCHS` was pinned to `i386 x86_64`, so Xcode
+- **Builds for arm64.** `VALID_ARCHS` was pinned to `i386 x86_64`, so Xcode
   skipped every compile and link step while still reporting `BUILD SUCCEEDED`,
-  producing an `.app` with no executable inside. The project now builds
-  `$(ARCHS_STANDARD)`.
-- **Architecture selection.** The app chose between the bundled mplayer
-  binaries by reading the `hw.optional.x86_64` sysctl. That sysctl does not
-  exist in a native arm64 process, so a natively built app fell through to the
-  32-bit i386 binary, which macOS has refused to run since 10.15. Selection is
-  now by explicit architecture, native first, with the x86_64 build as a
-  Rosetta fallback when no arm64 binary is present.
+  producing an `.app` with no executable inside. The project first built
+  `$(ARCHS_STANDARD)` (universal, arm64 + x86_64) to get something running on
+  both architectures, then was pinned to `ARCHS = arm64` once the native
+  arm64 mplayer was verified working end to end — this branch targets Apple
+  Silicon Macs only. The 2011 x86_64 and 32-bit i386 `mplayer` binaries were
+  dropped along with the x86_64 app slice; see
+  [THIRD-PARTY-LICENSES.md](THIRD-PARTY-LICENSES.md) for why that also closes
+  a GPL compliance gap, not just a scope cut.
+- **Architecture selection.** The app used to choose between the bundled
+  mplayer binaries by reading the `hw.optional.x86_64` sysctl. That sysctl
+  does not exist in a native arm64 process, so a natively built app fell
+  through to the 32-bit i386 binary, which macOS has refused to run since
+  10.15. Selection is now by explicit architecture instead of a sysctl probe.
 - **Native arm64 mplayer.** Added, so playback no longer depends on Rosetta.
 - **Startup crash.** `SPMediaKeyTap` asserted that `CGEventTapCreate` succeeded.
   Since macOS 10.14 that call requires Accessibility access, which a freshly
@@ -85,11 +90,11 @@ MPlayerX is free software under the GNU General Public License, version 2 or
 later. See [COPYING](COPYING) for the full text.
 
 Every third-party component that this repository or a built `MPlayerX.app`
-redistributes — the MPlayer binaries, their support libraries, the bundled
-font, and the submodules — is listed in
+redistributes — the MPlayer binary, its support libraries, the bundled font,
+and the submodules — is listed in
 [THIRD-PARTY-LICENSES.md](THIRD-PARTY-LICENSES.md), along with its license and
-the upstream source it came from. That file also records two compliance gaps
-inherited from the original repository that are worth knowing about before
+the upstream source it came from. That file also records a compliance gap
+inherited from the original repository that is worth knowing about before
 redistributing.
 
 Because MPlayerX ships GPLv2 code, distribute builds directly rather than
