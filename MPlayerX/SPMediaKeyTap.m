@@ -69,11 +69,29 @@ static CGEventRef tapEventCallback(CGEventTapProxy proxy, CGEventType type, CGEv
 								  CGEventMaskBit(NX_SYSDEFINED),
 								  tapEventCallback,
 								  self);
-	assert(_eventPort != NULL);
-	
+	if (_eventPort == NULL) {
+		// Since macOS 10.14 creating a session event tap requires the user to
+		// grant Accessibility access to the app. Until that happens (or if the
+		// user simply declines) the tap cannot be created. Media keys are a
+		// convenience, so carry on without them instead of aborting.
+		NSLog(@"MPlayerX: could not create the media key event tap; "
+			  @"media keys are disabled. Grant Accessibility access in "
+			  @"System Settings > Privacy & Security to enable them.");
+		[self setShouldInterceptMediaKeyEvents:NO];
+		return;
+	}
+
     _eventPortSource = CFMachPortCreateRunLoopSource(kCFAllocatorSystemDefault, _eventPort, 0);
-	assert(_eventPortSource != NULL);
-	
+
+	if (_eventPortSource == NULL) {
+		NSLog(@"MPlayerX: could not create the media key run loop source; "
+			  @"media keys are disabled.");
+		CFRelease(_eventPort);
+		_eventPort = NULL;
+		[self setShouldInterceptMediaKeyEvents:NO];
+		return;
+	}
+
 	// Let's do this in a separate thread so that a slow app doesn't lag the event tap
 	[NSThread detachNewThreadSelector:@selector(eventTapThread) toTarget:self withObject:nil];
 }
