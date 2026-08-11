@@ -19,7 +19,7 @@
  */
 
 #import "SubConverter.h"
-#import <UniversalDetector/UniversalDetector.h>
+#import "UniversalDetector.h"
 
 NSString * const kWorkDirSubDir = @"Subs";
 
@@ -148,7 +148,7 @@ NSString * const kWorkDirSubDir = @"Subs";
 						prefix = [subPathNew stringByDeletingPathExtension];
 					}
 					// 如果该文件存在那么就寻找下一个不存在的文件名
-					subPathNew = [prefix stringByAppendingFormat:@".mpx.%d.%@", idx++, ext];
+					subPathNew = [prefix stringByAppendingFormat:@".mpx.%d.%@", (int)(idx++), ext];
 				}
 				
 				// CP949据说总会fallback到EUC_KR，这里把它回到CP949(kCFStringEncodingDOSKorean)
