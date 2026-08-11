@@ -56,6 +56,7 @@
 	float letterBoxHeight;
 	unsigned int subAlign;
 	NSString *mplayerArch;
+	NSSet *supportedOptions;
 	BOOL guessSubCP;
 	BOOL forceIndex;
 	BOOL dtsPass;
@@ -81,6 +82,14 @@
 
 @property (assign, readwrite) SUBFILE_NAMERULE subNameRule;
 @property (copy, readwrite) NSString *mplayerArch;
+
+/** The set of option names, without their leading dash, that the mplayer
+ *  binary in use accepts. Set it to nil to assume every option is available.
+ *  MPlayerX historically shipped a patched mplayer that understood a few
+ *  options upstream never had, so options are checked against this before
+ *  being put on the command line: an mplayer that does not recognise an
+ *  option refuses to start at all. */
+@property (retain, readwrite) NSSet *supportedOptions;
 @property (assign, readwrite) BOOL guessSubCP;
 @property (assign, readwrite) float startTime;
 @property (assign, readwrite) float volume;
@@ -121,6 +130,10 @@
 -(void) setSubFontBorderColor:(NSColor*)col;
 
 -(NSArray *) arrayOfParametersWithName:(NSString*) name;
+
+/** NO when the mplayer in use has no start-paused option, in which case the
+ *  caller must pause over the slave protocol once playback has opened. */
+-(BOOL) supportsStartPausedOption;
 
 -(void) reset;
 

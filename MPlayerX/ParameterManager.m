@@ -105,6 +105,7 @@ NSString * const kPMValAssForceStylePrefixMarginVOutline	= @"Default.BorderStyle
 NSString * const kPMValFmtAssSubAlginment	= @",Default.Alignment=%d";
 
 NSString * const kPMParSubID				= @"-subid";
+NSString * const kPMParNoSub				= @"-nosub";
 NSString * const kPMParDVDProto				= @"dvd://";
 NSString * const kPMParDVDDevice			= @"-dvd-device";
 
@@ -120,6 +121,7 @@ NSString * const kPMParAudioFile			= @"-audiofile";
 
 @synthesize subNameRule;
 @synthesize mplayerArch;
+@synthesize supportedOptions;
 @synthesize guessSubCP;
 @synthesize startTime;
 @synthesize volume;
@@ -178,6 +180,7 @@ NSString * const kPMParAudioFile			= @"-audiofile";
 		assSubMarginV = kPMAssSubMarginVDefault;
 		
 		mplayerArch = [kX86_64Key copy];
+		supportedOptions = nil;
 		guessSubCP = YES;
 		startTime = -1;
 		volume = 100;
@@ -222,6 +225,7 @@ NSString * const kPMParAudioFile			= @"-audiofile";
 {
 	[paramArray release];
 	[mplayerArch release];
+	[supportedOptions release];
 	[font release];
 	[ao release];
 	[vo release];
@@ -236,6 +240,34 @@ NSString * const kPMParAudioFile			= @"-audiofile";
 	[audioFilePath release];
 	
 	[super dealloc];
+}
+
+-(BOOL) supportsOption:(NSString*)opt
+{
+	if (!supportedOptions) {
+		// Nothing probed the binary, so make no assumptions and behave the way
+		// MPlayerX always has.
+		return YES;
+	}
+
+	// Option constants carry their leading dash, and boolean ones are spelled
+	// "-noxxx" on the command line while mplayer lists them as "xxx".
+	NSString *name = [opt hasPrefix:@"-"] ? [opt substringFromIndex:1] : opt;
+
+	if ([supportedOptions containsObject:name]) {
+		return YES;
+	}
+
+	if ([name hasPrefix:@"no"] && [supportedOptions containsObject:[name substringFromIndex:2]]) {
+		return YES;
+	}
+
+	return NO;
+}
+
+-(BOOL) supportsStartPausedOption
+{
+	return [self supportsOption:kPMParSTPause];
 }
 
 -(void) setSubFontColor:(NSColor*)col
@@ -301,7 +333,8 @@ NSString * const kPMParAudioFile			= @"-audiofile";
 		[paramArray addObject:kPMParIPV4];
 	}
 	
-	if (rtspOverHttp) {
+	if (rtspOverHttp && [self supportsOption:kPMParRtspOverHttp]) {
+		// Requires an mplayer built with live555.
 		[paramArray addObject:kPMParRtspOverHttp];
 	}
 	
@@ -457,13 +490,20 @@ NSString * const kPMParAudioFile			= @"-audiofile";
 		}
 	}
 
-	if (pauseAtStart) {
+	if (pauseAtStart && [self supportsOption:kPMParSTPause]) {
+		// Upstream mplayer has no start-paused option; when it is missing,
+		// CoreController pauses over the slave protocol once playback opens.
 		[paramArray addObject:kPMParSTPause];
 	}
-	
+
 	if (noDispSub) {
-		[paramArray addObject:kPMParSubID];
-		[paramArray addObject:@"-1"];
+		if ([self supportsOption:kPMParSubID]) {
+			[paramArray addObject:kPMParSubID];
+			[paramArray addObject:@"-1"];
+		} else {
+			// -subid -1 was MPlayerX's spelling; upstream says -nosub.
+			[paramArray addObject:kPMParNoSub];
+		}
 	}
 	
 	if (1) {
@@ -547,7 +587,10 @@ NSString * const kPMParAudioFile			= @"-audiofile";
 		[vfSettings release];
 	}
 
-	if (!displayCacheLog) {
+	if (!displayCacheLog && [self supportsOption:kPMParNoDispCacheLog]) {
+		// Only ever existed in MPlayerX's own mplayer build. Losing it costs
+		// nothing: the cache progress it suppressed is a MSGL_STATUS message,
+		// which the -msglevel above already filters out.
 		[paramArray addObject:kPMParNoDispCacheLog];
  	}
 	

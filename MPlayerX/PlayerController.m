@@ -78,6 +78,7 @@ enum {
 
 @interface PlayerController (PlayerControllerInternal)
 -(NSString*) preferredMPlayerArchKey;
+-(NSSet*) supportedOptionsOfMPlayerAtPath:(NSString*)path;
 -(void) playMedia:(NSURL*)url;
 -(NSURL*) findFirstMediaFileFromSubFile:(NSString*)path;
 -(void) enablePowerSave:(BOOL)en;
@@ -183,6 +184,11 @@ enum {
 
 		// 决定使用哪种arch的mplayer
 		[mplayer.pm setMplayerArch:[self preferredMPlayerArchKey]];
+
+		// 问一下这个mplayer支持哪些参数
+		[mplayer.pm setSupportedOptions:
+		 [self supportedOptionsOfMPlayerAtPath:
+		  [[mplayer mpPathPair] objectForKey:mplayer.pm.mplayerArch]]];
 
 		lastPlayedPath = nil;
 		lastPlayedPathPre = nil;
@@ -924,9 +930,96 @@ static BOOL isNetworkPath(const char *path)
 	return [candidates objectAtIndex:0];
 }
 
+-(NSSet*) supportedOptionsOfMPlayerAtPath:(NSString*)path
+{
+	// MPlayerX was developed against a privately patched mplayer that
+	// understood a handful of options upstream never had (-nodispclog,
+	// -stpause, -subid). Passing one of those to a stock mplayer makes it
+	// refuse to start, so ask the binary what it accepts and let
+	// ParameterManager leave out anything it does not.
+	//
+	// Returning nil means "assume everything is supported", which reproduces
+	// the behaviour MPlayerX had before this check existed.
+	if (!path || ![[NSFileManager defaultManager] isExecutableFileAtPath:path]) {
+		return nil;
+	}
+
+	NSTask *task = [[[NSTask alloc] init] autorelease];
+	NSPipe *pipe = [NSPipe pipe];
+	NSData *output = nil;
+
+	[task setLaunchPath:path];
+	[task setArguments:[NSArray arrayWithObject:@"-list-options"]];
+	[task setStandardOutput:pipe];
+	[task setStandardError:[NSFileHandle fileHandleWithNullDevice]];
+	[task setStandardInput:[NSFileHandle fileHandleWithNullDevice]];
+
+	@try {
+		[task launch];
+		output = [[pipe fileHandleForReading] readDataToEndOfFile];
+		[task waitUntilExit];
+	}
+	@catch (NSException *e) {
+		MPLog(@"could not query mplayer options: %@", e);
+		return nil;
+	}
+
+	if (!output || ![output length]) {
+		return nil;
+	}
+
+	NSString *text = [[[NSString alloc] initWithData:output
+											encoding:NSUTF8StringEncoding] autorelease];
+	if (!text) {
+		return nil;
+	}
+
+	NSMutableSet *opts = [NSMutableSet set];
+	NSCharacterSet *ws = [NSCharacterSet whitespaceCharacterSet];
+
+	for (NSString *line in [text componentsSeparatedByString:@"\n"]) {
+		// Every option line starts with whitespace, then the option name.
+		// Anything else is a banner or a table header.
+		if ([line length] == 0 || ![ws characterIsMember:[line characterAtIndex:0]]) {
+			continue;
+		}
+
+		NSString *name = [[line stringByTrimmingCharactersInSet:ws]
+						  componentsSeparatedByCharactersInSet:ws].firstObject;
+
+		// Suboption groups are listed as "name:suboption"; keep the group name.
+		name = [[name componentsSeparatedByString:@":"] objectAtIndex:0];
+		// Options taking a list are listed with a trailing '*'.
+		if ([name hasSuffix:@"*"]) {
+			name = [name substringToIndex:[name length] - 1];
+		}
+
+		if ([name length]) {
+			[opts addObject:name];
+		}
+	}
+
+	// A parse that found almost nothing means the output was not what we
+	// expected; do not start dropping options on the strength of that.
+	if ([opts count] < 50) {
+		MPLog(@"unexpected -list-options output (%lu entries); not filtering",
+			  (unsigned long)[opts count]);
+		return nil;
+	}
+
+	return opts;
+}
+
 ///////////////////////////////////////MPlayer Notifications/////////////////////////////////////////////
 -(void) playbackOpened:(id)coreController
 {
+	// When the mplayer in use has no -stpause, the process starts playing and
+	// is paused here instead. Upstream mplayer has never had a start-paused
+	// option; only MPlayerX's own build did.
+	if (mplayer.pm.pauseAtStart && ![mplayer.pm supportsStartPausedOption]) {
+		[mplayer togglePause];
+	}
+
 	// according to the apn state
 	if (autoPlayState == kMPCAutoPlayStateJustFound) {
 		autoPlayState = kMPCAutoPlayStatePlaying;
