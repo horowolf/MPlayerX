@@ -1,6 +1,7 @@
 [submodule "BGHUDAppKit"]
 	path = BGHUDAppKit
-	url = https://github.com/niltsh/BGHUDAppKit.git
+	url = https://github.com/horowolf/BGHUDAppKit.git
+	branch = arm64-support
 [submodule "UniversalDetector"]
 	path = UniversalDetector
 	url = https://github.com/niltsh/UniversalDetector.git
