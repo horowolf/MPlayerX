@@ -1,6 +1,6 @@
 diff -ru MPlayer-1.5-orig/libmpdemux/demux_lavf.c MPlayer-1.5/libmpdemux/demux_lavf.c
 --- MPlayer-1.5-orig/libmpdemux/demux_lavf.c	2021-05-01 12:45:31
-+++ MPlayer-1.5/libmpdemux/demux_lavf.c	2026-08-11 22:11:43
++++ MPlayer-1.5/libmpdemux/demux_lavf.c	2026-08-11 22:12:35
 @@ -641,6 +641,21 @@
          demuxer_add_chapter(demuxer, t ? t->value : NULL, start, end);
      }
@@ -25,7 +25,7 @@ diff -ru MPlayer-1.5-orig/libmpdemux/demux_lavf.c MPlayer-1.5/libmpdemux/demux_l
      priv->nb_streams_last = avfc->nb_streams;
 diff -ru MPlayer-1.5-orig/mplayer.c MPlayer-1.5/mplayer.c
 --- MPlayer-1.5-orig/mplayer.c	2021-01-25 13:10:32
-+++ MPlayer-1.5/mplayer.c	2026-08-11 22:11:35
++++ MPlayer-1.5/mplayer.c	2026-08-12 02:13:02
 @@ -508,6 +508,10 @@
      mp_msg(MSGT_IDENTIFY, MSGL_INFO, "ID_FILENAME=%s\n",
             filename_recode(filename));
@@ -95,9 +95,24 @@ diff -ru MPlayer-1.5-orig/mplayer.c MPlayer-1.5/mplayer.c
  
      sh_video->last_pts = MP_NOPTS_VALUE;
      sh_video->num_buffered_pts = 0;
+@@ -3746,6 +3779,14 @@
+             mp_dvdnav_cell_has_changed(mpctx->stream, 1);
+         }
+ #endif
++
++        // MPlayerX's CoreController.m treats this as the signal that playback
++        // has actually started (it maps to kMPCPlayingState); without it,
++        // "state" never leaves kMPCOpenedState and every PlayerCouldAcceptCommand-
++        // gated command (seeking included) silently no-ops. Upstream only sent
++        // it conditionally on -stpause (start-at-pause), which this fork does
++        // not implement, so always report the "playing" value.
++        mp_msg(MSGT_IDENTIFY,MSGL_INFO,"MPX_PBST=%d\n", 0x0100);
+ 
+         while (!mpctx->eof) {
+             float aq_sleep_time = 0;
 diff -ru MPlayer-1.5-orig/stream/cache2.c MPlayer-1.5/stream/cache2.c
 --- MPlayer-1.5-orig/stream/cache2.c	2021-02-07 06:56:44
-+++ MPlayer-1.5/stream/cache2.c	2026-08-11 22:11:38
++++ MPlayer-1.5/stream/cache2.c	2026-08-11 22:12:35
 @@ -524,6 +524,7 @@
  	    100.0*(float)(s->max_filepos-s->read_filepos)/(float)(s->buffer_size),
  	    s->max_filepos-s->read_filepos
