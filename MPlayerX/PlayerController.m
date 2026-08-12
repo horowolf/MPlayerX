@@ -1098,7 +1098,7 @@ static BOOL isNetworkPath(const char *path)
 		}
 	}
 
-	if ([[PlayListController sharedPlayListController] requestingNextOrPrev]) {
+	if ([[PlayListController sharedPlayListController] consumeRequestingNextOrPrev]) {
 		// If this is a next/prev signal issued by the playlist, then pretend it's AutoPlayNextJustFound
 		// This way some necessary parameters can be preserved
 		autoPlayState = kMPCAutoPlayStateJustFound;

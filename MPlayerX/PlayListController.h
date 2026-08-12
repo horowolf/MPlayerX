@@ -31,6 +31,12 @@
 
 @property (readonly) BOOL requestingNextOrPrev;
 
+// Atomically reads requestingNextOrPrev and resets it to NO.
+// Must be used instead of the property + a separate reset, since the reset
+// after -loadFiles: races with the async mplayer-task-termination delegate
+// callback on modern macOS (see playNext:/playPrevious:).
+-(BOOL) consumeRequestingNextOrPrev;
+
 +(PlayListController*) sharedPlayListController;
 
 +(NSString*) SearchNextMoviePathFrom:(NSString*)path inFormats:(NSSet*)exts;

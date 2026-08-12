@@ -21,6 +21,7 @@
 #import "TitleView.h"
 #import "CocoaAppendix.h"
 #import "MPXWindowButton.h"
+#import "MPlayerX-Swift.h"
 
 static NSString * const kStringDots = @"...";
 static NSRect trackRect;
@@ -291,29 +292,40 @@ static NSRect trackRect;
 				fraction:1.0];
 
 	if (title) {
+		// AppKit's -sizeWithAttributes:/-drawAtPoint:withAttributes: have been observed
+		// (crash reports on macOS 26) to throw an internal NSException from
+		// -[NSDictionary objectsForKeys:notFoundMarker:] for reasons that don't reproduce
+		// under a debugger. Since the title text is cosmetic, skip drawing it for this
+		// frame rather than take the whole app down with it.
 		NSMutableString *renderStr = [title mutableCopy];
-		NSSize dotSize = [kStringDots sizeWithAttributes:titleAttr];
-		NSSize strSize = [renderStr sizeWithAttributes:titleAttr];
-		float widthMax = titleSize.width - 80;
-		
-		if (strSize.width > widthMax) {
-			// the title less than 3 characters should be never longer than widMax,
-			// so it is safe to delete the first three chars, without checking
-			[renderStr deleteCharactersInRange:NSMakeRange(0, 2)];
-			
-			while (dotSize.width + strSize.width > widthMax) {
-				[renderStr deleteCharactersInRange:NSMakeRange(0, 1)];
-				strSize = [renderStr sizeWithAttributes:titleAttr];
+
+		@try {
+			NSSize dotSize = [kStringDots sizeWithAttributes:titleAttr];
+			NSSize strSize = [renderStr sizeWithAttributes:titleAttr];
+			float widthMax = titleSize.width - 80;
+
+			if (strSize.width > widthMax) {
+				// the title less than 3 characters should be never longer than widMax,
+				// so it is safe to delete the first three chars, without checking
+				[renderStr deleteCharactersInRange:NSMakeRange(0, 2)];
+
+				while (dotSize.width + strSize.width > widthMax) {
+					[renderStr deleteCharactersInRange:NSMakeRange(0, 1)];
+					strSize = [renderStr sizeWithAttributes:titleAttr];
+				}
+				[renderStr insertString:kStringDots	atIndex:0];
 			}
-			[renderStr insertString:kStringDots	atIndex:0];
+
+			dirtyRect.size = [renderStr sizeWithAttributes:titleAttr];
+
+			drawPos.x = MAX(70, (titleSize.width -dirtyRect.size.width)/2);
+			drawPos.y = (titleSize.height - dirtyRect.size.height)/2;
+
+			[renderStr drawAtPoint:drawPos withAttributes:titleAttr];
+		} @catch (NSException *exception) {
+			MPLog(@"TitleView drawRect: title text drawing threw %@: %@", [exception name], [exception reason]);
 		}
 
-		dirtyRect.size = [renderStr sizeWithAttributes:titleAttr];
-		
-		drawPos.x = MAX(70, (titleSize.width -dirtyRect.size.width)/2);
-		drawPos.y = (titleSize.height - dirtyRect.size.height)/2;
-		
-		[renderStr drawAtPoint:drawPos withAttributes:titleAttr];
 		[renderStr release];
 	}
 }

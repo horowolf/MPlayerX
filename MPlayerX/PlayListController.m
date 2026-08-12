@@ -144,6 +144,13 @@ static BOOL init_ed = NO;
 -(oneway void) release { }
 -(id) autorelease { return self; }
 
+-(BOOL) consumeRequestingNextOrPrev
+{
+	BOOL requesting = requestingNextOrPrev;
+	requestingNextOrPrev = NO;
+	return requesting;
+}
+
 -(void) dealloc
 {
 	sharedInstance = nil;
@@ -162,13 +169,15 @@ static BOOL init_ed = NO;
 			NSString *nextPath = [PlayListController SearchNextMoviePathFrom:[lastURL path]
 																   inFormats:[[AppController sharedAppController] playableFormats]];
 			if (nextPath) {
-				// requestingNextOrPrev works because loadFiles runs on its own thread
-				// by the time loadFiles returns, mplayer is guaranteed to have done stop->start in the correct order
-				// there won't be a timing gap
+				// requestingNextOrPrev is consumed (and reset) by PlayerController's
+				// playbackStopped: once the old mplayer task's termination delegate call
+				// actually arrives -- that callback isn't guaranteed to happen synchronously
+				// within -stop, so resetting the flag here right after -loadFiles: returns
+				// could race ahead of it and cause the window to get resized as if this were
+				// a fresh open instead of a continuous-play switch.
 				requestingNextOrPrev = YES;
 				[playerController stop];
 				[playerController loadFiles:[NSArray arrayWithObject:nextPath] fromLocal:YES];
-				requestingNextOrPrev = NO;
 			} else {
 				[self showAlertPanelModal:kMPXStringCantFindNextEpisode];
 			}
@@ -189,15 +198,13 @@ static BOOL init_ed = NO;
 			NSString *nextPath = [PlayListController SearchPreviousMoviePathFrom:[lastURL path]
 																	   inFormats:[[AppController sharedAppController] playableFormats]];
 			if (nextPath) {
-				// requestingNextOrPrev works because loadFiles runs on its own thread
-				// by the time loadFiles returns, mplayer is guaranteed to have done stop->start in the correct order
-				// there won't be a timing gap
+				// see the comment in -playNext: about why the reset happens in
+				// -[PlayerController playbackStopped:] instead of here
 				requestingNextOrPrev = YES;
 				[playerController stop];
 				[playerController loadFiles:[NSArray arrayWithObject:nextPath] fromLocal:YES];
-				requestingNextOrPrev = NO;
 			} else {
-				[self showAlertPanelModal:kMPXStringCantFindPrevEpisode];			
+				[self showAlertPanelModal:kMPXStringCantFindPrevEpisode];
 			}		
 		} else {
 			[self showAlertPanelModal:kMPXStringNextPrevOnlySupportLocalMedia];
