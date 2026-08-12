@@ -21,7 +21,7 @@ something below; day to day, this file should be enough.
   no bootstrap step beyond `./tools/build-mplayer-arm64.sh` for the
   mplayer binary itself.
 - `~/Desktop/MPlayerX-2.0.0.dmg` is a current, verified build (rebuild
-  any time with `~/git/mplayerx-package.sh`).
+  any time with `./tools/mplayerx-package.sh`).
 
 ## Remaining work
 
