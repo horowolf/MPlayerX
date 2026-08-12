@@ -89,19 +89,40 @@ Used as the default subtitle font so that CJK subtitles render on a machine
 with no suitable system font configured. It is bundled as a data resource and
 is not linked into any executable.
 
-## Compiled into the application from submodules
+## Compiled into the application, vendored directly into this repository
 
-These are checked out as git submodules and their sources are compiled directly
-into `MPlayerX.app`; see `.gitmodules`.
+These used to be git submodules pointing at niltsh's own (long-dormant) forks;
+their sources are now committed directly under the paths below and compiled
+into `MPlayerX.app` the same as before.
 
-| Component | License | Upstream |
-|---|---|---|
-| BGHUDAppKit | BSD 3-Clause, Copyright (c) 2008 Tim Davis (BinaryMethod.com) | <https://github.com/binarygod/BGHUDAppKit> |
-| UniversalDetector | MPL 1.1 / GPL 2.0 / LGPL 2.1 tri-license (Mozilla `universalchardet`) | <https://mozilla.org/MPL/> |
-| Apple Remote Control | MIT-style, Copyright (c) 2006 martinkahr.com | <http://www.martinkahr.com/> |
+| Component | Location | License | Upstream |
+|---|---|---|---|
+| BGHUDAppKit | `BGHUDAppKit/` | BSD 3-Clause, Copyright (c) 2008 Tim Davis (BinaryMethod.com) | <https://github.com/binarygod/BGHUDAppKit> |
+| UniversalDetector | `UniversalDetector/` | MPL 1.1 / GPL 2.0 / LGPL 2.1 tri-license (Mozilla `universalchardet`) | <https://mozilla.org/MPL/> |
+| Apple Remote Control | `Apple Remote Control/` | MIT-style, Copyright (c) 2006 martinkahr.com | <http://www.martinkahr.com/> |
 
-The `Sparkle` submodule is also declared in `.gitmodules` but is not referenced
-by `MPlayerX.xcodeproj` and is not compiled or shipped.
+`Sparkle` was also declared as a submodule in the original tree but was never
+referenced by `MPlayerX.xcodeproj` or compiled into anything; it has been
+dropped rather than vendored.
+
+## Kept for provenance only, not used by the build
+
+### mplayer-for-MPlayerX
+
+| | |
+|---|---|
+| Location | `mplayer/` |
+| License | GNU General Public License, version 2 |
+| Upstream | <https://github.com/niltsh/mplayer-for-MPlayerX> |
+
+niltsh's own patched MPlayer source tree — the historical origin of the
+`MPX_*` slave-protocol hooks reconstructed in
+[`tools/mpx-hooks.patch`](tools/mpx-hooks.patch) (see the MPlayer entry
+above). The arm64 binary this repository ships is **not** built from this
+tree; `tools/build-mplayer-arm64.sh` builds from the official upstream
+MPlayer 1.5 tarball instead, since this tree's 2012-era `configure` script
+predates Apple Silicon and has no AArch64 support. Kept vendored here purely
+as the corresponding-source record for where the patch hunks came from.
 
 ## Vendored into the MPlayerX sources
 
