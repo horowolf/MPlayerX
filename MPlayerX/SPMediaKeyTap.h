@@ -1,3 +1,5 @@
+// Copyright (c) 2010 Spotify AB
+// See SPMediaKeyTap-LICENSE.txt in this directory for the license.
 #import <Cocoa/Cocoa.h>
 #import <IOKit/hidsystem/ev_keymap.h>
 #import <HIToolbox/HIToolbox.h>

@@ -126,21 +126,19 @@ as the corresponding-source record for where the patch hunks came from.
 
 ## Vendored into the MPlayerX sources
 
-Two files were copied into the MPlayerX sources rather than tracked as
-submodules, and **neither carries a license grant in this repository**:
+| Component | Location | License | Upstream |
+|---|---|---|---|
+| SPMediaKeyTap | `MPlayerX/SPMediaKeyTap.{h,m}` | BSD 2-Clause-style (see `MPlayerX/SPMediaKeyTap-LICENSE.txt`), Copyright (c) 2010 Spotify AB / (c) 2011 Joachim Bengtsson | <https://github.com/nevyn/SPMediaKeyTap> |
+| NSObject+SPInvocationGrabbing | `MPlayerX/NSObject+SPInvocationGrabbing.{h,m}` | Same license, same upstream repository | <https://gist.github.com/511181> (bundled in the SPMediaKeyTap repository above) |
 
-| Component | What the file actually says | Notes |
-|---|---|---|
-| `SPMediaKeyTap.m` / `.h` | A single line, `// Copyright (c) 2010 Spotify AB`, and a link to <http://overooped.com/post/2593597587/mediakeys>. No license text. | Media key interception |
-| `NSObject+SPInvocationGrabbing.m` / `.h` | No copyright line and no license text. A comment in `SPMediaKeyTap.m` points at <https://gist.github.com/511181>. | Deferred invocation helper |
-
-Upstream, both are distributed by their authors under an MIT license, so there
-is every reason to believe redistribution is permitted. But a copyright notice
-without the accompanying permission notice does not satisfy the MIT license's
-own condition that the notice be included. This is a pre-existing gap inherited
-from the original repository. The fix is to paste the upstream MIT text into
-the headers of these four files, which should be done with the upstream
-authors' text rather than a reconstruction.
+**Resolved 2026-08-12** (previously a gap): neither file carried a license
+grant in this repository, only a bare copyright comment. The upstream
+repository's own convention is a single root `LICENSE` file covering every
+source file in it (it does not use per-file header comments either) — a
+BSD 2-Clause-style license, not MIT as originally guessed here before the
+upstream text was actually fetched. `MPlayerX/SPMediaKeyTap-LICENSE.txt` now
+carries that text verbatim, and all four source files (`SPMediaKeyTap.{h,m}`,
+`NSObject+SPInvocationGrabbing.{h,m}`) point at it.
 
 ## A note on distribution channels
 

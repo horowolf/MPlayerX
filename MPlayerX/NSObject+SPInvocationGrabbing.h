@@ -1,3 +1,5 @@
+// From https://gist.github.com/511181 (Spotify's SPMediaKeyTap repository).
+// See SPMediaKeyTap-LICENSE.txt in this directory for the license.
 #import <Foundation/Foundation.h>
 
 @interface SPInvocationGrabber : NSObject {

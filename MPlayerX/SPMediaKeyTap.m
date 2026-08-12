@@ -1,4 +1,5 @@
 // Copyright (c) 2010 Spotify AB
+// See SPMediaKeyTap-LICENSE.txt in this directory for the license.
 #import "SPMediaKeyTap.h"
 #import "NSObject+SPInvocationGrabbing.h" // https://gist.github.com/511181, in submodule
 
