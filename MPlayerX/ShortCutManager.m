@@ -125,7 +125,7 @@
 	unichar key;
 	BOOL ret = YES;
 	
-	// 这里处理的是没有keyequivalent的快捷键
+	// This handles shortcuts that have no keyequivalent
 	if ([[event charactersIgnoringModifiers] length] == 0) {
 		ret = NO;
 	} else {
@@ -177,7 +177,7 @@
 				}
 				break;
 
-			case NSCommandKeyMask:		//按下CMD键
+			case NSCommandKeyMask:		// CMD key pressed
 				switch (key)
 				{
 					case NSUpArrowFunctionKey:
@@ -194,7 +194,7 @@
 						break;
 				}
 				break;
-			case 0:				// 什么功能键也没有按
+			case 0:				// No function key pressed
 				switch (key)
 				{
 					case NSRightArrowFunctionKey:
@@ -236,7 +236,7 @@
 	
 	if (pressedDown) {
 		repeatCanceled = NO;
-		// 如果是按下键
+		// If the key was pressed down
 		switch(event) {
 			case kRemoteButtonPlus_Hold:
 			case kRemoteButtonPlus:
@@ -274,7 +274,7 @@
 				NSAppleScript *sleepScript = [[NSAppleScript alloc] initWithSource:@"do shell script \"pmset sleepnow\""];
 				NSDictionary *err;
 				
-				// 如果正在播放就先暂停
+				// If currently playing, pause first
 				if ([playerController playerState] == kMPCPlayingState) {
 					[controlUI togglePlayPause:nil];
 				}
@@ -314,7 +314,7 @@
 			[self simulateEvent:[NSArray arrayWithObjects:target, [NSNumber numberWithInteger:((NSInteger)action)], event, nil]];
 		}		
 	} else {
-		// 如果是放开键
+		// If the key was released
 		repeatCanceled = YES;
 		repeatEntered = NO;
 	}

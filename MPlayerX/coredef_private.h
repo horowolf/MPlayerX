@@ -22,7 +22,7 @@
 
 #define GetRealVolume(x)		(0.01*(x)*(x))
 
-// mplayer通信所用的command的字符串
+// command strings used for mplayer communication
 extern NSString * const kMPCPauseCmd;
 extern NSString * const kMPCPlayCmd;
 extern NSString * const kMPCFrameStepCmd;
@@ -40,7 +40,7 @@ extern NSString * const kMPCPausingKeep;
 extern NSString * const kMPCSetPropertyPreFixPauseKeep;
 
 ////////////////////////////////////////////////////////////////////
-// 没有ID结尾的是 命令字符串 和 属性字符串 有可能是公用的
+// Those without an ID suffix are command strings and property strings, which may be shared
 extern NSString * const kMPCTimePos;
 extern NSString * const kMPCOsdLevel;
 extern NSString * const kMPCSpeed;
@@ -60,7 +60,7 @@ extern NSString * const kMPCSwitchVideo;
 extern NSString * const kMPCEqualizer;
 extern NSString * const kMPCPan;
 
-// 有ID结尾的是 只用来做属性字符串的
+// Those with an ID suffix are used only as property strings
 extern NSString * const kMPCLengthID;
 extern NSString * const kMPCSeekableID;
 extern NSString * const kMPCSubInfosID;

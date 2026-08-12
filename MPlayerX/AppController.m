@@ -103,20 +103,20 @@ static BOOL init_ed = NO;
 		notifCenter = [NSNotificationCenter defaultCenter];
 
 		NSBundle *mainBundle = [NSBundle mainBundle];
-		// 建立支持格式的Set
+		// build the Set of supported formats
 		for( NSDictionary *dict in [mainBundle objectForInfoDictionaryKey:@"CFBundleDocumentTypes"]) {
 			
 			NSString *obj = [dict objectForKey:@"CFBundleTypeName"];
-			// 对不同种类的格式
+			// for the different kinds of formats
 			if ([obj isEqualToString:@"Audio Media"]) {
-				// 如果是音频文件
+				// if it's an audio file
 				supportAudioFormats = [[NSSet alloc] initWithArray:[dict objectForKey:@"CFBundleTypeExtensions"]];
 				
 			} else if ([obj isEqualToString:@"Video Media"]) {
-				// 如果是视频文件
+				// if it's a video file
 				supportVideoFormats = [[NSSet alloc] initWithArray:[dict objectForKey:@"CFBundleTypeExtensions"]];
 			} else if ([obj isEqualToString:@"Subtitle"]) {
-				// 如果是字幕文件
+				// if it's a subtitle file
 				supportSubFormats = [[NSSet alloc] initWithArray:[dict objectForKey:@"CFBundleTypeExtensions"]];
 			}
 		}
@@ -124,13 +124,13 @@ static BOOL init_ed = NO;
 		playableFormats = [[supportVideoFormats setByAddingObjectsFromSet:supportAudioFormats] retain];
 		
 		/////////////////////////setup bookmarks////////////////////
-		// 得到书签的文件名
+		// get the bookmark file name
 		NSString *lastStoppedTimePath = [[NSFileManager UserPath:NSApplicationSupportDirectory WithSuffix:kMPCStringMPlayerX] stringByAppendingPathComponent:kMPCFMTBookmarkPath];
 
-		// 得到记录播放时间的dict
+		// get the dict that records playback time
 		bookmarks = [[NSMutableDictionary alloc] initWithContentsOfFile:lastStoppedTimePath];
 		if (!bookmarks) {
-			// 如果文件不存在或者格式非法
+			// if the file doesn't exist or the format is invalid
 			bookmarks = [[NSMutableDictionary alloc] initWithCapacity:10];
 		}
 		keyTap = nil;
@@ -186,7 +186,7 @@ static BOOL init_ed = NO;
 	[openPanel setCanChooseFiles:YES];
 	[openPanel setCanChooseDirectories:NO];
 	[openPanel setResolvesAliases:NO];
-	// 现在还不支持播放列表，因此禁用多选择
+	// playlists aren't supported yet, so disable multiple selection
 	[openPanel setAllowsMultipleSelection:NO];
 	[openPanel setCanCreateDirectories:NO];
 	[openPanel setTitle:kMPXStringOpenMediaFiles];
@@ -199,7 +199,7 @@ static BOOL init_ed = NO;
 			(!isDir)) {
 			[playerController setExternalAudioFilePath:[externalAudioFilePath stringValue]];
 		}
-		// 这里也可能是打开dvdmedia这样的文件夹，因此将打开文件动作放到application的delegate方法中打开文件。
+		// this could also be opening a folder like dvdmedia, so the actual file-opening action is done in the application delegate method
 		NSString *fileUrl = [[[openPanel URLs] objectAtIndex:0] path];
 		
 		if ([[[fileUrl pathExtension] lowercaseString] isEqualToString:@"dvdmedia"]) {
@@ -209,7 +209,7 @@ static BOOL init_ed = NO;
 		} else {
 			[playerController loadFiles:[openPanel URLs] fromLocal:YES];
 		}
-		// 如果选定了audiofile，就清除
+		// if an audiofile was selected, clear it
 		[externalAudioFilePath setStringValue:kMPXEAFPlaceHolder];
 	}
 }
@@ -237,7 +237,7 @@ static BOOL init_ed = NO;
 	[openPanel setCanChooseFiles:NO];
 	[openPanel setCanChooseDirectories:YES];
 	[openPanel setResolvesAliases:NO];
-	// 现在还不支持播放列表，因此禁用多选择
+	// playlists aren't supported yet, so disable multiple selection
 	[openPanel setAllowsMultipleSelection:NO];
 	[openPanel setCanCreateDirectories:NO];
 	[openPanel setTitle:kMPXStringOpenVideo_TS];
@@ -256,15 +256,15 @@ static BOOL init_ed = NO;
 
 -(IBAction) writeSnapshotToFile:(id)sender
 {
-	// 得到图像数据
+	// get the image data
 	CIImage *snapshot = [dispView snapshot];
 	
 	if (snapshot != nil) {
 		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-		// 得到存储文件夹
+		// get the save folder
 		NSString *savePath = [ud stringForKey:kUDKeySnapshotSavePath];
 		
-		// 如果是默认路径，那么就更换为绝对地址
+		// if it's the default path, replace it with the absolute path
 		if ([savePath isEqualToString:kSnapshotSaveDefaultPath]) {
 			savePath = [NSFileManager UserPath:NSPicturesDirectory WithSuffix:kMPCStringMPlayerX];
 		}
@@ -272,11 +272,11 @@ static BOOL init_ed = NO;
 		NSFileManager *fm = [NSFileManager defaultManager];
 		BOOL isDir = NO;
 		if ([fm fileExistsAtPath:savePath isDirectory:&isDir] && (!isDir)) {
-			// 如果存在但不是文件夹的话
+			// if it exists but isn't a folder
 			[fm removeItemAtPath:savePath error:NULL];
 		}
 		if (!isDir) {
-			// 如果原来不存在这个文件夹或者存在的是文件的话，都需要重建文件夹
+			// if the folder doesn't exist, or what exists there is a file, need to recreate the folder either way
 			if (![fm createDirectoryAtPath:savePath withIntermediateDirectories:YES attributes:nil error:NULL]) {
 				savePath = nil;
 			}
@@ -290,16 +290,16 @@ static BOOL init_ed = NO;
 			dateTime = [dateTime stringByReplacingOccurrencesOfString:@":" withString:@"."];
 			dateTime = [dateTime stringByReplacingOccurrencesOfString:@"/" withString:@"."];
 			
-			// 创建文件名
-			// 修改文件名中的：，因为：无法作为文件名存储
+			// create the file name
+			// replace the ":" in the file name, since ":" can't be stored as part of a file name
 			savePath = [NSString stringWithFormat:@"%@/%@_%@.png", savePath, [[mediaPath lastPathComponent] stringByDeletingPathExtension],dateTime];							   
-			// 得到图像的Rep
+			// get the image's Rep
 			NSBitmapImageRep *imRep = [[NSBitmapImageRep alloc] initWithCIImage:snapshot];
-			// 设定这个Rep的存储方式
+			// set this Rep's storage format
 			NSData *imData = [NSBitmapImageRep representationOfImageRepsInArray:[NSArray arrayWithObject:imRep]
 																	  usingType:NSPNGFileType
 																	 properties:[NSDictionary dictionary]];
-			// 写文件
+			// write the file
 			[imData writeToFile:savePath atomically:YES];
 			[imRep release];			
 		}
@@ -381,7 +381,7 @@ static BOOL init_ed = NO;
 {
 	BOOL isDir = NO, ret = NO;
 	
-	// 这里判断文件是否存在，是为了给command line arguments做准备
+	// check whether the file exists here, in preparation for command line arguments
 	if ([[NSFileManager defaultManager] fileExistsAtPath:filename isDirectory:&isDir]) {
 		if (isDir) {
 			[playerController setPlayDisk:kPMPlayDiskDVD];
@@ -400,7 +400,7 @@ static BOOL init_ed = NO;
 	BOOL isDir = NO;
 	NSApplicationDelegateReply reply = NSApplicationDelegateReplyFailure;
 	
-	// 这里判断文件是否存在，是为了给command line arguments做准备
+	// check whether the file exists here, in preparation for command line arguments
 	if ([[NSFileManager defaultManager] fileExistsAtPath:[filenames objectAtIndex:0] isDirectory:&isDir]) {
 		if (isDir) {
 			[playerController setPlayDisk:kPMPlayDiskDVD];
@@ -429,7 +429,7 @@ static BOOL init_ed = NO;
 	[bookmarks writeToFile:[[NSFileManager UserPath:NSApplicationSupportDirectory WithSuffix:kMPCStringMPlayerX] stringByAppendingPathComponent:kMPCFMTBookmarkPath]
 				atomically:YES];
 	
-	// 先不起用监听功能
+	// don't enable listening for now
 	// [[AODetector defaultDetector] stopListening];
 	
 	return NSTerminateNow;	
@@ -446,12 +446,12 @@ static BOOL init_ed = NO;
 		}
 	}
 	
-	// 开始监听AudioDevice
-	// 如果是双击文件打开程序的话，application:(NSApplication *)theApplication openFile:(NSString *)filename 会在 这个method之前被调用
-	// 也就是说，在startListening之前，就要开始play了
-	// 但是没有关系，即使不listen，playerController在播放的时候因为是调用[AODetector defaultDetector]，会强制判断一次是否是digital，所以不会有问题
-	// 将这个method放到这里是因为不想耽误启动的时间
-	// 先不起用监听功能
+	// start listening to the AudioDevice
+	// if the app was opened by double-clicking a file, application:(NSApplication *)theApplication openFile:(NSString *)filename will be called before this method
+	// which means play would need to start before startListening
+	// but that's fine - even without listening, playerController calls [AODetector defaultDetector] when playing, which forces a check of whether it's digital, so there's no problem
+	// this method is placed here because we don't want to delay startup time
+	// don't enable listening for now
 	// [[AODetector defaultDetector] startListening];
 	
 	NSString *cmdStr;

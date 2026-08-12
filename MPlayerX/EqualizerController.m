@@ -23,10 +23,10 @@
 #import "PlayerController.h"
 #import "UserDefaults.h"
 
-#define kAutoSaveEQSettingsLifeNone			(0)		/**< 只要开始播放就reset */
-#define kAutoSaveEQSettingsLifeAPN			(1)		/**< 不是APN的时候reset */
-#define kAutoSaveEQSettingsLifeApplication	(2)		/**< 程序关闭时reset */
-#define kAutoSaveEQSettingsLifeUserDefaults	(3)		/**< 不reset */
+#define kAutoSaveEQSettingsLifeNone			(0)		/**< reset as soon as playback starts */
+#define kAutoSaveEQSettingsLifeAPN			(1)		/**< reset when it isn't APN */
+#define kAutoSaveEQSettingsLifeApplication	(2)		/**< reset when the app quits */
+#define kAutoSaveEQSettingsLifeUserDefaults	(3)		/**< never reset */
 
 #define kEQValueDefault		(0.0f)
 
@@ -71,13 +71,13 @@
 		[menuEQPanel setKeyEquivalent:kSCMEqualizerPanelKeyEquivalent];
 
 		if ([ud integerForKey:kUDKeyAutoSaveEQSettings] != kAutoSaveEQSettingsLifeUserDefaults) {
-			// 如果不是永远保存设置，那么就删除设置
+			// if settings aren't saved permanently, then delete them
 			[ud removeObjectForKey:kUDKeyEQSettings];
 		}
 		
-		// 加载EQ设置
-		// 这个时候UI还没有加载，因此不用设定UI的东西
-		// 将来如果Controller一开就就会加载UI的话，这里需要注意同步UI
+		// load EQ settings
+		// the UI hasn't loaded at this point, so no need to set anything on the UI
+		// in the future, if the Controller loads the UI right at startup, care must be taken here to keep the UI in sync
 		[playerController setEqualizer:[ud arrayForKey:kUDKeyEQSettings]];
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playBackFinalized:)
@@ -97,11 +97,11 @@
 		nibLoaded = YES;
 		[NSBundle loadNibNamed:@"Equalizer" owner:self];
 		
-		/** \warning Outlet的min和max的设定在XIB文件里面 */
+		/** \warning the min/max settings for the Outlets are in the XIB file */
 		bars = [[NSArray alloc] initWithObjects:sli30,sli60,sli125,sli250,sli500,sli1k,sli2k,sli4k,sli8k,sli16k,nil];
 		
-		// 根据Apple的式样书，在没有Key的时候array返回nil而不是null
-		// 所以这里的判断是安全的
+		// per Apple's documentation, array returns nil rather than null when there's no such key
+		// so the check here is safe
 		if (settings) {
 			num = [settings count];
 		}
@@ -114,7 +114,7 @@
 			}
 		}
 
-		// 设定窗口的z坐标
+		// set the window's z coordinate
 		[EQPanel setLevel:NSMainMenuWindowLevel];
 	}
 	
@@ -127,7 +127,7 @@
 
 -(void) saveParameters:(NSArray*) arr
 {
-	// 由于EQ Slider的设定可能会非常频繁，因此专门用pool
+	// since the EQ Slider setting can change very frequently, use a dedicated pool
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
 	NSMutableArray *settings = [[NSMutableArray alloc] initWithCapacity:12];
@@ -164,8 +164,8 @@
 -(void) playBackStopped:(NSNotification*)notif
 {
 	if ([ud integerForKey:kUDKeyAutoSaveEQSettings] == kAutoSaveEQSettingsLifeNone) {
-		// 播放停止，但是不知道是不是APN
-		// 因此只有在 总是reset 的时候reset
+		// playback stopped, but we don't know whether it's APN
+		// so only reset when the setting is always-reset
 		[self resetEqualizer:nil];
 	}
 }
@@ -173,9 +173,9 @@
 -(void) playBackFinalized:(NSNotification*)notif
 {
 	if ([ud integerForKey:kUDKeyAutoSaveEQSettings] == kAutoSaveEQSettingsLifeAPN) {
-		// 在 非APN的时候reset选项时
-		// 因为 APN的话，是不会有Finalized的notification
-		// 因此只要收到这个notification就可以reset
+		// when resetting the option for non-APN
+		// because with APN there won't be a Finalized notification
+		// so as long as we get this notification, we can reset
 		[self resetEqualizer:nil];
 	}
 }

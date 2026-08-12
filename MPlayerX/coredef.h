@@ -55,18 +55,18 @@ typedef enum {
 @end
 
 @protocol SubConverterDelegate
-/** \return 返回值需要符合IANA标准, 或者nil不改变当前值 */
+/** \return the return value must conform to the IANA standard, or nil to leave the current value unchanged */
 -(NSString*) subConverter:(id)subConv detectedFile:(NSString*)path ofCharsetName:(NSString*)charsetName confidence:(float)confidence;
 @end
 
-// 如果要得到log解析后的结果，可以用这个delegate函数
-// 返回的是A=B字符串中，A为key，B为value的Dict
+// If you want the parsed log result, use this delegate function
+// The return value is a Dict parsed from "A=B" strings, where A is the key and B is the value
 @protocol LogAnalyzerDelegate
 -(void) logAnalyzeFinished:(NSDictionary*) dict;
 @end
 
 /////////////////////////////////////macros/////////////////////////////////////
-// letterBox显示模式
+// letterBox display mode
 #define kPMLetterBoxModeNotDisplay	(0)
 #define kPMLetterBoxModeBottomOnly	(1)
 #define kPMLetterBoxModeTopOnly		(2)
@@ -106,10 +106,10 @@ typedef enum {
 #define kPMSubAlignHorizontalRight	(0x03)
 /**************************************************************************/
 
-#define kMPCStoppedState	(0x0000)		/**< 完全停止状态 */
-#define kMPCOpenedState		(0x0001)		/**< 播放打开，但是还没有开始播放 */
-#define kMPCPlayingState	(0x0100)		/**< 正在播放并且没有暂停 */
-#define kMPCPausedState		(0x0101)		/**< 有文件正在播放但是暂停中 */
+#define kMPCStoppedState	(0x0000)		/**< completely stopped state */
+#define kMPCOpenedState		(0x0001)		/**< playback opened, but not yet started */
+#define kMPCPlayingState	(0x0100)		/**< playing and not paused */
+#define kMPCPausedState		(0x0101)		/**< a file is playing but currently paused */
 
 #define kMPCStateMask		(0x0100)
 
@@ -128,7 +128,7 @@ typedef enum {
 #define kMPCMonoAudioRightExpand	(5)
 
 /////////////////////////////////////strings/////////////////////////////////////
-// 指定两种arch的mplayer路径时所用的key
+// key used when specifying the mplayer path for the two archs
 extern NSString * const kI386Key;
 extern NSString * const kX86_64Key;
 extern NSString * const kArm64Key;
@@ -139,7 +139,7 @@ extern NSString * const kMPCPlayStoppedByForceKey;
 extern NSString * const kMPCPlayStoppedTimeKey;
 
 
-// KVO观测的属性的KeyPath
+// KeyPath of the properties observed via KVO
 extern NSString * const kKVOPropertyKeyPathCurrentTime;
 extern NSString * const kKVOPropertyKeyPathLength;
 extern NSString * const kKVOPropertyKeyPathSeekable;

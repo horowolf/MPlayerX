@@ -229,7 +229,7 @@ static NSRect trackRect;
 	BOOL mouseIn = NSPointInRect(pt, trackRect);
 	
 	if (mouseIn != mouseEntered) {
-		// 状态发生变化
+		// state changed
 		mouseEntered = mouseIn;
 		
 		if (mouseEntered) {

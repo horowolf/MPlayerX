@@ -47,7 +47,7 @@
 
 -(void) dealloc
 {
-	// terminate函数里面会调用delegate的函数，可能会产生逻辑错误
+	// The terminate function calls the delegate's functions, which could cause logic errors
 	delegate = nil;
 
 	[self terminate];
@@ -60,7 +60,7 @@
 - (void) terminate
 {
 	if (task) {
-		// 为了防止函数多次运行
+		// To prevent the function from running multiple times
 		NSTask *backup = task;
 		task = nil;
 		
@@ -78,15 +78,15 @@
 	
 		[self terminate];
 		
-		// 建立task
+		// Create the task
 		task = [[NSTask alloc] init];
-		// 关联输入输出
+		// Associate input/output
 		[task setStandardInput:[NSPipe pipe]];
 		[task setStandardOutput:[NSPipe pipe]];
 		[task setStandardError: [NSPipe pipe]];
-		// 指定运行exec的地址
+		// Specify the path of the exec to run
 		[task setLaunchPath: execPath];
-		// 创建argv
+		// Create argv
 		if (params) {
 			[task setArguments: [params arrayByAddingObject:moviePath]];
 		} else {
@@ -95,7 +95,7 @@
 		
 		MPLog(@"%@", [[task arguments] componentsJoinedByString:@"\n"]);
 		
-		// 设置环境参数
+		// Set environment parameters
 		NSMutableDictionary *env = [[[NSProcessInfo processInfo] environment] mutableCopy];
 		[env setObject:@"1" forKey:@"DYLD_BIND_AT_LAUNCH"]; //delete the message for DYLD
 		[env setObject:@"xterm" forKey:@"TERM"]; // delete the message from mplayer about the "unknown" terminal
@@ -106,7 +106,7 @@
 		
 		[task setCurrentDirectoryPath:[execPath stringByDeletingLastPathComponent]];
 		
-		// 建立监听机制
+		// Set up the notification/listening mechanism
 		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(readOutput:)
 													 name:NSFileHandleReadCompletionNotification
@@ -124,7 +124,7 @@
 		[[[task standardOutput] fileHandleForReading] readInBackgroundAndNotifyForModes:runningModes];
 		[[[task  standardError] fileHandleForReading] readInBackgroundAndNotifyForModes:runningModes];
 
-		// 运行task
+		// Launch the task
 		[task launch];
 		return YES;
 	}
@@ -170,8 +170,8 @@
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
-	// 得到返回状态，0是正常退出
-	// 这个时候task变量有可能变成nil
+	// Get the return status; 0 means normal exit
+	// At this point the task variable may have become nil
 	if (delegate) {
 		[delegate playerCore:self hasTerminated:([[notification object] terminationStatus] != kPlayerCoreTermNormal)];
 	}

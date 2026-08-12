@@ -103,12 +103,12 @@ NSString * const kWorkDirSubDir = @"Subs";
 	BOOL isDir = NO;
 	
 	if ([fm fileExistsAtPath:subDir isDirectory:&isDir] && (!isDir)) {
-		// 如果存在但不是文件夹的话，删除文件先
+		// If it exists but is not a directory, remove the file first
 		[fm removeItemAtPath:subDir error:NULL];
 	}
-	
+
 	if (!isDir) {
-		// 如果原来不存在这个文件夹或者存在的是文件的话，都需要重建文件夹
+		// If the directory did not exist originally, or a file existed there instead, the directory needs to be (re)created
 		if (![fm createDirectoryAtPath:subDir withIntermediateDirectories:YES attributes:nil error:NULL]) {
 			return nil;
 		}
@@ -121,25 +121,25 @@ NSString * const kWorkDirSubDir = @"Subs";
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
 	for (subPathOld in subEncDict) {
-		// 得到文件的编码
+		// Get the file's encoding
 		enc = [subEncDict objectForKey:subPathOld];
 		
 		if (enc) {
-			// 如果能够得到编码字符串，先转换为CF格式
+			// If we could get the encoding string, first convert it to the CF format
 			CFStringEncoding ce = CFStringConvertIANACharSetNameToEncoding((CFStringRef)enc);
 			
 			if (ce != kCFStringEncodingInvalidId) {
-				// 先根据本来的文件名得到workDir的文件路径
+				// First get the file path under workDir based on the original file name
 				subPathNew = [subDir stringByAppendingPathComponent:
 							  [[subPathOld lastPathComponent] stringByReplacingOccurrencesOfString:@"," withString:@"_"]];
 				
-				// 因为有可能会有重名的情况，所以这里要找到合适的文件名
+				// Since name collisions are possible, find a suitable file name here
 				isDir = YES;
 				idx = 0;
 				ext = nil;
 				prefix = nil;
 				
-				// 因为有重名的可能性，所以要找到一个不重复的文件名
+				// Since name collisions are possible, find a file name that doesn't already exist
 				while([fm fileExistsAtPath:subPathNew isDirectory:&isDir] && (!isDir)) {
 					if (ext == nil) {
 						ext = [subPathNew pathExtension];
@@ -147,24 +147,24 @@ NSString * const kWorkDirSubDir = @"Subs";
 					if (prefix == nil) {
 						prefix = [subPathNew stringByDeletingPathExtension];
 					}
-					// 如果该文件存在那么就寻找下一个不存在的文件名
+					// If this file exists, look for the next file name that doesn't
 					subPathNew = [prefix stringByAppendingFormat:@".mpx.%d.%@", (int)(idx++), ext];
 				}
 				
-				// CP949据说总会fallback到EUC_KR，这里把它回到CP949(kCFStringEncodingDOSKorean)
+				// CP949 apparently always falls back to EUC_KR; map it back to CP949 (kCFStringEncodingDOSKorean) here
 				if ((ce == kCFStringEncodingMacKorean) || (ce == kCFStringEncodingEUC_KR)) {
 					ce = kCFStringEncodingDOSKorean;
 				}
 				
-				// 如果合法就转码
+				// Transcode if it's valid
 				NSStringEncoding ne = CFStringConvertEncodingToNSStringEncoding(ce);
 				
 				subFileOld = [NSString stringWithContentsOfFile:subPathOld encoding:ne error:NULL];
 				
 				if (!subFileOld) {
-					// 如果没有成功打开，有可能是编码指定有一些问题
+					// If opening failed, the specified encoding might be problematic
 					if (ce == kCFStringEncodingBig5) {
-						// 如果是Big5的话，就再试试HKSCS看看
+						// If it's Big5, try HKSCS as well
 						ne = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingBig5_HKSCS_1999);
 						subFileOld = [NSString stringWithContentsOfFile:subPathOld encoding:ne error:NULL];
 					} else {
@@ -172,11 +172,11 @@ NSString * const kWorkDirSubDir = @"Subs";
 				}
 				
 				if (subFileOld) {
-					// 成功读出文件
-					// 因为UCD也有猜错的时候，这个时候就直接拷贝文件了
+					// Successfully read the file
+					// Since UCD can also guess wrong, just copy the file directly in that case
 					if ([subFileOld writeToFile:subPathNew atomically:NO encoding:NSUTF8StringEncoding error:NULL]) {
-						// 如果成功写入
-						// 如果没有些成功，那就试着直接拷贝
+						// If the write succeeded
+						// If it didn't succeed, try copying the file directly instead
 						[newSubs addObject:subPathNew];
 						continue;
 					}
@@ -201,14 +201,14 @@ NSString * const kWorkDirSubDir = @"Subs";
 
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
-	// 文件夹路径
+	// Directory path
 	NSString *directoryPath = [moviePath stringByDeletingLastPathComponent];
-	// 播放文件名称
+	// Name of the file being played
 	NSString *movieName = [[[moviePath lastPathComponent] stringByDeletingPathExtension] lowercaseString];
 	
 	NSDirectoryEnumerator *directoryEnumerator = [[NSFileManager defaultManager] enumeratorAtPath:directoryPath];
 	
-	// 遍历播放文件所在的目录
+	// Enumerate the directory containing the file being played
 	for (NSString *path in directoryEnumerator)
 	{
 		// the lower case of the sub path
@@ -217,11 +217,11 @@ NSString * const kWorkDirSubDir = @"Subs";
 		NSDictionary *fileAttr = [directoryEnumerator fileAttributes];
 		
 		if ([[fileAttr objectForKey:NSFileType] isEqualToString:NSFileTypeDirectory]) {
-			//不遍历子目录
+			// Don't descend into subdirectories
 			[directoryEnumerator skipDescendants];
 			
 		} else if ([[fileAttr objectForKey:NSFileType] isEqualToString: NSFileTypeRegular]) {
-			// 如果是普通文件
+			// If it's a regular file
 			switch (nameRule) {
 				case kSubFileNameRuleExactMatch:
 					if (![movieName isEqualToString:caseName]) continue; // exact match
@@ -241,7 +241,7 @@ NSString * const kWorkDirSubDir = @"Subs";
 			NSString *ext = [[path pathExtension] lowercaseString];
 			
 			if ([textSubFileExts containsObject: ext]) {
-				// 如果是文本字幕文件
+				// If it's a text subtitle file
 				@synchronized (detector) {
 					[detector analyzeContentsOfFile: subPath];
 					
@@ -259,7 +259,7 @@ NSString * const kWorkDirSubDir = @"Subs";
 					[detector reset];					
 				}
 			} else if (vobPath && [ext isEqualToString:@"sub"]) {
-				// 如果是vobsub并且设定要寻找vobsub
+				// If it's a vobsub and we're set to look for vobsub
 				[*vobPath release];
 				*vobPath = [subPath retain];
 			}

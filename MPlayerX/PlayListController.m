@@ -33,16 +33,16 @@ NSArray* findDigitParts(NSString *name)
 	range.location = [name length];
 	range.length = 0;
 	
-	// 字符串长度大于0
+	// string length greater than 0
 	while(range.location--) {
-		// 得到当前的char
+		// get the current char
 		ch = [name characterAtIndex:range.location];
 		
 		if ((ch>='0')&&(ch<='9')) {
-			// 是数字
+			// is a digit
 			range.length++;
 		} else if (range.length > 0) {
-			// 不是数字并且已经找到了数字
+			// not a digit, and a digit has already been found
 			[ret addObject:[NSValue valueWithRange:NSMakeRange(range.location+1, range.length)]];
 			range.length = 0;
 		}
@@ -162,9 +162,9 @@ static BOOL init_ed = NO;
 			NSString *nextPath = [PlayListController SearchNextMoviePathFrom:[lastURL path]
 																   inFormats:[[AppController sharedAppController] playableFormats]];
 			if (nextPath) {
-				// requestingNextOrPrev 能够工作是因为 loadFiles工作在一个线程
-				// 在loadFiles退出的时候，就已经保证mplayer按照正确的顺序进行了stop→start
-				// 不会出现时间差
+				// requestingNextOrPrev works because loadFiles runs on its own thread
+				// by the time loadFiles returns, mplayer is guaranteed to have done stop->start in the correct order
+				// there won't be a timing gap
 				requestingNextOrPrev = YES;
 				[playerController stop];
 				[playerController loadFiles:[NSArray arrayWithObject:nextPath] fromLocal:YES];
@@ -189,9 +189,9 @@ static BOOL init_ed = NO;
 			NSString *nextPath = [PlayListController SearchPreviousMoviePathFrom:[lastURL path]
 																	   inFormats:[[AppController sharedAppController] playableFormats]];
 			if (nextPath) {
-				// requestingNextOrPrev 能够工作是因为 loadFiles工作在一个线程
-				// 在loadFiles退出的时候，就已经保证mplayer按照正确的顺序进行了stop→start
-				// 不会出现时间差
+				// requestingNextOrPrev works because loadFiles runs on its own thread
+				// by the time loadFiles returns, mplayer is guaranteed to have done stop->start in the correct order
+				// there won't be a timing gap
 				requestingNextOrPrev = YES;
 				[playerController stop];
 				[playerController loadFiles:[NSArray arrayWithObject:nextPath] fromLocal:YES];
@@ -217,49 +217,49 @@ static BOOL init_ed = NO;
 		NSString *idxNext, *fileNamePrefix = nil, *idxNextTemp;
 		BOOL isTen;
 		NSInteger i = 0, idxNow, digitLast; //, nonFuzzySuffixPos = 0; //;
-		// 得到文件的名字，没有后缀
+		// get the file name, without the extension
 		NSString *movieName = [[path lastPathComponent] stringByDeletingPathExtension];
 		// directory path
 		NSString *dirPath = [path stringByDeletingLastPathComponent];
-		// 找到数字开头的index
+		// find the index where the digits start
 		NSArray *digitRangeArray = findDigitParts(movieName);
 		
 		lastRange.length = 0;
 		lastRange.location = NSNotFound;
 		
 		for (NSValue *val in digitRangeArray) {
-			// 得到当前数字段
+			// get the current digit segment
 			digitRange = [val rangeValue];
 			
-			// 得到当前的数字值
+			// get the current numeric value
 			idxNow = [[movieName substringWithRange:digitRange] integerValue];
 			
 			if (idxNow > 1) {
-				// 数字值必须大于1
+				// the numeric value must be greater than 1
 				idxNext = [NSString stringWithFormat:@"%d", (int)(idxNow - 1)];
 
 				NSUInteger idxNextLen = [idxNext length];
-				// 减法对此不成立，10 - 1 = 9 or 09
+					// subtraction doesn't hold here, 10 - 1 = 9 or 09
 				if (isTimesOfTen(idxNow)) {
-					// 如果是10的整数次方
+					// if it's an integer power of 10
 					++idxNextLen;
 					isTen = YES;
 				} else {
 					isTen = NO;
 				}
 				
-				// 如果这个index的长度比上一个短，说明有padding
+					// if this index's length is shorter than the previous one, that means there's padding
 				if (idxNextLen < digitRange.length) {
-					// 有padding
+						// has padding
 					digitRange.location += (digitRange.length-idxNextLen);
 					digitRange.length = idxNextLen;
 				}
 
 				if ((lastRange.length > 0) && ([[movieName substringWithRange:lastRange] integerValue] == 1)) {
-					// 如果不是最末尾的字段
-					// 而且上一个字段为1，那么说明到了一个season的第一集，需要找上一个season的最后一集
+					// if it's not the last field
+					// and the previous field is 1, that means we've reached the first episode of a season, need to find the last episode of the previous season
 					
-					// 得到所有文件的列表
+						// get the list of all files
 					if (!filesCandidates) {
 						// lazy load
 						filesCandidates = enumerateAllFilesAt(dirPath, exts);
@@ -271,7 +271,7 @@ static BOOL init_ed = NO;
 					for (i = 0; i < 2; ++i) {
 						if (i == 1) {
 							if (isTen) {
-								// 如果是10的次方，那么还要探测099的可能性
+								// if it's a power of 10, also need to probe the possibility of 099
 								idxNextTemp = [NSString stringWithFormat:@"0%@", idxNext];
 							} else {
 								continue;
@@ -280,7 +280,7 @@ static BOOL init_ed = NO;
 							idxNextTemp = idxNext;
 						}
 						
-						// 之前有字段的话
+						// if there was a previous field
 						digitLast = digitRange.location + digitRange.length;
 						fileNamePrefix = [NSString stringWithFormat:@"%@%@%@", 
 										  [movieName substringToIndex:digitRange.location],
@@ -291,15 +291,15 @@ static BOOL init_ed = NO;
 
 						NSRange rng;
 						for (NSString *name in filesCandidates) {
-							// 现不包含数字的寻找
+							// search not including the digit, for now
 							rng = [name rangeOfString:fileNamePrefix options:NSCaseInsensitiveSearch|NSAnchoredSearch];
 							
 							if (rng.length != 0) {
 								// found the name
-								// 得到lastDigit的字符串
+									// get the lastDigit string
 								digitMax = getFirstDigitPart([name substringFromIndex:rng.length + rng.location]);
 								
-								// 如果大于最大值，那么就
+									// if greater than the max value, then
 								if ([digitMax integerValue] > maxNum) {
 									maxNum = [digitMax integerValue];
 									if (nextPath) {
@@ -310,7 +310,7 @@ static BOOL init_ed = NO;
 								}
 							}
 						}
-						// 遍历所有文件之后
+						// after iterating through all files
 						if (nextPath) {
 							goto ExitLoopPrev;
 						}
@@ -319,7 +319,7 @@ static BOOL init_ed = NO;
 					for (i = 0; i < 2; ++i) {
 						if (i == 1) {
 							if (isTen) {
-								// 如果是10的次方，那么还要探测099的可能性
+								// if it's a power of 10, also need to probe the possibility of 099
 								idxNextTemp = [NSString stringWithFormat:@"0%@", idxNext];
 							} else {
 								continue;
@@ -327,8 +327,8 @@ static BOOL init_ed = NO;
 						} else {
 							idxNextTemp = idxNext;
 						}
-						// 如果不是1，那可能是没有意义的字段，或者是普通的某一集
-						// 或者最末尾的字段
+						// if it's not 1, it might be a meaningless field, or just an ordinary episode
+						// or the last field
 						fileNamePrefix = [[movieName substringToIndex:digitRange.location] stringByAppendingString:idxNextTemp];
 						
 						MPLog(@"1: %@", fileNamePrefix);
@@ -370,26 +370,26 @@ ExitLoopPrev:
 		NSRange digitRange, lastRange;
 		NSString *idxNext, *fileNamePrefix = nil;
 		NSInteger i = 0, digitLast; //, nonFuzzySuffixPos = 0;
-		// 得到文件的名字，没有后缀
+		// get the file name, without the extension
 		NSString *movieName = [[path lastPathComponent] stringByDeletingPathExtension];
 		// directory path
 		NSString *dirPath = [path stringByDeletingLastPathComponent];
-		// 找到数字开头的index
+		// find the index where the digits start
 		NSArray *digitRangeArray = findDigitParts(movieName);
 		
-		// 初始化上个字段
+		// initialize the previous field
 		lastRange.length = 0;
 		lastRange.location = NSNotFound;
 		
 		for (NSValue *val in digitRangeArray) {
-			// 得到字段的范围
+			// get the range of the field
 			digitRange = [val rangeValue];
 
-			// 得到下一个想要播放的文件的index
+			// get the index of the next file to play
 			idxNext = [NSString stringWithFormat:@"%d", (int)([[movieName substringWithRange:digitRange] integerValue] + 1)];
 
 			NSUInteger idxNextLen = [idxNext length];
-			// 如果这个index的长度比上一个短，说明有padding
+			// if this index's length is shorter than the previous one, that means there's padding
 			if (idxNextLen < digitRange.length) {
 				digitRange.location += (digitRange.length-idxNextLen);
 				digitRange.length = idxNextLen;

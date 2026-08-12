@@ -27,10 +27,10 @@
 
 #define kCIStepBase							(100000.0)
 
-#define kAutoSaveVTSettingsLifeNone			(0)		/**< 只要开始播放就reset */
-#define kAutoSaveVTSettingsLifeAPN			(1)		/**< 不是APN的时候reset */
-#define kAutoSaveVTSettingsLifeApplication	(2)		/**< 程序关闭时reset */
-#define kAutoSaveVTSettingsLifeUserDefaults	(3)		/**< 不reset */
+#define kAutoSaveVTSettingsLifeNone			(0)		/**< reset as soon as playback starts */
+#define kAutoSaveVTSettingsLifeAPN			(1)		/**< reset when it isn't APN */
+#define kAutoSaveVTSettingsLifeApplication	(2)		/**< reset when the app quits */
+#define kAutoSaveVTSettingsLifeUserDefaults	(3)		/**< never reset */
 
 NSString * const kCIInputNoiseLevelKey	= @"inputNoiseLevel";
 NSString * const kCIInputPowerKey		= @"inputPower";
@@ -167,12 +167,12 @@ NSString * const kCILayerHueAngleEnabledKeyPath		= @"filters.hueFilter.enabled";
 
 -(void) loadParameters
 {
-	// 从UserDefaults读出，加载到modal
+	// read from UserDefaults, load into the model
 	if (layer) {
 		NSDictionary *dict = [ud dictionaryForKey:kUDKeyVTSettings];
 	
 		if (dict) {
-			// 有这个UD的话，就读出然后设置Layer
+			// if this UD entry exists, read it and set the Layer
 			if (!layer.filters) {
 				[layer setFilters:[self makeFilterChains]];
 			}
@@ -182,7 +182,7 @@ NSString * const kCILayerHueAngleEnabledKeyPath		= @"filters.hueFilter.enabled";
 				[layer setValue:[dict objectForKey:keyPath] forKeyPath:keyPath];
 			}
 		} else {
-			// 如果UD没有这个设置，那就重置filters
+			// if UD doesn't have this setting, reset the filters
 			layer.filters = nil;
 		}
 	}
@@ -190,11 +190,11 @@ NSString * const kCILayerHueAngleEnabledKeyPath		= @"filters.hueFilter.enabled";
 
 -(void) saveParameters
 {
-	// 从modal读出，保存到UserDefaults
+	// read from the model, save to UserDefaults
 	if (layer) {
 		if (layer.filters) {
 		
-			// 如果filters里面有东西，那就读出来，存到UD里面
+			// if there's something in filters, read it out and store it in UD
 			NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
 			NSMutableDictionary *settings = [[NSMutableDictionary alloc] initWithCapacity:16];
@@ -203,7 +203,7 @@ NSString * const kCILayerHueAngleEnabledKeyPath		= @"filters.hueFilter.enabled";
 			NSString *enaStr = nil;
 			
 			for (NSString *keyPath in enableStrDict) {
-				// 先读enabled
+				// read enabled first
 				enaStr = [enableStrDict objectForKey:keyPath];
 				
 				val = [layer valueForKeyPath:enaStr];
@@ -211,7 +211,7 @@ NSString * const kCILayerHueAngleEnabledKeyPath		= @"filters.hueFilter.enabled";
 				if (val) {
 					[settings setObject:val forKey:enaStr];
 					
-					// 有enabled的话，再读具体的数字
+					// if enabled, then read the actual number too
 					val = [layer valueForKeyPath:keyPath];
 					if (val) {
 						[settings setObject:val forKey:keyPath];
@@ -228,7 +228,7 @@ NSString * const kCILayerHueAngleEnabledKeyPath		= @"filters.hueFilter.enabled";
 			
 			[pool drain];
 		} else {
-			// 没有filters的话，就什么也不要了
+			// if there are no filters, don't keep anything
 			[ud removeObjectForKey:kUDKeyVTSettings];
 		}
 	}
@@ -239,7 +239,7 @@ NSString * const kCILayerHueAngleEnabledKeyPath		= @"filters.hueFilter.enabled";
 	if (!nibLoaded) {
 		nibLoaded = YES;
 		
-		///////////////////////////// 加载bundle /////////////////////////////
+		///////////////////////////// load the bundle /////////////////////////////
 		[NSBundle loadNibNamed:@"VideoTuner" owner:self];
 		
 		[brInc setBordered:NO];
@@ -257,7 +257,7 @@ NSString * const kCILayerHueAngleEnabledKeyPath		= @"filters.hueFilter.enabled";
 		[hueInc setBordered:NO];
 		[hueDec setBordered:NO];
 		
-		///////////////////////////// 建立控件之间的连接 /////////////////////////////
+		///////////////////////////// wire up the connections between controls /////////////////////////////
 		[[sliderBrightness cell] setRepresentedObject:kCILayerBrightnessKeyPath];
 		[[sliderSaturation cell] setRepresentedObject:kCILayerSaturationKeyPath];
 		[[sliderContrast cell] setRepresentedObject:kCILayerContrastKeyPath];
@@ -289,12 +289,12 @@ NSString * const kCILayerHueAngleEnabledKeyPath		= @"filters.hueFilter.enabled";
 		[[hueInc cell] setRepresentedObject:sliderHue];
 		[[hueDec cell] setRepresentedObject:sliderHue];
 
-		///////////////////////////// 设定min，max，step /////////////////////////////
+		///////////////////////////// set min, max, step /////////////////////////////
 		double step, max, min, stepRatio;
 		
 		stepRatio = [[NSUserDefaults standardUserDefaults] floatForKey:kUDKeyVideoTunerStepValue];
 		
-		// 这些值是系统默认值，我懒得用代码实现，直接hardcoding了
+		// these values are the system defaults; too lazy to derive them in code, so hardcoding them directly
 		/* http://developer.apple.com/library/mac/#documentation/GraphicsImaging/Reference/CoreImageFilterReference/Reference/reference.html
 		 */
 
@@ -361,9 +361,9 @@ NSString * const kCILayerHueAngleEnabledKeyPath		= @"filters.hueFilter.enabled";
 		[hueInc setTag:((NSInteger)( step*kCIStepBase))];
 		[hueDec setTag:((NSInteger)(-step*kCIStepBase))];
 
-		///////////////////////////// 加载 控件的值 /////////////////////////////
+		///////////////////////////// load the control values /////////////////////////////
 		if (layer && layer.filters) {
-			// 如果layer有效的话，就从layer加载
+			// if the layer is valid, load from the layer
 			[sliderBrightness setDoubleValue:[[layer valueForKeyPath:kCILayerBrightnessKeyPath] doubleValue]];
 			[sliderSaturation setDoubleValue:[[layer valueForKeyPath:kCILayerSaturationKeyPath] doubleValue]];
 			[sliderContrast setDoubleValue:[[layer valueForKeyPath:kCILayerContrastKeyPath] doubleValue]];
@@ -372,7 +372,7 @@ NSString * const kCILayerHueAngleEnabledKeyPath		= @"filters.hueFilter.enabled";
 			[sliderGamma setDoubleValue:[[layer valueForKeyPath:kCILayerGammaKeyPath] doubleValue]];
 			[sliderHue setDoubleValue:[[layer valueForKeyPath:kCILayerHueAngleKeyPath] doubleValue]];
 		} else {
-			// 如果layer还不存在，那就从UD加载
+			// if the layer doesn't exist yet, load from UD
 			NSDictionary *dict = [ud dictionaryForKey:kUDKeyVTSettings];
 
 			if (dict) {
@@ -384,7 +384,7 @@ NSString * const kCILayerHueAngleEnabledKeyPath		= @"filters.hueFilter.enabled";
 				[sliderGamma setDoubleValue:[[dict objectForKey:kCILayerGammaKeyPath] doubleValue]];
 				[sliderHue setDoubleValue:[[dict objectForKey:kCILayerHueAngleKeyPath] doubleValue]];
 			} else {
-				// 这些值是系统默认值，我懒得用代码实现，直接hardcoding了，正轨途径应该使用kCIAttributeIdentity
+				// these values are the system defaults; too lazy to derive them in code, so hardcoding them directly - the proper way would be to use kCIAttributeIdentity
 				/* http://developer.apple.com/library/mac/#documentation/GraphicsImaging/Reference/CoreImageFilterReference/Reference/reference.html
 				 */
 				[sliderBrightness setDoubleValue:0.00];
@@ -410,7 +410,7 @@ NSString * const kCILayerHueAngleEnabledKeyPath		= @"filters.hueFilter.enabled";
 -(void) resetFilters:(id)sender
 {
 	if (layer) {
-		// 实现Lazy loading
+		// implement lazy loading
 		layer.filters = nil;
 	}
 	
@@ -451,7 +451,7 @@ NSString * const kCILayerHueAngleEnabledKeyPath		= @"filters.hueFilter.enabled";
 
 -(IBAction) stepFilterParameters:(id)sender
 {
-	// 得到Slider
+	// get the Slider
 	NSSlider *obj = [[sender cell] representedObject];
 	
 	[obj setFloatValue:[obj floatValue] + (((float)[sender tag])/kCIStepBase)];
@@ -472,8 +472,8 @@ NSString * const kCILayerHueAngleEnabledKeyPath		= @"filters.hueFilter.enabled";
 -(void) playBackStopped:(NSNotification*)notif
 {
 	if ([ud integerForKey:kUDKeyAutoSaveVTSettings] == kAutoSaveVTSettingsLifeNone) {
-		// 播放停止，但是不知道是不是APN
-		// 因此只有在 总是reset 的时候reset
+		// playback stopped, but we don't know whether it's APN
+		// so only reset when the setting is always-reset
 		[self resetFilters:nil];
 	}
 }
@@ -481,9 +481,9 @@ NSString * const kCILayerHueAngleEnabledKeyPath		= @"filters.hueFilter.enabled";
 -(void) playBackFinalized:(NSNotification*)notif
 {
 	if ([ud integerForKey:kUDKeyAutoSaveVTSettings] == kAutoSaveVTSettingsLifeAPN) {
-		// 在 非APN的时候reset选项时
-		// 因为 APN的话，是不会有Finalized的notification
-		// 因此只要收到这个notification就可以reset
+		// when resetting the option for non-APN
+		// because with APN there won't be a Finalized notification
+		// so as long as we get this notification, we can reset
 		[self resetFilters:nil];
 	}
 }

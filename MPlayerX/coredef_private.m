@@ -21,7 +21,7 @@
 #import <Cocoa/Cocoa.h>
 #import "coredef.h"
 
-// mplayer通信所用的command的字符串
+// command strings used for mplayer communication
 NSString * const kMPCPauseCmd			= @"pause 1\n";
 NSString * const kMPCPlayCmd			= @"pause -1\n";
 
@@ -40,7 +40,7 @@ NSString * const kMPCPausingKeep		= @"pausing_keep";
 NSString * const kMPCSetPropertyPreFixPauseKeep = @"pausing_keep set_property";
 
 ////////////////////////////////////////////////////////////////////
-// 没有ID结尾的是 命令字符串 和 属性字符串 有可能是公用的
+// Those without an ID suffix are command strings and property strings, which may be shared
 NSString * const kMPCTimePos			= @"time_pos";
 NSString * const kMPCOsdLevel			= @"osdlevel";
 NSString * const kMPCSpeed				= @"speed";
@@ -60,7 +60,7 @@ NSString * const kMPCSwitchVideo		= @"switch_video";
 NSString * const kMPCEqualizer			= @"equalizer";
 NSString * const kMPCPan				= @"pan";
 
-// 有ID结尾的是 只用来做属性字符串的
+// Those with an ID suffix are used only as property strings
 NSString * const kMPCLengthID			= @"LENGTH";
 NSString * const kMPCSeekableID			= @"SEEKABLE";
 NSString * const kMPCSubInfosID			= @"MPXSUBNAMES";

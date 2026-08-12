@@ -39,7 +39,7 @@
 
 #define CONTROL_CORNER_RADIUS	(6)
 
-#define NUMOFVOLUMEIMAGES		(3)	//这个值是除了没有音量之后的image个数
+#define NUMOFVOLUMEIMAGES		(3)	// this value is the number of images excluding the no-volume one
 #define AUTOHIDETIMEINTERNAL	(3)
 
 #define LASTSTOPPEDTIMERATIO	(100)
@@ -137,10 +137,10 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 {
 	orgHeight = [self bounds].size.height;
 	
-	// 自身的设定
+	// settings for itself
 	[self setAlphaValue:CONTROLALPHA];
 	[self refreshBackgroundAlpha];
-	// 自动隐藏设定
+	// auto-hide settings
 	[self refreshAutoHideTimer];
 
 	if ([ud boolForKey:kUDKeyResizeControlBar]) {
@@ -247,17 +247,17 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	[menuWndFitToScrn setKeyEquivalent:kSCMWindowFitToScreenKeyEquivalent];
 	
 	////////////////////////////////////////load Images////////////////////////////////////////
-	// 初始化音量大小图标
+	// initialize the volume-level icons
 	volumeButtonImages = [[NSArray alloc] initWithObjects:	[NSImage imageNamed:@"vol_no"], [NSImage imageNamed:@"vol_low"],
 															[NSImage imageNamed:@"vol_mid"], [NSImage imageNamed:@"vol_high"],
 															nil];
-	// fillScreenButton初期化
+	// fillScreenButton initialization
 	fillScreenButtonAllImages =  [[NSDictionary alloc] initWithObjectsAndKeys: 
 								  [NSArray arrayWithObjects:[NSImage imageNamed:@"fillscreen_lr"], [NSImage imageNamed:@"exitfillscreen_lr"], nil], kFillScreenButtonImageLRKey,
 								  [NSArray arrayWithObjects:[NSImage imageNamed:@"fillscreen_ub"], [NSImage imageNamed:@"exitfillscreen_ub"], nil], kFillScreenButtonImageUBKey, 
 								  nil];
 	
-	// 从userdefault中获得default 音量值
+	// get the default volume value from userdefault
 	// [volumeSlider setFloatValue:];
 	[self setVolume:[ud objectForKey:kUDKeyVolume]];
 	
@@ -273,7 +273,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	// set Volume step
 	volStep = [ud floatForKey:kUDKeyVolumeStep];
 
-	// 初始化时间显示slider和text
+	// initialize the time display slider and text
 	[[timeText cell] setFormatter:timeFormatter];
 	[timeText setStringValue:@""];
 	[[timeTextAlt cell] setFormatter:timeFormatter];
@@ -282,7 +282,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	[timeSlider setEnabled:NO];
 	[timeSlider setMaxValue:0];
 	[timeSlider setMinValue:-1];
-	// 只有拖拽和按下鼠标的时候触发事件
+	// only trigger the event on drag and mouse down
 	[timeSlider sendActionOn:NSLeftMouseDownMask|NSLeftMouseDraggedMask];
 
 	// set Time hint text
@@ -290,7 +290,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	[[hintTime cell] setFormatter:timeFormatter];
 	[hintTime setStringValue:@""];
 
-	// 初始状态是hide
+	// initial state is hidden
 	[fullScreenButton setHidden: YES];
 
 	// set fillscreen button status and image
@@ -446,17 +446,17 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 {
 	BOOL new = [ud boolForKey:kUDKeyShowOSD]; 
 	if (new) {
-		// 如果是显示OSD的话，那么就得到新值
+		// if showing OSD, then get the new value
 		[osd setAutoHideTimeInterval:[ud doubleForKey:kUDKeyOSDAutoHideTime]];
 		[osd setFrontColor:[NSUnarchiver unarchiveObjectWithData:[ud objectForKey:kUDKeyOSDFrontColor]]];
-		// 并且强制显示OSD，但是这个和目前OSD的状态不一定一样
+		// and force-show OSD, but this may not match the OSD's current state
 		[osd setActive:YES];
 		[osd setStringValue:kMPXStringOSDSettingChanged owner:kOSDOwnerOther updateTimer:YES];
 	}
 	if ([playerController couldAcceptCommand]) {
-		// 如果正在播放，那么就设定显示
-		// 如果不在播放，osd的active状态会被设置为强制OFF，所以不能设定
-		// 在开始播放的时候，会再一次设定active状态
+		// if currently playing, then set it to show
+		// if not playing, osd's active state will be force-set to OFF, so it cannot be set here
+		// the active state will be set again when playback starts
 		[osd setActive:new];
 	}
 }
@@ -466,7 +466,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	float ti = [ud doubleForKey:kUDKeyCtrlUIAutoHideTime];
 	
 	if ((ti != autoHideTimeInterval) && (ti > 0)) {
-		// 这个Timer没有retain，所以也不需要release
+		// this Timer is not retained, so it does not need to be released either
 		if (autoHideTimer) {
 			[autoHideTimer invalidate];
 			autoHideTimer = nil;
@@ -483,30 +483,30 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 
 -(void) doHide
 {
-	// 这段代码是不能重进的，否则会不停的hidecursor
+	// this code must not be reentered, otherwise it will keep calling hidecursor
 	if ([self alphaValue] > (CONTROLALPHA-0.05)) {
-		// 得到鼠标在这个window的坐标
+		// get the mouse coordinates in this window
 		NSPoint pos = [[self window] convertScreenToBase:[NSEvent mouseLocation]];
 		
-		// 如果不在这个View的话，那么就隐藏自己
+		// if not within this View, then hide itself
 		// if HideTitlebar is ON, ignore the titlebar area when hiding the cursor
 		if ((!NSPointInRect([self  convertPoint:pos fromView:nil], self.bounds)) && 
 			((!NSPointInRect([title convertPoint:pos fromView:nil], title.bounds)) || [ud boolForKey:kUDKeyHideTitlebar])) {
 			[self.animator setAlphaValue:0];
 			
-			// 如果是全屏模式也要隐藏鼠标
+			// also hide the mouse if in fullscreen mode
 			if ([dispView isInFullScreenMode]) {
-				// 这里的[self window]不是成员的那个window，而是全屏后self的新window
+				// [self window] here is not the member window, but self's new window after entering fullscreen
 				if ([[self window] isKeyWindow] && NSPointInRect([NSEvent mouseLocation], [[self window] frame])) {
-					// 如果不是key window的话，就不隐藏鼠标
+					// if it is not the key window, do not hide the mouse
 					[NSCursor hide];
 				}
 			} else {
-				// 不是全屏的话，隐藏resizeindicator
-				// 全屏的话不管
+				// if not fullscreen, hide the resizeindicator
+				// if fullscreen, leave it alone
 				[rzIndicator.animator setAlphaValue:0];
-				// 这里应该判断kUDKeyHideTitlebar的，但是由于这里是要隐藏title
-				// 因此多次将AlphaValue设置为0也不会有坏影响
+				// this should check kUDKeyHideTitlebar, but since we are hiding the title here anyway
+				// setting AlphaValue to 0 multiple times will not cause any harm
 				[title.animator setAlphaValue:0];
 			}
 		}			
@@ -529,11 +529,11 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	[self.animator setAlphaValue:CONTROLALPHA];
 
 	if ([dispView isInFullScreenMode]) {
-		// 全屏模式还要显示鼠标
+		// also show the mouse in fullscreen mode
 		[NSCursor unhide];
 	} else {
-		// 不是全屏模式的话，要显示resizeindicator
-		// 全屏的时候不管
+		// if not fullscreen mode, show the resizeindicator
+		// leave it alone in fullscreen
 		[rzIndicator.animator setAlphaValue:CONTROLALPHA];
 
 		if (![ud boolForKey:kUDKeyHideTitlebar]) {
@@ -552,18 +552,18 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 
 	switch (playerController.playerState) {
 		case kMPCStoppedState:
-			// 停止状态
+			// stopped state
 			[self playBackStopped:nil];
 			osdStr = kMPXStringOSDPlaybackStopped;
 			break;
 		case kMPCPausedState:
-			// 暂停状态
+			// paused state
 			[dispView setPlayerWindowLevel];
 			[playPauseButton setState:PauseState];
 			osdStr = kMPXStringOSDPlaybackPaused;
 			break;
 		case kMPCPlayingState:
-			// 播放状态
+			// playing state
 			[dispView setPlayerWindowLevel];
 			[playPauseButton setState:PlayState];
 			osdStr = kMPXStringOSDNull;
@@ -594,8 +594,8 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 -(IBAction) setVolume:(id)sender
 {
 	if ([volumeSlider isEnabled]) {
-		// 这里必须要从sender拿到floatValue，而不能直接从volumeSlider拿
-		// 因为有可能是键盘快捷键，这个时候，ShortCutManager会发一个NSNumber作为sender过来
+		// floatValue must be obtained from sender here, not directly from volumeSlider
+		// because it could be a keyboard shortcut, in which case ShortCutManager sends an NSNumber as the sender
 		float vol = [playerController setVolume:[sender floatValue]];
 
 		// update buttons status
@@ -605,7 +605,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 		int now = (int)((vol*NUMOFVOLUMEIMAGES + max -1)/max);
 		[volumeButton setImage: [volumeButtonImages objectAtIndex: now]];
 		
-		// 将音量作为UserDefaults存储
+		// store the volume in UserDefaults
 		[ud setFloat:vol forKey:kUDKeyVolume];
 		
 		// update OSD
@@ -664,28 +664,28 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 -(IBAction) toggleFullScreen:(id)sender
 {
 	if ([dispView toggleFullScreen]) {
-		// 成功
+		// succeeded
 		if ([dispView isInFullScreenMode]) {
-			// 进入全屏
+			// entering fullscreen
 			
 			[fullScreenButton setState: NSOnState];
 			[menuToggleFullScreen setTitle:kMPXStringMenuExitFullscrn];
 
-			// fillScreenButton的Image设定之类的，
-			// 在RootLayerView里面实现，因为设定这个需要比较多的参数
-			// 会让接口变的很难看
+			// setting fillScreenButton's Image and the like,
+			// is implemented in RootLayerView, because setting this needs quite a few parameters
+			// which would make the interface look ugly
 			[fillScreenButton setHidden: NO];
 			[menuToggleFillScreen setEnabled:YES];
 			
-			// 如果自己已经被hide了，那么就把鼠标也hide
+			// if self has already been hidden, then hide the mouse too
 			if ([self alphaValue] < (CONTROLALPHA-0.05)) {
 				[NSCursor hide];
 			}
 			
-			// 进入全屏，强制隐藏resizeindicator
+			// entering fullscreen, force-hide the resizeindicator
 			[rzIndicator setAlphaValue:0];
-			// 这里应该判断kUDKeyHideTitlebar的，但是由于这里是要隐藏title
-			// 因此多次将AlphaValue设置为0也不会有坏影响
+			// this should check kUDKeyHideTitlebar, but since we are hiding the title here anyway
+			// setting AlphaValue to 0 multiple times will not cause any harm
 			[title setAlphaValue:0];
 			
 			[menuToggleLockAspectRatio setTitle:([dispView lockAspectRatio])?(kMPXStringMenuUnlockAspectRatio):(kMPXStringMenuLockAspectRatio)];
@@ -765,7 +765,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 				[self togglePlayPause:nil];
 			}
 		} else {
-			// 退出全屏
+			// exiting fullscreen
 			[NSCursor unhide];
 
 			[fullScreenButton setState:NSOffState];
@@ -775,7 +775,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 			[menuToggleFillScreen setEnabled:NO];
 			
 			if ([self alphaValue] > (CONTROLALPHA-0.05)) {
-				// 如果controlUI没有隐藏，那么显示resizeindiccator
+				// if controlUI is not hidden, show the resizeindicator
 				[rzIndicator.animator setAlphaValue:CONTROLALPHA];
 
 				if (![ud boolForKey:kUDKeyHideTitlebar]) {
@@ -796,7 +796,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 			}
 		}
 	} else {
-		// 失败
+		// failed
 		[fullScreenButton setState: NSOffState];
 		[menuToggleFullScreen setTitle:kMPXStringMenuEnterFullscrn];
 		
@@ -817,8 +817,8 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 -(IBAction) toggleFillScreen:(id)sender
 {
 	if (sender || ([fillScreenButton state] == NSOnState)) {
-		// 如果sender为nil
-		// 那说明是程序内部发出的重置信号，根据button的状态决定是否触发toggle
+		// if sender is nil
+		// that means it is an internal reset signal, and whether to trigger toggle is decided by the button's state
 		BOOL status = [dispView toggleFillScreen];
 		if (status) {
 			[fillScreenButton setState:NSOnState];
@@ -927,19 +927,19 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	int selectedTag = -2;
 	NSMenuItem* mItem;
 	
-	// 找到目前被选中的字幕
+	// find the currently selected subtitle
 	for (mItem in [subListMenu itemArray]) {
 		if (([mItem state] == NSOnState) && (![mItem isSeparatorItem])) {
 			selectedTag = [mItem tag];
 			break;
 		}
 	}
-	// 得到下一个字幕的tag
-	// 如果没有一个菜单选项被选中，那么就选中隐藏显示字幕
+	// get the next subtitle's tag
+	// if no menu item is selected, then select "hide subtitles"
 	selectedTag++;
 	
 	if (!(mItem = [subListMenu itemWithTag:selectedTag])) {
-		// 如果是字幕的最后一项，那么就轮到隐藏字幕菜单选项
+		// if it is the last subtitle item, then wrap around to the "hide subtitles" menu item
 		mItem = [subListMenu itemWithTag:-1];
 	}
 	[self setSubWithID:mItem];
@@ -996,7 +996,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 		// so I should disable OSD when set volume
 		BOOL oldAct = [osd isActive];
 		[osd setActive:NO];
-		// 这个可能是mplayer的bug，当轮转一圈从各个音轨到无声在回到音轨时，声音会变到最大，所以这里再设定一次音量
+		// this might be an mplayer bug -- when cycling all the way around through the audio tracks to silent and back to a track, the volume jumps to max, so set the volume again here
 		[self setVolume:volumeSlider];
 		[osd setActive:oldAct];
 		
@@ -1072,7 +1072,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 {
 	if (sender) {
 		if ([sender isKindOfClass:[NSNumber class]]) {
-			// 如果是NSNumber的话，说明不是Target-Action发过来的
+			// if it is an NSNumber, that means it did not come from Target-Action
 			[playerController changeSubPosBy:[sender floatValue]];
 		}
 	}
@@ -1082,11 +1082,11 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 {
 	if (sender) {
 		if ([sender isKindOfClass:[NSNumber class]]) {
-			// 如果是NSNumber的话，说明不是Target-Action发过来的
+			// if it is an NSNumber, that means it did not come from Target-Action
 			[playerController changeAudioBalanceBy:[sender floatValue]];
 		}
 	} else {
-		//nil说明是想复原
+		// nil means the intent is to restore
 		[playerController setAudioBalance:0];
 	}
 }
@@ -1123,14 +1123,14 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	NSInteger lbMode = [ud integerForKey:kUDKeyLetterBoxMode];
 
 	if (sender) {
-		// 说明是从menu激发的事件
-		// 如果是nil，说明是内部激发的事件，那么只是更新menu状态
+		// means the event was triggered from the menu
+		// if it is nil, it means the event was triggered internally, so just update the menu state
 		if (lbMode == kPMLetterBoxModeNotDisplay) {
-			// 没有在显示
+			// not currently showing
 			lbMode = [ud integerForKey:kUDKeyLetterBoxModeAlt];
 			[ud setInteger:lbMode forKey:kUDKeyLetterBoxMode];
 		} else {
-			// 正在显示
+			// currently showing
 			lbMode = kPMLetterBoxModeNotDisplay;
 			[ud setInteger:lbMode forKey:kUDKeyLetterBoxMode];
 		}
@@ -1311,12 +1311,12 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 				[mitem setState:NSOffState];
 			}
 		}
-		// 如果是DD的设置的话，ParameterManager里面不会设置音量。
-		// 但是如果最后文件不是按照DD播放的话，需要重新设置音量
-		// 并且不显示OSD
+		// if it is a DD setting, ParameterManager will not set the volume.
+		// but if the file ends up not playing as DD, the volume needs to be set again
+		// and do not show the OSD
 		BOOL oldAct = [osd isActive];
 		[osd setActive:NO];
-		// 这个可能是mplayer的bug，当轮转一圈从各个音轨到无声在回到音轨时，声音会变到最大，所以这里再设定一次音量
+		// this might be an mplayer bug -- when cycling all the way around through the audio tracks to silent and back to a track, the volume jumps to max, so set the volume again here
 		[self setVolume:volumeSlider];
 		[osd setActive:oldAct];
 	}
@@ -1330,9 +1330,9 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	[osd setActive:NO];
 }
 
-/** 这个API会在两个时间点被调用，
- * 1. mplayer播放结束，不论是强制结束还是自然结束
- * 2. mplayer播放失败 */
+/** this API is called at two points in time,
+ * 1. when mplayer playback ends, whether forced or natural
+ * 2. when mplayer playback fails */
 -(void) playBackStopped:(NSNotification*)notif
 {
 	[playPauseButton setState:PauseState];
@@ -1341,7 +1341,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	[timeTextAlt setStringValue:@""];
 	[timeSlider setFloatValue:-1];
 	
-	// 由于mplayer无法静音开始，因此每次都要回到非静音状态
+	// since mplayer cannot start muted, we must always return to the unmuted state
 	[volumeButton setState:NSOffState];
 	[volumeButton setEnabled:YES];
 	[volumeSlider setEnabled:YES];
@@ -1376,40 +1376,40 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	NSDictionary *change = [[notif userInfo] objectForKey:kMPCPlayInfoUpdatedChangeDictKey];
 
 	if ([keyPath isEqualToString:kKVOPropertyKeyPathCurrentTime]) {
-		// 得到现在的播放时间
+		// get the current playback time
 		[self gotCurentTime:[change objectForKey:NSKeyValueChangeNewKey]];
 		
 	} else if ([keyPath isEqualToString:kKVOPropertyKeyPathSpeed]) {
-		// 得到播放速度
+		// get the playback speed
 		[self gotSpeed:[change objectForKey:NSKeyValueChangeNewKey]];
 		
 	} else if ([keyPath isEqualToString:kKVOPropertyKeyPathSubDelay]) {
-		// 得到 字幕延迟
+		// get the subtitle delay
 		[self gotSubDelay:[change objectForKey:NSKeyValueChangeNewKey]];
 		
 	} else if ([keyPath isEqualToString:kKVOPropertyKeyPathAudioDelay]) {
-		// 得到 声音延迟
+		// get the audio delay
 		[self gotAudioDelay:[change objectForKey:NSKeyValueChangeNewKey]];
 		
 	} else if ([keyPath isEqualToString:kKVOPropertyKeyPathLength]){
-		// 得到媒体文件的长度
+		// get the media file's length
 		[self gotMediaLength:[change objectForKey:NSKeyValueChangeNewKey]];
 		
 	} else if ([keyPath isEqualToString:kKVOPropertyKeyPathSeekable]) {
-		// 得到 能否跳跃
+		// get whether seeking is possible
 		[self gotSeekableState:[change objectForKey:NSKeyValueChangeNewKey]];
 		
 	} else if ([keyPath isEqualToString:kKVOPropertyKeyPathCachingPercent]) {
-		// 得到目前的caching percent
+		// get the current caching percent
 		[self gotCachingPercent:[change objectForKey:NSKeyValueChangeNewKey]];
 		
 	} else if ([keyPath isEqualToString:kKVOPropertyKeyPathSubInfo]) {
-		// 得到 字幕信息
+		// get the subtitle info
 		[self gotSubInfo:[change objectForKey:NSKeyValueChangeNewKey]
 					  changed:[[change objectForKey:NSKeyValueChangeKindKey] intValue]];
 	
 	} else if ([keyPath isEqualToString:kKVOPropertyKeyPathAudioInfo]) {
-		// 得到音频的信息
+		// get the audio info
 		[self gotAudioInfo:[change objectForKey:NSKeyValueChangeNewKey]];
 		
 	} else if ([keyPath isEqualToString:kKVOPropertyKeyPathVideoInfo]) {
@@ -1459,7 +1459,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	}
 
 	[timeText setIntValue:time + 0.5];
-	// 即使timeSlider被禁用也可以显示时间
+	// the time can still be displayed even if timeSlider is disabled
 	[timeSlider setFloatValue:time];
 	
 	if (length > 0) {
@@ -1512,14 +1512,14 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 {
 	[subListMenu removeAllItems];
 	
-	// 添加分割线
+	// add a separator
 	NSMenuItem *mItem = [NSMenuItem separatorItem];
 	[mItem setEnabled:NO];
 	[mItem setTag:-2];
 	[mItem setState:NSOffState];
 	[subListMenu addItem:mItem];
 	
-	// 添加 隐藏字幕的菜单选项
+	// add the "hide subtitles" menu item
 	mItem = [[NSMenuItem alloc] init];
 	[mItem setEnabled:YES];
 	[mItem setTarget:self];
@@ -1542,7 +1542,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 		NSInteger idx = [subListMenu numberOfItems] - 2;
 		NSMenuItem *mItem = nil;
 		
-		// 将所有的字幕名字加到菜单中
+		// add all subtitle names to the menu
 		for(NSString *str in subs) {
 			mItem = [[NSMenuItem alloc] init];
 			[mItem setEnabled:YES];
@@ -1557,19 +1557,19 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 		}
 		
 		if (changeKind == NSKeyValueChangeSetting) {
-			// 这个地方只有在最初playback刚刚开始，sub加载的时候才会被调用，因此是安全的
-			// 当sub被clear的时候，是不会进入这个分支的
+			// this place is only called when playback has just started and subs are loading, so it is safe
+			// this branch is not entered when subs are cleared
 			[[subListMenu itemWithTag:[[[[playerController mediaInfo] playingInfo] currentSubID] integerValue]]
 			 setState:NSOnState];
 		} else {
-			// 当某个sub在中途被加载的时候会调用这里
-			// 默认激活这个载入的sub
+			// this is called here when a sub is loaded midway through
+			// activate this loaded sub by default
 			[self setSubWithID:mItem];
 			
-			// 这是一个权宜之计，因为在暂停的情况下加载字幕的话
-			// 因为无法保持暂停状态而加载，所以播放会自动开始
-			// 这样会造成mplayer状态和MPX状态不一致，这里判断MPX的状态，如果是暂停情况下加载的话，就toggle
-			// 底层发出的命令是 pause -1,该命令在播放状态下没有副作用，只是重置了MPX的状态。
+			// this is a workaround, because if a subtitle is loaded while paused
+			// since it cannot be loaded while staying paused, playback will start automatically
+			// this would cause mplayer's state and MPX's state to become inconsistent; here we check MPX's state, and if it was loaded while paused, toggle it
+			// the underlying command issued is pause -1, which has no side effect while playing -- it just resets MPX's state.
 			if ([playerController playerState] == kMPCPausedState) {
 				[self togglePlayPause:nil];
 			}
@@ -1762,8 +1762,8 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 
 	if ((([NSEvent modifierFlags] == kSCMSwitchTimeHintKeyModifierMask)?YES:NO) != 
 		[ud boolForKey:kUDKeySwitchTimeHintPressOnAbusolute]) {
-		// 如果没有按Fn，显示时间差
-		// 否则显示绝对时间
+		// if Fn is not pressed, show the time difference
+		// otherwise show the absolute time
 		timeDisp -= [timeSlider floatValue];
 	}
 	[hintTime setIntValue:timeDisp + ((timeDisp>0)?0.5:-0.5)];
@@ -1771,15 +1771,15 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 
 -(void) updateHintTime
 {
-	// 得到鼠标在CotrolUI中的位置
+	// get the mouse position within ControlUI
 	NSPoint pt = [self convertPoint:[[self window] convertScreenToBase:[NSEvent mouseLocation]] fromView:nil];
 	NSRect frm = timeSlider.frame;
 
 	// if the media is not seekable, timeSlider is disabled
 	// but if the length of the media is available, we should display the hintTime, whether it is seekable or not
 	if (NSPointInRect(pt, frm) && ([timeSlider maxValue] > 0)) {
-		// 如果鼠标在timeSlider中
-		// 更新时间
+		// if the mouse is within timeSlider
+		// update the time
 		[self calculateHintTime];
 		
 		CGFloat wd = [hintTime bounds].size.width;
@@ -1815,7 +1815,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 {
 	[hintTime.animator setAlphaValue:0];
 	
-	// 这里是为了让字体大小符合窗口大小
+	// this is to make the font size match the window size
 	[osd setStringValue:nil owner:osd.owner updateTimer:NO];
 }
 @end

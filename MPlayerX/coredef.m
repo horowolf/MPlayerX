@@ -20,12 +20,12 @@
 #import <Cocoa/Cocoa.h>
 #import "coredef.h"
 
-// 指定各种arch的mplayer路径时所用的key
+// key used when specifying the mplayer path for each arch
 NSString * const kI386Key	= @"i386";
 NSString * const kX86_64Key	= @"x86_64";
 NSString * const kArm64Key	= @"arm64";
 
-// KVO观测的属性的KeyPath
+// KeyPath of the properties observed via KVO
 NSString * const kKVOPropertyKeyPathCurrentTime		= @"movieInfo.playingInfo.currentTime";
 NSString * const kKVOPropertyKeyPathLength			= @"movieInfo.length";
 NSString * const kKVOPropertyKeyPathSeekable		= @"movieInfo.seekable";

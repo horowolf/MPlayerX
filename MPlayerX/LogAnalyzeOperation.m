@@ -60,7 +60,7 @@ const char* findNextReturnMark(const char *head, const char *end, const char **s
 			return head;
 			
 		} else if(*head == '=') {
-			// 如果一行出现多个分隔符，那么将返回最远的一个分隔符
+			// If multiple separators appear on a line, the farthest separator will be returned
 			*split = head;
 		}
 		head++;
@@ -87,12 +87,12 @@ const char* findNextReturnMark(const char *head, const char *end, const char **s
 			if (retMark == NULL) { retMark = dataEnd -1; }
 			
 			if (splitMark) {
-				// 如果有分隔符的话
+				// If there is a separator
 				validStart = findValidStart(dataHead, splitMark);
 				if (validStart) {
-					// 后半段是 value
+					// The second half is the value
 					val = [[NSString alloc] initWithBytes:(splitMark+1) length:(retMark-splitMark-1) encoding:NSUTF8StringEncoding];
-					// 前半段是 key
+					// The first half is the key
 					var = [[NSString alloc] initWithBytes:validStart length:(splitMark-validStart) encoding:NSUTF8StringEncoding];
 					
 					if (val && var) {

@@ -57,7 +57,7 @@
 	NSInteger fourFingersPinch;
 	float fourFingersPinchDistance;
 	
-	// 在切换全屏的时候，view的window会发生变化，因此这里用一个成员变量锁定window
+	// when toggling full screen, the view's window will change, so a member variable is used here to lock the window
 	IBOutlet PlayerWindow *playerWindow;
 	IBOutlet ControlUIView *controlUI;
 	IBOutlet PlayerController *playerController;

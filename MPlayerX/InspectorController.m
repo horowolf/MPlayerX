@@ -81,7 +81,7 @@ static BOOL init_ed = NO;
 -(void) awakeFromNib
 {
 	if (!nibLoaded) {
-		// 还没有load界面
+		// UI hasn't been loaded yet
 	}
 }
 
@@ -97,7 +97,7 @@ static BOOL init_ed = NO;
 		
 		NSNotificationCenter *notifCenter = [NSNotificationCenter defaultCenter];
 		
-		/// 从现在开始 监听playerController的Notification
+		/// from now on, listen to playerController's Notifications
 		[notifCenter addObserver:self selector:@selector(playInfoUpdated:)
 							name:kMPCPlayInfoUpdatedNotification object:playerController];
 		[notifCenter addObserver:self selector:@selector(playBackStarted:)

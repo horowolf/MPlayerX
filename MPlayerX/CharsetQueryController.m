@@ -62,11 +62,11 @@
 	CFStringEncoding ce = (charsetName)?(CFStringConvertIANACharSetNameToEncoding((CFStringRef)charsetName)):(kCFStringEncodingInvalidId);
 	
 	if (ce != kCFStringEncodingInvalidId) {
-		// 如果charset的返回值是合法的
+		// if the charset's return value is valid
 		NSMenuItem *item = [[charsetListPopup menu] itemWithTag:ce];
 		
 		if (item) {
-			// 如果能在menu里面找到相应的item，那么就选中这个item
+			// if the corresponding item can be found in the menu, select it
 			[charsetListPopup selectItem:item];
 		}
 	}

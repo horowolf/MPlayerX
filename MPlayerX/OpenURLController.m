@@ -62,9 +62,9 @@ NSString * const kStringURLSchemaUdp	= @"udp";
 	NSInteger idx = [urlBox indexOfItemWithObjectValue:urlString];
 	
 	if (idx != 0) {
-		// 如果不存在，或者不在第一位的话
+		// if it doesn't exist, or isn't in the first position
 		if (idx != NSNotFound) {
-			// 本来就有这个string就删除这个string，然后添加到第一位
+			// if this string was already there, remove it and then add it at the first position
 			[urlBox removeItemAtIndex:idx];
 		}
 
@@ -98,7 +98,7 @@ NSString * const kStringURLSchemaUdp	= @"udp";
 	}
 
 	if ([NSApp runModalForWindow:openURLPanel] == NSFileHandlingPanelOKButton) {
-		// 现在mplayer的在线播放的功能不是很稳定，经常freeze，因此先禁用这个功能
+		// mplayer's online playback feature is currently not very stable and freezes often, so disable this feature for now
 		[playerController loadFiles:[NSArray arrayWithObject:[urlBox stringValue]] fromLocal:NO];
 	}
 }
@@ -114,11 +114,11 @@ NSString * const kStringURLSchemaUdp	= @"udp";
 		 [scheme isEqualToString:kStringURLSchemaRtsp] || [scheme isEqualToString:kStringURLSchemaMms] ||
 		 [scheme isEqualToString:kStringURLSchemaHttps]|| [scheme isEqualToString:kStringURLSchemaRtp] ||
 		 [scheme isEqualToString:kStringURLSchemaUdp])) {
-		// 先修正URL
+		// fix up the URL first
 		[urlBox setStringValue:[[url standardizedURL] absoluteString]];
-		// 退出Modal模式
+		// exit Modal mode
 		[NSApp stopModalWithCode:NSFileHandlingPanelOKButton];
-		// 隐藏窗口
+		// hide the window
 		[openURLPanel orderOut:self];
 	} else {
 		NSBeginAlertSheet(kMPXStringError, kMPXStringOK, nil, nil, openURLPanel, nil, nil, nil, nil, kMPXStringURLNotSupported);

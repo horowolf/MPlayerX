@@ -62,7 +62,7 @@ NSString * const kCmdStringFMTTimeSeek	= @"%@ %@ %f %d\n";
 -(void) render;
 @end
 
-/// 内部方法声明
+/// internal method declarations
 @interface CoreController (MPlayerOSXVOProto)
 -(int) startWithWidth:(bycopy NSUInteger)width withHeight:(bycopy NSUInteger)height withPixelFormat:(bycopy OSType)pixelFormat withAspect:(bycopy float)aspect;
 -(void) stop;
@@ -83,9 +83,9 @@ NSString * const kCmdStringFMTTimeSeek	= @"%@ %@ %f %d\n";
 @end
 
 @interface CoreController (PlayerCoreDelegate)
--(void) playerCore:(id)player hasTerminated:(BOOL)byForce;			/**< 通知播放任务结束 */
--(void) playerCore:(id)player outputAvailable:(NSData*)outData;		/**< 有输出 */
--(void) playerCore:(id)player errorHappened:(NSData*) errData;		/**< 有错误输出 */
+-(void) playerCore:(id)player hasTerminated:(BOOL)byForce;			/**< notifies that the playback task has terminated */
+-(void) playerCore:(id)player outputAvailable:(NSData*)outData;		/**< output is available */
+-(void) playerCore:(id)player errorHappened:(NSData*) errData;		/**< error output is available */
 @end
 
 @interface CoreController (CoreControllerInternal)
@@ -250,15 +250,16 @@ NSString * const kCmdStringFMTTimeSeek	= @"%@ %@ %f %d\n";
 	[la stop];
 	[subConv clearWorkDirectory];
 
-	// 在这里重置textSubs和vobSub，这样在下次播放之前，用户可以自己设置这两个元素
-	// !!! 但是要注意，如果是在播放过程中直接调用playMedia函数进行下一个播放的时候
-	// !!! 由于playMedia函数会先停止播放，这样会导致sub被清空，在手动选择sub的情况下这里会出现无法手动加载的情况
-	// !!! 解决方法是，在CoreController正确先调用performStop在playMedia
-	// 还是不应该在这里进行重置，这样在播放过程当中的设定都会被重置
-	// 应该在播放开始之后就重置
+	// Reset textSubs and vobSub here, so that before the next playback the user can set these two elements themselves
+	// !!! But note, if playMedia is called directly during playback to start the next playback,
+	// !!! since playMedia stops playback first, this would cause sub to be cleared, and in the case of a manually
+	// !!! chosen sub, it would then be impossible to load it manually.
+	// !!! The fix is to have CoreController correctly call performStop before playMedia.
+	// Still shouldn't reset here, since that would reset all the settings made during playback.
+	// Should reset right after playback starts instead.
 	// [pm reset];
-	
-	// 只重置与播放无关的东西
+
+	// only reset things unrelated to playback
 	[movieInfo resetWithParameterManager:nil];
 
 	if (delegate) {
@@ -349,7 +350,7 @@ NSString * const kCmdStringFMTTimeSeek	= @"%@ %@ %f %d\n";
 		imageSize = fmt.bytes * width * height;
 		imageBufferCount = bufferCount;
 
-		// 打开shmem
+		// Open the shmem
 		int shMemID = shm_open([sharedBufferName UTF8String], O_RDONLY, S_IRUSR);
 		if (shMemID == -1) {
 			MPLog(@"shm_open Failed!");
@@ -408,17 +409,17 @@ NSString * const kCmdStringFMTTimeSeek	= @"%@ %@ %f %d\n";
 //////////////////////////////////////////////playing thing/////////////////////////////////////////////////////
 -(void) playMedia: (NSString*) moviePath
 {
-	// 如果正在放映，那么现强制停止
+	// If playback is currently in progress, force it to stop now
 	if (state != kMPCStoppedState) {
 		[self performStop];
 	}
-	
-	// 播放开始之前清空subConv的工作文件夹
+
+	// Clear subConv's work directory before playback starts
 	[subConv clearWorkDirectory];
-	
-	// 如果想要自动获得字幕文件的codepage，需要调用这个函数
+
+	// Call this function if you want to automatically obtain the codepage of the subtitle file
 	if ([pm guessSubCP]) {
-		// 为了支持将来的动态加载字幕，必须先设定字幕为UTF-8，即使没有字幕也要这么设定
+		// To support dynamically loading subtitles in the future, the subtitle must first be set to UTF-8, even when there are no subtitles
 		[pm setSubCP:@"UTF-8"];
 
 		NSString *vobStr = nil;
@@ -428,27 +429,27 @@ NSString * const kCmdStringFMTTimeSeek	= @"%@ %@ %f %d\n";
 		NSArray *subsArray;
 		
 		if ([pm vobSub] == nil) {
-			// 如果用户没有自己设置vobsub的话，这个变量会在每次播放完之后设为nil
-			// 如果用户有自己的vobsub，那么就不设置他而用用户的vobsub
+			// If the user hasn't set vobsub themselves, this variable is set to nil after every playback ends
+			// If the user has their own vobsub, then don't set it and use the user's vobsub instead
 			[pm setVobSub:vobStr];
 		}
 		if ([subEncDict count]) {
-			// 如果有字幕文件
+			// If there is a subtitle file
 			subsArray = [subConv convertTextSubsAndEncodings:subEncDict];
-			
+
 			if (subsArray && ([subsArray count] > 0)) {
 				[pm setTextSubs:subsArray];
 			} else {
 				subStr = [[subEncDict allValues] objectAtIndex:0];
 				if (![subStr isEqualToString:@""]) {
-					// 如果猜出来了
+					// If it was successfully guessed
 					[pm setSubCP:subStr];
 				}
 			}
 		}
 	}
-	
-	// 寻找edl文件
+
+	// Look for an edl file
 	NSURL* edlUrl = [NSURL fileURLWithPath:[[moviePath stringByDeletingPathExtension] stringByAppendingPathExtension:@"edl"]];
 	NSDictionary* res = [edlUrl resourceValuesForKeys:[NSArray arrayWithObject: NSURLNameKey] error:NULL];
 	if (res != nil) {
@@ -457,7 +458,7 @@ NSString * const kCmdStringFMTTimeSeek	= @"%@ %@ %f %d\n";
 		[pm setEdlPath:[[moviePath stringByDeletingLastPathComponent] stringByAppendingPathComponent:[res objectForKey: NSURLNameKey]]];
 	}
 
-	// 只重置与播放有关的
+	// only reset things related to playback
 	[movieInfo.playingInfo resetWithParameterManager:pm];
 
 	if ( [playerCore playMedia:moviePath 
@@ -469,7 +470,7 @@ NSString * const kCmdStringFMTTimeSeek	= @"%@ %@ %f %d\n";
 			[delegate playbackOpened:self];
 		}
 		
-		// 这里需要打开Timer去Polling播放时间，然后定期发送现在的播放时间
+		// A Timer needs to be started here to poll the playback time and periodically send the current playback time
 		pollingTimer = [[NSTimer timerWithTimeInterval:kPollingTimeForTimePos
 											    target:self
 										 	  selector:@selector(getCurrentTime:)
@@ -483,7 +484,7 @@ NSString * const kCmdStringFMTTimeSeek	= @"%@ %@ %f %d\n";
 		
 		[pm reset];
 	} else {
-		// 如果没有成功打开媒体文件
+		// If opening the media file did not succeed
 		[pm reset];
 		if (delegate) {
 			[delegate playbackError:self];
@@ -504,10 +505,11 @@ NSString * const kCmdStringFMTTimeSeek	= @"%@ %@ %f %d\n";
 -(void) getCurrentTime:(NSTimer*)theTimer
 {
 	if (state == kMPCPlayingState) {
-		// 发这个命令会自动让mplayer退出pause状态，而用keep_pause的perfix会得不到任何返回,因此只有在没有pause的时候会polling播放时间
+		// Sending this command automatically makes mplayer exit the pause state, while using the keep_pause prefix
+		// would get no response at all, so the playback time is only polled when not paused
 		[playerCore sendStringCommand: [NSString stringWithFormat:@"%@ %@\n", kMPCGetPropertyPreFix, kMPCTimePos]];
 	} else if (state == kMPCPausedState) {
-		// 即使是暂停的时候这样更新时间，会引发KVO事件，这样是为了保持界面更新
+		// Even though we're paused, updating the time like this triggers a KVO event, which is done to keep the UI updated
 		[movieInfo.playingInfo willChangeValueForKey:@"currentTime"];
 		[movieInfo.playingInfo didChangeValueForKey:@"currentTime"];
 	}
@@ -515,8 +517,8 @@ NSString * const kCmdStringFMTTimeSeek	= @"%@ %@ %f %d\n";
 
 -(void) performStop
 {
-	// 直接停止core，因为self是core的delegate，
-	// terminate方法会调用delegate，然后在那里进行相关的清理工作，所以不在这里做
+	// Directly stop the core, because self is the core's delegate;
+	// the terminate method will call the delegate, and the relevant cleanup work happens there instead, so it's not done here
 	SAFERELEASETIMER(pollingTimer);
 	[playerCore terminate];
 }
@@ -680,7 +682,7 @@ NSString * const kCmdStringFMTTimeSeek	= @"%@ %@ %f %d\n";
 {
 	NSString *cpStr = [subConv getCPOfTextSubtitle:path];
 	if (cpStr) {
-		// 找到了编码方式
+		// Found the encoding
 		NSArray *newPaths = [subConv convertTextSubsAndEncodings:[NSDictionary dictionaryWithObjectsAndKeys:cpStr, path, nil]];
 		if (newPaths && [newPaths count]) {
 			// MPLog(@"%@", [NSString stringWithFormat:@"%@ \"%@\"", kMPCSubLoad, [newPaths objectAtIndex:0]]);
@@ -746,7 +748,7 @@ NSString * const kCmdStringFMTTimeSeek	= @"%@ %@ %f %d\n";
 					NSInteger chSrc = [ai channels];
 
 					if ((chSrc > 2) && (pm.mixToStereo || (mode == kMPCMonoAudioStereo))) {
-						// 只有在没有pass through的前提下，强制channels==2或者 双声道，才需要回复原来的filter
+						// Only when not passing through, and forcing channels==2 or stereo, does the original filter need to be restored
 						switch (chSrc) {
 							case 3:
 								panString = @"2:0.6:0:0:0.6:0.4:0.4";
@@ -780,9 +782,9 @@ NSString * const kCmdStringFMTTimeSeek	= @"%@ %@ %f %d\n";
 	}
 }
 
-// 这个是LogAnalyzer的delegate方法，
-// 因此是运行在工作线程上的，因为这里用到了KVC和KVO
-// 有没有必要运行在主线程上？
+// This is the LogAnalyzer's delegate method,
+// so it runs on the worker thread, since KVC and KVO are used here.
+// Is there a need to run it on the main thread?
 -(void) logAnalyzeFinished:(NSDictionary*) dict
 {
 	for (NSString *key in dict) {
@@ -792,14 +794,14 @@ NSString * const kCmdStringFMTTimeSeek	= @"%@ %@ %f %d\n";
 		if (keyPath) {
 			int type = [[typeDict objectForKey:key] intValue];
 			
-			//如果log里面能找到相应的key path
+			//If the corresponding key path can be found in the log
 			switch (type) {
 				case kMITypeFlatValue:
 					[self setValue:[dict objectForKey:key] forKeyPath:keyPath];
 					break;
 				case kMITypeSubArray:
-					// 这里如果直接使用KVO的话，产生的时Insert的change，效率太低
-					// 因此手动发生KVO
+					// If KVO were used directly here, it would generate an Insert change, which is too inefficient
+					// so KVO is fired manually instead
 					{
 						NSArray *res = [[dict objectForKey:key] componentsSeparatedByString:@";;"];
 						[movieInfo.playingInfo setCurrentSubID:[res lastObject]];
@@ -810,15 +812,15 @@ NSString * const kCmdStringFMTTimeSeek	= @"%@ %@ %f %d\n";
 					}
 					break;
 				case kMITypeSubAppend:
-					// 会发生insert的KVO change
+					// This will fire an insert KVO change
 					// MPLog(@"%@", obj);
 					[movieInfo.playingInfo setCurrentSubID:[NSNumber numberWithInt:[[movieInfo subInfo] count]]];
 					[[movieInfo mutableArrayValueForKey:kMovieInfoKVOSubInfo] addObject: [[dict objectForKey:key] lastPathComponent]];
 					break;
 				case kMITypeStateChanged:
 				{
-					// 目前只有在播放开始的时候才会激发这个事件，所以可以发notification
-					// 但是如果变成一般的事件，发notification要注意！！！
+					// Currently this event is only triggered when playback starts, so a notification can be posted here
+					// but if it becomes a general-purpose event, posting a notification will need care!!!
 					int stateOld = state;
 					state = [[dict objectForKey:key] intValue];
 					if (((stateOld & kMPCStateMask) == 0) && (state & kMPCStateMask)) {

@@ -75,18 +75,18 @@ extern NSString * const kMPCPlayInfoUpdatedChangeDictKey;
 -(void) loadFiles:(NSArray*)files fromLocal:(BOOL)local;
 -(void) stop;
 
--(void) togglePlayPause;	/** 返回PlayPause是否成功 */
--(BOOL) toggleMute;			/** 返回现在的mute状态 */
--(float) setVolume:(float) vol;	/** 返回现在的音量 */
+-(void) togglePlayPause;	/** returns whether PlayPause succeeded */
+-(BOOL) toggleMute;			/** returns the current mute state */
+-(float) setVolume:(float) vol;	/** returns the current volume */
 -(BOOL) isPassingThrough;
 
-// time 总是为要达到的时间
--(float) seekTo:(float)time mode:(SEEK_MODE)seekMode;	/** 返回现在要去的时间 */
+// time is always the target time to reach
+-(float) seekTo:(float)time mode:(SEEK_MODE)seekMode;	/** returns the time now being sought to */
 
 -(void) frameStep;
 
--(float) changeTimeBy:(float) delta;  /** 返回现在的时间值 */
--(float) changeSpeedBy:(float) delta; /** 返回现在的速度值 */
+-(float) changeTimeBy:(float) delta;  /** returns the current time value */
+-(float) changeSpeedBy:(float) delta; /** returns the current speed value */
 
 -(float) changeSubDelayBy:(float) delta;
 -(float) changeAudioDelayBy:(float) delta;

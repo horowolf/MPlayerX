@@ -128,7 +128,7 @@
 	IBOutlet NSMenuItem *menuChapterList;
 }
 
-////////////////////////////////显示相关////////////////////////////////
+////////////////////////////////Display related////////////////////////////////
 extern NSString * const kFillScreenButtonImageLRKey;
 extern NSString * const kFillScreenButtonImageUBKey;
 -(void) setFillScreenMode:(NSString*)modeKey state:(NSInteger) state;
@@ -136,7 +136,7 @@ extern NSString * const kFillScreenButtonImageUBKey;
 -(void) displayStarted;
 -(void) displayStopped;
 
-//////////////////////////////自动隐藏相关/////////////////////////////
+//////////////////////////////Auto-hide related/////////////////////////////
 -(void) showUp;
 -(void) updateHintTime;
 -(void) doHide;
@@ -144,7 +144,7 @@ extern NSString * const kFillScreenButtonImageUBKey;
 -(void) refreshAutoHideTimer;
 -(void) refreshOSDSetting;
 
-//////////////////////////////其他控件相关/////////////////////////////
+//////////////////////////////Other controls related/////////////////////////////
 -(IBAction) togglePlayPause:(id)sender;
 -(IBAction) toggleMute:(id)sender;
 

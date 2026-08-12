@@ -108,7 +108,7 @@
 {
 	NSSize sz;
 	
-	// 如果SAR != 1，那么得到扩大的显示尺寸
+	// if SAR != 1, then get the expanded display size
 	if (fmt.width <= fmt.height * fmt.aspect) {
 		sz.height = fmt.height;
 		sz.width  = fmt.height * fmt.aspect;
@@ -303,10 +303,10 @@
 		fmt.aspect = kDisplayAscpectRatioInvalid;
 		flagAspectRatioChanged = YES;
 		
-		// 这里不能清除externalAspectRatio
-		// 因为有可能在一次播放过程中出现多次start，stop
-		// 用户强制设定了externalAspectRaio的时候，即使多次start，stop也不应该重置externalAspectRatio
-		// 因此应该在外部重置
+		// externalAspectRatio must not be cleared here
+		// because there could be multiple start/stop cycles during a single playback
+		// when the user has forced externalAspectRatio, it should not be reset even across multiple start/stop calls
+		// so it should be reset externally instead
 
 		[self setNeedsDisplay];
 	}
@@ -377,7 +377,7 @@
 			
 			glBegin(GL_QUADS);
 			
-			// 直接计算layer需要的尺寸
+			// directly compute the size the layer needs
 			glTexCoord2f(		 0,			 0);	glVertex2f(-cornerX,  cornerY);
 			glTexCoord2f(		 0, fmt.height);	glVertex2f(-cornerX, -cornerY);
 			glTexCoord2f(fmt.width, fmt.height);	glVertex2f( cornerX, -cornerY);

@@ -22,7 +22,7 @@
 
 @interface SubInfo : NSObject
 {
-	NSString *name;  /**< 字幕的名字，可能是文件名 */
+	NSString *name;  /**< The subtitle's name, possibly the file name */
 	NSString *language;
 }
 

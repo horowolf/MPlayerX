@@ -86,7 +86,7 @@
 	
 	currentChapter = 0;
 
-	// 将来可能都会用到KVO
+	// May all need KVO in the future
 	[self setAudioBalance:0];
 	
 	[self setVolume:pm.volume];

@@ -142,10 +142,10 @@
 {
 	if (active) {
 		if (ut || ([self alphaValue] > 0 && (ow == owner))) {
-			// 如果是更新timer，那么意味着onwer要更换
-			// 如果不更新，那么在self没有隐藏，并且owner一直的情况下更新
+			// If the timer is being updated, that means the owner is going to change
+			// If not updating, then update as long as self isn't hidden and the owner is unchanged
 			if (!aString) {
-				// 如果是nil，那么就用现在的值
+				// If it's nil, use the current value
 				aString = [self stringValue];
 			}
 
@@ -171,7 +171,7 @@
 			[attrDict release];			
 		}
 		if (ut) {
-			// 如果更新Timer的话，那么更新owner
+			// If the timer is being updated, then update the owner
 			owner = ow;
 			shouldHide = NO;
 		}

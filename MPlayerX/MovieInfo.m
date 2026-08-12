@@ -121,7 +121,7 @@ NSString * const kMovieInfoKVOChapterInfo	= @"chapterInfo";
 	
 	[metaData removeAllObjects];
 
-	// 目前这两个还不需要KVO
+	// These two don't need KVO for now
 	[self willChangeValueForKey:kMovieInfoKVOVideoInfo];
 	[videoInfo removeAllObjects];
 	[self didChangeValueForKey:kMovieInfoKVOVideoInfo];
@@ -130,7 +130,7 @@ NSString * const kMovieInfoKVOChapterInfo	= @"chapterInfo";
 	[audioInfo removeAllObjects];
 	[self didChangeValueForKey:kMovieInfoKVOAudioInfo];
 	
-	// 比较简单的实现KVO的方式，要不会一个一个的删除，效率比较低
+	// A relatively simple way to implement KVO; otherwise removing items one by one would be rather inefficient
 	[self willChangeValueForKey:kMovieInfoKVOSubInfo];
 	[subInfo removeAllObjects];
 	[self didChangeValueForKey:kMovieInfoKVOSubInfo];

@@ -23,7 +23,7 @@
 #import <OpenGL/gl.h> 
 #import "coredef.h"
 
-// 这个值必须小于0，内部实际上会用0做比较
+// this value must be less than 0; internally it is actually compared against 0
 #define kDisplayAscpectRatioInvalid		(-1)
 
 #define IsDisplayLayerAspectValid(x)	(x > 0)
@@ -58,7 +58,7 @@
 @property (readwrite, assign) BOOL flip;
 @property (readwrite, assign, setter = forceAdjustToFitBounds:) BOOL refitBounds;
 
-/** 得到显示尺寸，当SAR!=1的时候，该尺寸不等于render size */
+/** get the display size; when SAR!=1, this size is not equal to the render size */
 -(NSSize) displaySize;
 -(CGFloat) aspectRatio;
 -(CGFloat) originalAspectRatio;

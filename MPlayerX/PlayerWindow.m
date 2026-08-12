@@ -47,10 +47,10 @@ NSString * const kMPXAccessibilityWindowFrameAttribute	= @"AXMPXWindowFrame";
 {
 	[self setHasShadow:YES];
 	if (MPXGetSysVersion() < kMPXSysVersionLion) {
-		// 如果不是Lion
+		// If it's not Lion
 		[self setCollectionBehavior:NSWindowCollectionBehaviorManaged];
 	} else {
-		// 如果是Lion以上
+		// If it's Lion or later
 		[self setCollectionBehavior:NSWindowCollectionBehaviorManaged | NSWindowCollectionBehaviorFullScreenPrimary];
 	}
 
@@ -109,8 +109,8 @@ NSString * const kMPXAccessibilityWindowFrameAttribute	= @"AXMPXWindowFrame";
 	[self close];
 }
 
-// 当全屏时，鼠标点击屏幕右上角的图标返回全屏的时候
-// 会直接激发window的toggleFullScreen函数，这样时不OK的
+// When in full screen, clicking the icon in the top-right corner of the screen to return from full screen
+// directly triggers the window's toggleFullScreen function, which is not OK
 -(void) toggleFullScreenReal:(id)sender
 {
 	[super toggleFullScreen:sender];

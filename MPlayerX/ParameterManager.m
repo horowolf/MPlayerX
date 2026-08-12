@@ -168,7 +168,7 @@ NSString * const kPMParAudioFile			= @"-audiofile";
 		frameDrop = NO;
 		osdLevel = 0;
 		subNameRule = kSubFileNameRuleContain;
-		// 默认禁用-font
+		// -font is disabled by default
 		font = nil;
 		ao = [[NSString alloc] initWithString:kPMDefaultAudioOutput];
 		vo = [[NSString alloc] initWithString:kPMDefaultVideoOutput];
@@ -392,7 +392,7 @@ NSString * const kPMParAudioFile			= @"-audiofile";
 		[paramArray addObject:subCP];
 	}
 	
-	// 字幕大小与高度成正比，默认是对角线长度
+	// Subtitle size is proportional to height; the default is proportional to the diagonal length
 	[paramArray addObject:kPMParSubFontAutoScale];
 	[paramArray addObject:kPMVal1];
 	
@@ -436,20 +436,20 @@ NSString * const kPMParAudioFile			= @"-audiofile";
 		[paramArray addObject:kPMParAssForcrStyle];
 		[paramArray addObject:otherStyles];
 		
-		// 目前只有在使用ass的时候，letterbox才有用
-		// 但是将来也许不用ass也要实现letter box
+		// Currently letterbox only works when ass is used
+		// but in the future letterbox may need to be implemented without ass too
 		if (letterBoxMode != kPMLetterBoxModeNotDisplay) {
-			// 说明要显示letterBox，那么至少会显示bottom
-			// 字幕显示在letterBox里
+			// This means letterBox should be shown, so at least the bottom will be displayed
+			// subtitles are displayed within the letterBox
 			[paramArray addObject:kPMParAssUsesMargin];
-			
+
 			if ((letterBoxMode == kPMLetterBoxModeBoth) || (letterBoxMode == kPMLetterBoxModeBottomOnly)) {
 				[paramArray addObject:kPMParAssBottomMargin];
 				[paramArray addObject:[NSString stringWithFormat:kPMFMTFloat2, letterBoxHeight]];
 			}
-			
+
 			if ((letterBoxMode == kPMLetterBoxModeBoth) || (letterBoxMode == kPMLetterBoxModeTopOnly)) {
-				// 还要显示top margin
+				// also need to show the top margin
 				[paramArray addObject:kPMParAssTopMargin];
 				[paramArray addObject:[NSString stringWithFormat: kPMFMTFloat2, letterBoxHeight]];
 			}

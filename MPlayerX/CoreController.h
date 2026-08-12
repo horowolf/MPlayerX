@@ -42,7 +42,7 @@
 	// render things
 	void *imageData;
 	unsigned int imageSize;
-	NSUInteger imageBufferCount;	/**< 共享内存里的帧缓冲个数，取决于mplayer的版本 */
+	NSUInteger imageBufferCount;	/**< the number of frame buffers in shared memory, depends on the mplayer version */
 	NSString *sharedBufferName;
 	NSThread *renderThread;
 
@@ -74,25 +74,26 @@
 
 -(void) frameStep:(NSInteger)frameNum;
 
-/** 成功发送的话，playingInfo的speed属性会被更新 */
+/** If sent successfully, playingInfo's speed property will be updated */
 -(void) setSpeed: (float) speed;
 
-/** 成功发送的话，playingInfo的currentChapter属性会被更新 */
+/** If sent successfully, playingInfo's currentChapter property will be updated */
 -(void) setChapter: (int) chapter;
 
-/** 返回设定的时间值，如果是-1，那说明没有成功发送，但是即使成功发送了，也不会更新playingInfo的currentTime属性，
- *  这个属性会在单独的线程更新，需要用KVO来获取
- *  time 在相对模式时为delta，绝对模式时为目的时间
+/** Returns the time value that was set; if it is -1, that means the send was not successful. But even
+ *  if the send succeeds, playingInfo's currentTime property will not be updated here -- that property
+ *  is updated on a separate thread and must be obtained via KVO.
+ *  time is a delta in relative mode, and the target time in absolute mode.
  */
 -(float) setTimePos:(float)time mode:(SEEK_MODE)seekMode;
 
-/** 成功发送的话，playingInfo的volume属性会被更新,返回能够被更新的正确值 */
+/** If sent successfully, playingInfo's volume property will be updated; returns the actual value it was updated to */
 -(float) setVolume: (float) vol;
 
-/** 成功发送的话，playingInfo的audioBalance属性会被更新 */
+/** If sent successfully, playingInfo's audioBalance property will be updated */
 -(void) setBalance: (float) bal;
 
-/** 成功发送的话，playingInfo的mute属性会被更新 */
+/** If sent successfully, playingInfo's mute property will be updated */
 -(BOOL) setMute: (BOOL) mute;
 
 -(void) setAudioDelay: (float) delay;
@@ -103,13 +104,13 @@
 
 -(void) setSub: (int) subID;
 
-/** 成功发送的话，playingInfo的subDelay属性会被更新 */
+/** If sent successfully, playingInfo's subDelay property will be updated */
 -(void) setSubDelay: (float) delay;
 
-/** 成功发送的话，playingInfo的subPos属性会被更新 */
+/** If sent successfully, playingInfo's subPos property will be updated */
 -(void) setSubPos: (float) pos;
 
-/** 成功发送的话，playingInfo的subScale属性会被更新 */
+/** If sent successfully, playingInfo's subScale property will be updated */
 -(void) setSubScale: (float) scale;
 
 -(void) loadSubFile: (NSString*) path;

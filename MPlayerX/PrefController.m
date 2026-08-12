@@ -165,7 +165,7 @@ NSString * const PrefToolbarItemIdAdvanced	= @"TBIAdvanced";
 		
 		[prefWin setLevel:NSMainMenuWindowLevel];
 		
-		// 可以选择 透明度
+		// allow choosing the opacity
 		[[NSColorPanel sharedColorPanel] setShowsAlpha:YES];
 		
 		NSPoint org = [prefWin frame].origin;
@@ -242,10 +242,10 @@ NSString * const PrefToolbarItemIdAdvanced	= @"TBIAdvanced";
 	unsigned int mode = [ud integerForKey:kUDKeyLetterBoxMode];
 	
 	if (mode != kPMLetterBoxModeNotDisplay) {
-		// 如果是现实letterbox，那么更新alt
+			// if letterbox is being displayed, update alt
 		[ud setInteger:mode forKey:kUDKeyLetterBoxModeAlt];
 	}
-	// 更新menu
+		// update menu
 	[controlUI toggleLetterBox:nil];
 }
 
@@ -269,14 +269,14 @@ NSString * const PrefToolbarItemIdAdvanced	= @"TBIAdvanced";
 }
 /////////////////////////////Toolbar Delegate/////////////////////
 /*
- * 如何添加新的Pref View
- * 1. 在Pref.xib添加一个新的View，并将这个View设置为与ContentView的尺寸绑定
- * 2. 在PrefController中添加新的Outlet来代表这个View
- * 3. 根据新的View添加ToolbarItem的Indentifier和Name
- * 4. prefViews的初始化中，添加新View的outlet到其中
- * 5. toolbarAllowedItemIdentifiers中加入新Identifier
- * 6. 在toobar: itemForItemIdentifier :willBeInsertedIntoToolbar中创建相应的Item
- * (注意需要相应的图片资源等)
+ * How to add a new Pref View
+ * 1. Add a new View in Pref.xib, and bind this View's size to the ContentView's
+ * 2. Add a new Outlet in PrefController to represent this View
+ * 3. Add a ToolbarItem Identifier and Name for the new View
+ * 4. In prefViews' initialization, add the new View's outlet to it
+ * 5. Add the new Identifier into toolbarAllowedItemIdentifiers
+ * 6. Create the corresponding Item in toolbar: itemForItemIdentifier :willBeInsertedIntoToolbar
+ * (note that the corresponding image resources etc. are needed)
  */
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar
 {

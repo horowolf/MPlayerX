@@ -31,7 +31,7 @@
 	
 	if (self) {
 		delegate = obj;
-		// 解析log的queue
+		// Queue for parsing the log
 		queue = [[NSOperationQueue alloc] init];
 	}
 	return self;
@@ -54,8 +54,8 @@
 -(void) analyzeData:(NSData*) data
 {
 	if (data && ([data length] != 0) && delegate) {
-		// 如果没有delegate，那么什么都不做
-		// 因此这个类必须要有delegate才能正常工作
+		// If there's no delegate, do nothing
+		// Therefore this class must have a delegate to work properly
 		LogAnalyzeOperation *op = [[LogAnalyzeOperation alloc] initWithData:data 
 														 whenFinishedTarget:delegate 
 																   selector:@selector(logAnalyzeFinished:)];		

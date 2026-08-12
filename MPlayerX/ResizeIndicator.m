@@ -39,7 +39,7 @@
 
 - (void)drawRect:(NSRect)dirtyRect
 {
-	// 让图片画在view的右下角
+	// draw the image in the view's bottom-right corner
 	[im drawAtPoint:NSMakePoint([self bounds].size.width - imRect.size.width, 0) fromRect:imRect operation:NSCompositeSourceOver fraction:1];
 }
 

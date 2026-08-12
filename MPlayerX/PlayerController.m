@@ -157,11 +157,11 @@ enum {
 		NSString *workDir = [NSFileManager UserPath:NSApplicationSupportDirectory WithSuffix:kMPCStringMPlayerX];
 		
 		if ([fm fileExistsAtPath:workDir isDirectory:&isDir] && (!isDir)) {
-			// 如果存在但不是文件夹的话
+			// If it exists but is not a folder
 			[fm removeItemAtPath:workDir error:NULL];
 		}
 		if (!isDir) {
-			// 如果原来不存在这个文件夹或者存在的是文件的话，都需要重建文件夹
+			// If this folder didn't exist before, or if a file exists there instead, the folder needs to be recreated
 			if (![fm createDirectoryAtPath:workDir withIntermediateDirectories:YES attributes:nil error:NULL]) {
 				workDir = nil;
 			}
@@ -172,7 +172,7 @@ enum {
 		NSString *subFontPath = [ud stringForKey:kUDKeySubFontPath];
 		
 		if (![subFontPath isEqualToString:kMPCDefaultSubFontPath]) {
-			// 如果不是默认的path
+			// If it's not the default path
 			isDir = YES;
 			if ((![fm fileExistsAtPath:subFontPath isDirectory:&isDir]) || isDir) {
 				[ud setObject:kMPCDefaultSubFontPath forKey:kUDKeySubFontPath];
@@ -182,10 +182,10 @@ enum {
 		/////////////////////////setup CoreController////////////////////
 		[self setMultiThreadMode:[ud boolForKey:kUDKeyEnableMultiThread]];
 
-		// 决定使用哪种arch的mplayer
+		// Decide which arch of mplayer to use
 		[mplayer.pm setMplayerArch:[self preferredMPlayerArchKey]];
 
-		// 问一下这个mplayer支持哪些参数
+		// Ask which parameters this mplayer supports
 		[mplayer.pm setSupportedOptions:
 		 [self supportedOptionsOfMPlayerAtPath:
 		  [[mplayer mpPathPair] objectForKey:mplayer.pm.mplayerArch]]];
@@ -348,7 +348,7 @@ enum {
 		
 		for (id file in files) {
 		
-			// 如果是字符串的话先转到URL	
+			// If it's a string, first convert it to a URL
 			if ([file isKindOfClass:[NSString class]]) {
 				if (local) {
 					file = [NSURL fileURLWithPath:file isDirectory:NO];
@@ -359,43 +359,43 @@ enum {
 			
 			if (file && [file isKindOfClass:[NSURL class]]) {
 				if ([file isFileURL]) {
-					// 如果是本地文件
+					// If it's a local file
 					path = [file path];
 					isDir = YES;
-					
+
 					if ([fm fileExistsAtPath:path isDirectory:&isDir]) {
 						if (isDir) {
-							// 如果是文件夹
+							// If it's a folder
 							[self playMedia:file];
 							break;
 						} else {
-							// 如果文件存在
+							// If the file exists
 							NSString *ext = [[path pathExtension] lowercaseString];
-							
+
 							if ([[[AppController sharedAppController] playableFormats] containsObject:ext]) {
-								// 如果是支持的格式
+								// If it's a supported format
 								[self playMedia:file];
 								break;
-								
+
 							} else if ([[[AppController sharedAppController] supportSubFormats] containsObject:ext]) {
-								// 如果是字幕文件
+								// If it's a subtitle file
 								if (PlayerCouldAcceptCommand) {
-									// 如果是在播放状态，就加载字幕
+									// If playback is active, load the subtitle
 									[self loadSubFile:path];
 								} else {
-									// 如果是在停止状态，那么应该是想打开媒体文件先
-									// 需要根据字幕文件名去寻找影片文件
+									// If in the stopped state, the user probably wants to open a media file first
+									// Need to search for a movie file based on the subtitle file name
 									NSURL *autoSearchMediaFile = [self findFirstMediaFileFromSubFile:path];
-									
+
 									if (autoSearchMediaFile) {
-										// 如果找到了
+										// If found
 										[self playMedia:autoSearchMediaFile];
 									}
-									// 不管有没有找到，都需要break
-									// 找到了就播放
-									// 没有找到。说明按照当前的文件名规则并不存在相应的媒体文件
+									// Whether or not it was found, need to break either way
+									// If found, play it
+									// If not found, it means no corresponding media file exists under the current filename rule
 									if (!autoSearchMediaFile) {
-										// 如果没有找到合适的播放文件
+										// If no suitable media file to play was found
 										[self showAlertPanelModal:kMPXStringCantFindMediaFile];
 									}
 									break;
@@ -403,24 +403,24 @@ enum {
 							} else {
 								if ([NSEvent modifierFlags] & NSControlKeyMask) {
 									// open the file while control key pressing
-									// try to open the file 
+									// try to open the file
 									[self playMedia:file];
 									break;
 								} else {
-									// 否则提示
-									[self showAlertPanelModal:kMPXStringFileNotSupported];									
+									// Otherwise show a prompt
+									[self showAlertPanelModal:kMPXStringFileNotSupported];
 								}
-							}	
+							}
 						}
 					} else {
-						// 文件不存在
+						// File doesn't exist
 						[self showAlertPanelModal:kMPXStringFileNotExist];
 					}
 				} else {
-					// 如果是非本地文件
+					// If it's not a local file
 					[self playMedia:file];
 					break;
-				}				
+				}
 			}
 		}
 		[pool drain];
@@ -450,22 +450,22 @@ static BOOL isNetworkPath(const char *path)
 
 -(void) playMedia:(NSURL*)url
 {
-	// 内部函数，没有那么必要判断url的有效性
-	NSString *path;	
+	// Internal function, not that necessary to check the validity of url
+	NSString *path;
 	NSNumber *stime;
-	
-	// 设定字幕大小
+
+	// Set the subtitle size
 	[mplayer.pm setSubScale:[ud floatForKey:kUDKeySubScale]];
 	[mplayer.pm setSubFontColor: [NSUnarchiver unarchiveObjectWithData: [ud objectForKey:kUDKeySubFontColor]]];
 	[mplayer.pm setSubFontBorderColor: [NSUnarchiver unarchiveObjectWithData: [ud objectForKey:kUDKeySubFontBorderColor]]];
-	// 得到字幕字体文件的路径
+	// Get the path to the subtitle font file
 	NSString *subFontPath = [ud stringForKey:kUDKeySubFontPath];
-	
+
 	if ([subFontPath isEqualToString:kMPCDefaultSubFontPath]) {
-		// 如果是默认的路径的话，需要添加一些路径头
+		// If it's the default path, some path prefix needs to be prepended
 		[mplayer.pm setSubFont:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:kMPCDefaultSubFontPath]];
 	} else {
-		// 否则直接设定
+		// Otherwise set it directly
 		[mplayer.pm setSubFont:subFontPath];
 	}
 	
@@ -505,7 +505,7 @@ static BOOL isNetworkPath(const char *path)
 	
 	[mplayer.pm setNoDispSub:[ud boolForKey:kUDKeyNoDispSub]];
 
-	// 这里必须要retain，否则如果用lastPlayedPath作为参数传入的话会有问题
+	// Must retain here, otherwise there would be a problem if lastPlayedPath were passed in as the argument
 	lastPlayedPathPre = [[url absoluteURL] retain];
 	
 	if ([url isFileURL]) {
@@ -531,7 +531,7 @@ static BOOL isNetworkPath(const char *path)
 		}
 		[mplayer.pm setRtspOverHttp:NO];
 		
-		// 将文件加入Recent Menu里，只能加入本地文件
+		// Add the file to the Recent Menu; only local files can be added
 		if ([ud boolForKey:kUDKeyEnableOpenRecentMenu]) {
 			[[NSDocumentController sharedDocumentController] noteNewRecentDocumentURL:url];
 		}
@@ -544,7 +544,7 @@ static BOOL isNetworkPath(const char *path)
 		[mplayer.pm setRtspOverHttp:[ud boolForKey:kUDKeyRtspOverHttp]];
 		[mplayer.pm setDisplayCacheLog:YES];
 		
-		// 将URL加入OpenURLController
+		// Add the URL to OpenURLController
 		[openUrlController addUrl:path];
 
 		if ([ud boolForKey:kUDKeyFFMpegHandleStream] != ([NSEvent modifierFlags]==kSCMFFMpegHandleStreamShortCurKey)) {
@@ -579,43 +579,43 @@ static BOOL isNetworkPath(const char *path)
 	lastPlayedPathPre = nil;
 	
 	////////////////////////////////////////////////////////////////////
-	// 自动复位
+	// Auto reset
 	[self setPlayDisk:kPMPlayDiskNone];
 	////////////////////////////////////////////////////////////////////
 }
 
 -(NSURL*) findFirstMediaFileFromSubFile:(NSString*)path
 {
-	// 需要先得到 nameRule的最新值
+	// Need to get the latest value of nameRule first
 	[mplayer.pm setSubNameRule:[ud integerForKey:kUDKeySubFileNameRule]];
 
-	// 得到最新的nameRule
+	// Get the latest nameRule
 	SUBFILE_NAMERULE nameRule = [mplayer.pm subNameRule];
 	
 	NSURL *mediaURL = nil;
 	
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	// 文件夹路径
+	// Folder path
 	NSString *directoryPath = [path stringByDeletingLastPathComponent];
-	// 字幕文件名称
+	// Subtitle file name
 	NSString *subName = [[[path lastPathComponent] stringByDeletingPathExtension] lowercaseString];
 
 	NSDirectoryEnumerator *directoryEnumerator = [[NSFileManager defaultManager] enumeratorAtPath:directoryPath];
 
-	// 遍历播放文件所在的目录
+	// Iterate over the directory the playback file is in
 	for (NSString *mediaFile in directoryEnumerator)
 	{
-		// TODO 这里需要检查mediaFile是文件名还是 路径名
+		// TODO need to check here whether mediaFile is a file name or a path name
 		NSDictionary *fileAttr = [directoryEnumerator fileAttributes];
 		NSString *ext = [[mediaFile pathExtension] lowercaseString];
 		
 		if ([[fileAttr objectForKey:NSFileType] isEqualToString:NSFileTypeDirectory]) {
-			//不遍历子目录
+			//don't recurse into subdirectories
 			[directoryEnumerator skipDescendants];
 
 		} else if ([[fileAttr objectForKey:NSFileType] isEqualToString: NSFileTypeRegular] &&
 					([[[AppController sharedAppController] playableFormats] containsObject:ext])) {
-			// 如果是正常文件，并且是媒体文件
+			// If it's a normal file, and it's a media file
 			NSString *mediaName = [[mediaFile stringByDeletingPathExtension] lowercaseString];
 			
 			switch (nameRule) {
@@ -631,7 +631,7 @@ static BOOL isNetworkPath(const char *path)
 					continue;
 					break;				
 			}
-			// 能到这里说明找到了一个合适的播放文件, 跳出循环
+			// Reaching here means a suitable playback file was found, break out of the loop
 			mediaURL = [[NSURL fileURLWithPath:[directoryPath stringByAppendingPathComponent:mediaFile] isDirectory:NO] retain];
 			break;
 		}
@@ -648,7 +648,7 @@ static BOOL isNetworkPath(const char *path)
 	unsigned int threadNum;
 	
 	if (/*mt*/0) {
-		// 使用多线程
+		// use multi-threading
 		threadNum = MIN(kThreadsNumMax, MAX(1,[ud integerForKey:kUDKeyThreadNum]));
 		mplayerName = kMPCMplayerNameMT;
 	} else {
@@ -677,20 +677,20 @@ static BOOL isNetworkPath(const char *path)
 -(void) stop
 {
 	[mplayer performStop];
-	// 窗口一旦关闭，清理lastPlayPath，则即使再次打开窗口也不会播放以前的文件
+	// Once the window is closed, clear lastPlayPath so that even reopening the window won't play the previous file
 	SAFERELEASE(lastPlayedPath);	
 }
 
 -(void) togglePlayPause
 {
 	if (mplayer.state == kMPCStoppedState) {
-		//mplayer不在播放状态
+		//mplayer is not in the playing state
 		if (lastPlayedPath) {
-			// 有可以播放的文件
+			// There is a file available to play
 			[self playMedia:lastPlayedPath];
 		}
 	} else {
-		// mplayer正在播放
+		// mplayer is currently playing
 		[mplayer togglePause];
 		
 		if (mplayer.state == kMPCPausedState) {
@@ -747,7 +747,7 @@ static BOOL isNetworkPath(const char *path)
 
 -(float) seekTo:(float)time mode:(SEEK_MODE)seekMode
 {
-	// playingInfo的currentTime是通过获取log来同步的，因此这里不进行直接设定
+	// playingInfo's currentTime is synced by reading the log, so it's not set directly here
 	if (PlayerCouldAcceptCommand && mplayer.movieInfo.seekable) {
 		if (seekMode == kMPCSeekModeRelative) {
 			time -= [mplayer.movieInfo.playingInfo.currentTime floatValue];
@@ -762,7 +762,7 @@ static BOOL isNetworkPath(const char *path)
 
 -(float) changeTimeBy:(float) delta
 {
-	// playingInfo的currentTime是通过获取log来同步的，因此这里不进行直接设定
+	// playingInfo's currentTime is synced by reading the log, so it's not set directly here
 	if (PlayerCouldAcceptCommand && mplayer.movieInfo.seekable) {
 		delta = [mplayer setTimePos:delta mode:kMPCSeekModeRelative];
 		[mplayer.la stop];
@@ -1027,7 +1027,7 @@ static BOOL isNetworkPath(const char *path)
 		autoPlayState = kMPCAutoPlayStateInvalid;
 	}
 	
-	// 用文件名查找有没有之前的播放记录
+	// Use the file name to look up whether there is a previous playback record
 	NSNumber *stopTime = [[[AppController sharedAppController] bookmarks] objectForKey:[lastPlayedPathPre absoluteString]];
 	NSDictionary *dict;
 
@@ -1072,19 +1072,19 @@ static BOOL isNetworkPath(const char *path)
 	if (![ud boolForKey:kUDKeyDisableLastStopBookmark]) {
 		// if not disable bookmark completely
 		if (stoppedByForce) {
-			// 如果是强制停止
-			// 用文件名做key，记录这个文件的播放时间
+			// If it was a forced stop
+			// Use the file name as the key, and record this file's playback time
 			[[[AppController sharedAppController] bookmarks] setObject:[dict objectForKey:kMPCPlayStoppedTimeKey] forKey:[lastPlayedPath absoluteString]];
 		} else {
-			// 自然关闭
-			// 删除这个文件key的播放时间
+			// Stopped naturally
+			// Remove the playback time recorded under this file's key
 			[[[AppController sharedAppController] bookmarks] removeObjectForKey:[lastPlayedPath absoluteString]];
 		}
 	}
 	
 	if ([ud boolForKey:kUDKeyAutoPlayNext] && [lastPlayedPath isFileURL] && (!stoppedByForce)) {
-		//如果不是强制关闭的话
-		//如果不是本地文件，肯定返回nil
+		//If it wasn't a forced close
+		//If it's not a local file, this is guaranteed to return nil
 		NSString *nextPath = 
 			[PlayListController SearchNextMoviePathFrom:[lastPlayedPath path] 
 											  inFormats:[[AppController sharedAppController] playableFormats]];
@@ -1099,8 +1099,8 @@ static BOOL isNetworkPath(const char *path)
 	}
 
 	if ([[PlayListController sharedPlayListController] requestingNextOrPrev]) {
-		// 如果是playlist发出的next/prev信号，那么就假装是AutoPlayNextJustFound
-		// 这样可以保持一些必要的参数
+		// If this is a next/prev signal issued by the playlist, then pretend it's AutoPlayNextJustFound
+		// This way some necessary parameters can be preserved
 		autoPlayState = kMPCAutoPlayStateJustFound;
 	} else {
 		MPLog(@"Finalize");
@@ -1124,18 +1124,18 @@ static BOOL isNetworkPath(const char *path)
 /////////////////////////////////SubConverter Delegate methods/////////////////////////////////////
 -(NSString*) subConverter:(SubConverter*)subConv detectedFile:(NSString*)path ofCharsetName:(NSString*)charsetName confidence:(float)confidence
 {
-	// 当置信率高于阈值的时候，直接返回传入的 charsetName
+	// When the confidence is above the threshold, directly return the passed-in charsetName
 	NSString *ret = charsetName;
-	
+
 	if (confidence <= [ud floatForKey:kUDKeyTextSubtitleCharsetConfidenceThresh]) {
-		// 当置信率小于阈值时
+		// When the confidence is below the threshold
 		CFStringEncoding ce;
-		
+
 		if ([ud boolForKey:kUDKeyTextSubtitleCharsetManual]) {
-			// 如果是手动指定的话
+			// If it's manually specified
 			ce = [charsetController askForSubEncodingForFile:path charsetName:charsetName confidence:confidence];
 		} else {
-			// 如果是自动fallback
+			// If it's an automatic fallback
 			ce = [ud integerForKey:kUDKeyTextSubtitleCharsetFallback];
 		}
 		ret = (NSString*)CFStringConvertEncodingToIANACharSetName(ce);

@@ -20,11 +20,11 @@
 
 #import <Cocoa/Cocoa.h>
 
-// 如果需要与Task通信通过该接口
+// Use this interface if you need to communicate with the Task
 @protocol PlayerCoreDelegate
--(void) playerCore:(id)player hasTerminated:(BOOL) byForce;			/**< 通知播放任务结束 */
--(void) playerCore:(id)player outputAvailable:(NSData*)outData;		/**< 有输出 */
--(void) playerCore:(id)player errorHappened:(NSData*) errData;		/**< 有错误输出 */
+-(void) playerCore:(id)player hasTerminated:(BOOL) byForce;			/**< notifies that the playback task has terminated */
+-(void) playerCore:(id)player outputAvailable:(NSData*)outData;		/**< output is available */
+-(void) playerCore:(id)player errorHappened:(NSData*) errData;		/**< error output is available */
 @end
 
 @interface PlayerCore : NSObject
