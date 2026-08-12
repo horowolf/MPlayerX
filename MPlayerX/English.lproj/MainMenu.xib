@@ -404,6 +404,16 @@
 							<string key="NSTitle">View</string>
 							<object class="NSMutableArray" key="NSMenuItems">
 								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSMenuItem" id="900000001">
+									<reference key="NSMenu" ref="912779322"/>
+									<bool key="NSIsDisabled">YES</bool>
+									<string key="NSTitle">Half Size</string>
+									<string key="NSKeyEquiv"/>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="35465992"/>
+									<reference key="NSMixedImage" ref="502551668"/>
+									<int key="NSTag">2</int>
+								</object>
 								<object class="NSMenuItem" id="824383306">
 									<reference key="NSMenu" ref="912779322"/>
 									<bool key="NSIsDisabled">YES</bool>
@@ -412,7 +422,7 @@
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="35465992"/>
 									<reference key="NSMixedImage" ref="502551668"/>
-									<int key="NSTag">1</int>
+									<int key="NSTag">4</int>
 								</object>
 								<object class="NSMenuItem" id="113600501">
 									<reference key="NSMenu" ref="912779322"/>
@@ -422,7 +432,7 @@
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="35465992"/>
 									<reference key="NSMixedImage" ref="502551668"/>
-									<int key="NSTag">2</int>
+									<int key="NSTag">8</int>
 								</object>
 								<object class="NSMenuItem" id="1072153058">
 									<reference key="NSMenu" ref="912779322"/>
@@ -3565,6 +3575,22 @@
 					<int key="connectionID">1087</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">menuZoomToHalfSize</string>
+						<reference key="source" ref="85098728"/>
+						<reference key="destination" ref="900000001"/>
+					</object>
+					<int key="connectionID">1166</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">zoomToSize:</string>
+						<reference key="source" ref="85098728"/>
+						<reference key="destination" ref="900000001"/>
+					</object>
+					<int key="connectionID">1167</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">openVIDEOTS:</string>
 						<reference key="source" ref="1014"/>
@@ -4659,6 +4685,7 @@
 							<reference ref="633689396"/>
 							<reference ref="356932461"/>
 							<reference ref="389315182"/>
+							<reference ref="900000001"/>
 							<reference ref="824383306"/>
 							<reference ref="769296136"/>
 							<reference ref="113600501"/>
@@ -4859,6 +4886,11 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">1051</int>
 						<reference key="object" ref="389315182"/>
+						<reference key="parent" ref="912779322"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1170</int>
+						<reference key="object" ref="900000001"/>
 						<reference key="parent" ref="912779322"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -6388,6 +6420,7 @@
 							<string>menuVolInc</string>
 							<string>menuWndFitToScrn</string>
 							<string>menuZoomToDoubleSize</string>
+							<string>menuZoomToHalfSize</string>
 							<string>menuZoomToOriginSize</string>
 							<string>nextEPButton</string>
 							<string>osd</string>
@@ -6414,6 +6447,7 @@
 							<string>NSButton</string>
 							<string>NSButton</string>
 							<string>NSTextField</string>
+							<string>NSMenuItem</string>
 							<string>NSMenuItem</string>
 							<string>NSMenuItem</string>
 							<string>NSMenuItem</string>
@@ -6527,6 +6561,7 @@
 							<string>menuVolInc</string>
 							<string>menuWndFitToScrn</string>
 							<string>menuZoomToDoubleSize</string>
+							<string>menuZoomToHalfSize</string>
 							<string>menuZoomToOriginSize</string>
 							<string>nextEPButton</string>
 							<string>osd</string>
@@ -6737,6 +6772,10 @@
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">menuZoomToDoubleSize</string>
+								<string key="candidateClassName">NSMenuItem</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">menuZoomToHalfSize</string>
 								<string key="candidateClassName">NSMenuItem</string>
 							</object>
 							<object class="IBToOneOutletInfo">

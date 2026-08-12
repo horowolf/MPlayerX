@@ -237,6 +237,8 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	[menuSubDelayReset setKeyEquivalentModifierMask:kSCMSubDelayKeyEquivalentModifierFlagMask];
 	[menuSubDelayReset setKeyEquivalent:kSCMSubDelayResetKeyEquivalent];
 	
+	[menuZoomToHalfSize setKeyEquivalentModifierMask:kSCMWindowZoomHalfSizeKeyEquivalentModifierFlagMask];
+	[menuZoomToHalfSize setKeyEquivalent:kSCMWindowZoomHalfSizeKeyEquivalent];
 	[menuZoomToOriginSize setKeyEquivalentModifierMask:kSCMWindowZoomToOrgSizeKeyEquivalentModifierFlagMask];
 	[menuZoomToOriginSize setKeyEquivalent:kSCMWindowZoomToOrgSizeKeyEquivalent];
 	[menuZoomToDoubleSize setKeyEquivalentModifierMask:kSCMWindowZoomDblSizeKeyEquivalentModifierFlagMask];
@@ -1202,7 +1204,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 
 -(IBAction) zoomToSize:(id)sender
 {
-	[dispView zoomToSize:[sender tag]];
+	[dispView zoomToSize:((float)[sender tag]) / 4];
 }
 
 -(IBAction) toggleTimeAltDisplayMode:(id)sender
@@ -1246,6 +1248,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 		[menuWndFitToScrn setEnabled:YES];
 	}
 	[menuToggleLockAspectRatio setTitle:([dispView lockAspectRatio])?(kMPXStringMenuUnlockAspectRatio):(kMPXStringMenuLockAspectRatio)];
+	[menuZoomToHalfSize setEnabled:YES];
 	[menuZoomToOriginSize setEnabled:YES];
 	[menuZoomToDoubleSize setEnabled:YES];
 }
@@ -1257,6 +1260,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	[menuToggleFullScreen setEnabled:NO];
 	[menuSnapshot setEnabled:NO];
 	[menuToggleLockAspectRatio setEnabled:NO];
+	[menuZoomToHalfSize setEnabled:NO];
 	[menuZoomToOriginSize setEnabled:NO];
 	[menuZoomToDoubleSize setEnabled:NO];
 	[menuWndFitToScrn setEnabled:NO];
