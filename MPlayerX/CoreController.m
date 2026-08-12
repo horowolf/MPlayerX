@@ -21,7 +21,7 @@
 #import "CoreController.h"
 #import <sys/mman.h>
 #import "CocoaAppendix.h"
-#import "MovieInfo.h"
+#import "MPlayerX-Swift.h"
 #import "SubConverter.h"
 
 #define kPollingTimeForTimePos	(1)
@@ -806,16 +806,16 @@ NSString * const kCmdStringFMTTimeSeek	= @"%@ %@ %f %d\n";
 						NSArray *res = [[dict objectForKey:key] componentsSeparatedByString:@";;"];
 						[movieInfo.playingInfo setCurrentSubID:[res lastObject]];
 						
-						[movieInfo willChangeValueForKey:kMovieInfoKVOSubInfo];
+						[movieInfo willChangeValueForKey:@"subInfo"];
 						[movieInfo.subInfo setArray:[[res objectAtIndex:0] componentsSeparatedByString:@"^^"]];
-						[movieInfo didChangeValueForKey:kMovieInfoKVOSubInfo];
+						[movieInfo didChangeValueForKey:@"subInfo"];
 					}
 					break;
 				case kMITypeSubAppend:
 					// This will fire an insert KVO change
 					// MPLog(@"%@", obj);
 					[movieInfo.playingInfo setCurrentSubID:[NSNumber numberWithInt:[[movieInfo subInfo] count]]];
-					[[movieInfo mutableArrayValueForKey:kMovieInfoKVOSubInfo] addObject: [[dict objectForKey:key] lastPathComponent]];
+					[[movieInfo mutableArrayValueForKey:@"subInfo"] addObject: [[dict objectForKey:key] lastPathComponent]];
 					break;
 				case kMITypeStateChanged:
 				{
@@ -836,7 +836,7 @@ NSString * const kCmdStringFMTTimeSeek	= @"%@ %@ %f %d\n";
 					NSArray *idLang;
 					NSArray *IDs = [[dict objectForKey:key] componentsSeparatedByString:@";;"];
 					
-					[movieInfo willChangeValueForKey:kMovieInfoKVOAudioInfo];
+					[movieInfo willChangeValueForKey:@"audioInfo"];
 					
 					for (NSString *str in IDs) {
 						idLang = [str componentsSeparatedByString:@"^^"];
@@ -851,7 +851,7 @@ NSString * const kCmdStringFMTTimeSeek	= @"%@ %@ %f %d\n";
 						
 						[info release];
 					}
-					[movieInfo didChangeValueForKey:kMovieInfoKVOAudioInfo];
+					[movieInfo didChangeValueForKey:@"audioInfo"];
 					break;
 				}
 				case kMITypeVideoGotID:
@@ -860,7 +860,7 @@ NSString * const kCmdStringFMTTimeSeek	= @"%@ %@ %f %d\n";
 					NSArray *idLang;
 					NSArray *IDs = [[dict objectForKey:key] componentsSeparatedByString:@";;"];
 					
-					[movieInfo willChangeValueForKey:kMovieInfoKVOVideoInfo];
+					[movieInfo willChangeValueForKey:@"videoInfo"];
 					
 					for (NSString *str in IDs) {
 						idLang = [str componentsSeparatedByString:@"^^"];
@@ -875,7 +875,7 @@ NSString * const kCmdStringFMTTimeSeek	= @"%@ %@ %f %d\n";
 						
 						[info release];
 					}
-					[movieInfo didChangeValueForKey:kMovieInfoKVOVideoInfo];
+					[movieInfo didChangeValueForKey:@"videoInfo"];
 					break;
 				}
 				case kMITypeVideoGotInfo:
@@ -917,7 +917,7 @@ NSString * const kCmdStringFMTTimeSeek	= @"%@ %@ %f %d\n";
 					NSArray *nameTime;
 					NSArray *chapters = [[dict objectForKey:key] componentsSeparatedByString:@";;"];
 					
-					[movieInfo willChangeValueForKey:kMovieInfoKVOChapterInfo];
+					[movieInfo willChangeValueForKey:@"chapterInfo"];
 					
 					for (NSString *str in chapters) {
 						nameTime = [str componentsSeparatedByString:@"^^"];
@@ -932,7 +932,7 @@ NSString * const kCmdStringFMTTimeSeek	= @"%@ %@ %f %d\n";
                         
                         [item release];
 					}
-					[movieInfo didChangeValueForKey:kMovieInfoKVOChapterInfo];
+					[movieInfo didChangeValueForKey:@"chapterInfo"];
 					break;
 				}
 				default:

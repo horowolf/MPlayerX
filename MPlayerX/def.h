@@ -20,6 +20,11 @@
 
 #import "coredef.h"
 
+// Also defined as a Swift global (for ChapterItem.swift's own use) --
+// kept in sync manually since a C macro can't be shared across the
+// bridging-header boundary with a Swift declaration of the same name.
+#define kMPCChapterTimeBase (1000)
+
 extern NSString * const kMPCDefaultSubFontPath;
 
 extern NSString * const kMPXMediaKeyPlayPauseNotification;

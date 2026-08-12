@@ -1,30 +1,28 @@
 /*
- * MPlayerX - TimeFormatter.h
+ * MPlayerX - SubInfo.swift
  *
  * Copyright (C) 2009 - 2011, Zongyao QU
- * 
+ *
  * MPlayerX is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * MPlayerX is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with MPlayerX; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import <Cocoa/Cocoa.h>
+import Cocoa
 
-
-@interface TimeFormatter : NSFormatter {
-
+@objc(SubInfo)
+class SubInfo: NSObject {
+	/// The subtitle's name, possibly the file name
+	@objc var name: String?
+	@objc var language: String?
 }
-
-+(NSString*) stringForIntegerValue:(NSInteger)time;
-
-@end

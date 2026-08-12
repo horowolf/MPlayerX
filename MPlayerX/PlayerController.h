@@ -20,7 +20,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "def.h"
-#import "MovieInfo.h"
+#import "MPlayerX-Swift.h"
 #import <IOKit/pwr_mgt/IOPMLib.h>
 
 ///////////////////////////Notifications///////////////////////////
