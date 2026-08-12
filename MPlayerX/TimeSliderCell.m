@@ -25,6 +25,15 @@
 
 @synthesize dragging;
 
+-(NSRect) timeTrackRectForFrame:(NSRect)frame
+{
+	frame.origin.x += 0.5f;
+	frame.origin.y += (frame.size.height - 8.0f) / 2.0f;
+	frame.size.width -= 1.0f;
+	frame.size.height = 8.0f;
+	return frame;
+}
+
 -(id) initWithCoder:(NSCoder*) decoder
 {
 	self = [super initWithCoder:decoder];
@@ -113,25 +122,7 @@
 	switch ([self controlSize]) {
 			
 		case NSSmallControlSize:
-			
-			if([self numberOfTickMarks] != 0) {
-				
-				if([self tickMarkPosition] == NSTickMarkBelow) {
-					
-					frame.origin.y += 2;
-				} else {
-					
-					frame.origin.y += frame.size.height - 8;
-				}
-			} else {
-				
-				frame.origin.y = frame.origin.y + (((frame.origin.y + frame.size.height) /2) - 2.5f);
-			}
-			
-			frame.origin.x += 0.5f;
-			frame.origin.y -= 2.0f;
-			frame.size.width -= 1.0f;
-			frame.size.height = 8.0f;
+			frame = [self timeTrackRectForFrame:frame];
 			break;
 		default:
 			[super drawHorizontalBarInFrame:frame];
@@ -158,36 +149,33 @@
 
 - (void)drawHorizontalKnobInFrame:(NSRect)frame {
 	
-	NSRect rcBounds = [[self controlView] bounds];
+	NSRect rcBounds;
 	NSBezierPath *path, *dot;
 	
 	switch ([self controlSize]) {
 			
 		case NSSmallControlSize:
-			// Center vertically using the same source rect (the "frame" this method
-			// was actually called with) that drawHorizontalBarInFrame: centers the
-			// background track against -- using [[self controlView] bounds] here
-			// instead let the two rects drift apart whenever AppKit's bar frame
-			// isn't identical to the view's full bounds, visibly offsetting the
-			// white progress fill from the track underneath it.
-			rcBounds.origin.y = frame.origin.y + (((frame.origin.y + frame.size.height) /2) - 2.5f);
-			rcBounds.origin.x += 0.5f;
-			rcBounds.origin.y -= 2.0f;
-			rcBounds.size.width -= 0.5f;
-			rcBounds.size.height = 8.0f;
+			rcBounds = [self timeTrackRectForFrame:[[self controlView] bounds]];
 			
 			// maxValue is 0 before the movie's duration is known (e.g. the very
 			// first draw after playback starts); floatValue/maxValue would then
 			// be 0/0 or x/0, producing a NaN/infinite rect that crashes
 			// appendBezierPathWithRoundedRect:.
 			double maxValue = [self maxValue];
-			rcBounds.size.width *= (maxValue > 0) ? ([self floatValue] / maxValue) : 0.0;
+			double fillRatio = (maxValue > 0) ? ([self floatValue] / maxValue) : 0.0;
+			fillRatio = MIN(MAX(fillRatio, 0.0), 1.0);
+			double capRadius = rcBounds.size.height / 2.0;
+			double usableWidth = MAX(rcBounds.size.width - (capRadius * 2.0), 0.0);
+			double dotCenterX = rcBounds.origin.x + capRadius + (usableWidth * fillRatio);
+			rcBounds.size.width = MIN(rcBounds.size.width, dotCenterX - rcBounds.origin.x + capRadius);
 			
 			path = [[NSBezierPath alloc] init];
-			[path appendBezierPathWithRoundedRect:rcBounds xRadius:4 yRadius:4];
+			if (rcBounds.size.width > 0) {
+				[path appendBezierPathWithRoundedRect:rcBounds xRadius:4 yRadius:4];
+			}
 
 			dot  = [[NSBezierPath alloc] init];
-			[dot appendBezierPathWithOvalInRect:NSMakeRect(rcBounds.size.width - 6, rcBounds.origin.y + 2.0, 4, 4)];
+			[dot appendBezierPathWithOvalInRect:NSMakeRect(dotCenterX - 2.0, rcBounds.origin.y + 2.0, 4, 4)];
 			
 			if([self isEnabled]) {
 				[[NSColor colorWithDeviceWhite:0.96 alpha:1.0] set];
