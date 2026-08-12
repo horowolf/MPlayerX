@@ -13,3 +13,7 @@
 [submodule "localization"]
 	path = localization
 	url = https://github.com/niltsh/MPlayerX-Localization.git
+[submodule "mplayer"]
+	path = mplayer
+	url = https://github.com/horowolf/mplayer-for-MPlayerX.git
+	branch = arm64-support

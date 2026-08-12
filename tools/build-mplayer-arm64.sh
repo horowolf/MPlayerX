@@ -76,6 +76,26 @@ if grep -q ' defined(x86_64)' libvo/osx_objc_common.m; then
     sed -i '' 's/ defined(x86_64)/ defined(__x86_64__)/' libvo/osx_objc_common.m
 fi
 
+# MPlayerX's own Objective-C code (LogAnalyzeOperation.m/coredef_private.m)
+# parses custom "MPX_*" lines out of mplayer's stdout for the seek bar and the
+# Inspector panel; these are not part of upstream mplayer's normal -identify
+# output. The original author carried this as a private mplayer patch that
+# was never merged upstream and, before this fork, had no recorded source at
+# all. The patch is now recovered at
+# https://github.com/horowolf/mplayer-for-MPlayerX (the "mplayer" submodule,
+# branch arm64-support -- see commits f2ae4995d..83cc4aa28, authored
+# 2012-05-26 by Zongyao Qu) and hand-ported here onto this tarball rather
+# than building that old tree directly, since its 2012-era configure script
+# has no AArch64 awareness at all. Only the hooks that MPlayerX's UI actually
+# reads were ported (filename/demuxer/length/seekable/chapters/audio+video
+# info/cache progress); unrelated features from the same commit range
+# (A-B loop, start-at-pause, DVD chapter listing, font fallback) were left
+# out to keep this patch minimal.
+if ! grep -q 'MPX_FILENAME' mplayer.c; then
+    echo "==> applying mpx-hooks.patch"
+    patch -p1 < "${REPO_ROOT}/tools/mpx-hooks.patch"
+fi
+
 # ------------------------------------------------------------------ configure
 export PATH="${BREW_PREFIX}/bin:${PATH}"
 export PKG_CONFIG_PATH="${BREW_PREFIX}/lib/pkgconfig:${PKG_CONFIG_PATH:-}"
