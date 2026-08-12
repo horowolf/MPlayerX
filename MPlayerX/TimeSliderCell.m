@@ -164,7 +164,13 @@
 	switch ([self controlSize]) {
 			
 		case NSSmallControlSize:
-			rcBounds.origin.y = rcBounds.origin.y + (((rcBounds.origin.y + rcBounds.size.height) /2) - 2.5f);
+			// Center vertically using the same source rect (the "frame" this method
+			// was actually called with) that drawHorizontalBarInFrame: centers the
+			// background track against -- using [[self controlView] bounds] here
+			// instead let the two rects drift apart whenever AppKit's bar frame
+			// isn't identical to the view's full bounds, visibly offsetting the
+			// white progress fill from the track underneath it.
+			rcBounds.origin.y = frame.origin.y + (((frame.origin.y + frame.size.height) /2) - 2.5f);
 			rcBounds.origin.x += 0.5f;
 			rcBounds.origin.y -= 2.0f;
 			rcBounds.size.width -= 0.5f;
