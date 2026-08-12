@@ -30,7 +30,8 @@
 #import "VideoTunerController.h"
 #import "TitleView.h"
 #import "CocoaAppendix.h"
-#import "PlayerWindow.h"
+#import "MPXAccessibilityConstants.h"
+#import "MPlayerX-Swift.h"
 
 #define kOnTopModeNormal		(0)
 #define kOnTopModeAlways		(1)

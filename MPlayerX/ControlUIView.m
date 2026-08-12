@@ -24,14 +24,11 @@
 #import "ControlUIView.h"
 #import "RootLayerView.h"
 #import "PlayerController.h"
-#import "ArrowTextField.h"
-#import "ResizeIndicator.h"
 #import "OsdText.h"
 #import "TitleView.h"
 #import "CocoaAppendix.h"
 #import "MPlayerX-Swift.h"
 #import "DisplayLayer.h"
-#import "TimeSliderCell.h"
 
 #define CONTROLALPHA		(1)
 #define BACKGROUNDALPHA		(0.9)

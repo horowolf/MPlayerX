@@ -6,3 +6,10 @@
 //
 
 #import "ParameterManager.h"
+#import "CocoaAppendix.h"
+#import "KeyCode.h"
+#import "TitleView.h"
+#import "MPXWindowButton.h"
+#import "MPXAccessibilityConstants.h"
+#import "MPXLegacyAccessibility.h"
+#import <BGHUDSliderCell.h>
