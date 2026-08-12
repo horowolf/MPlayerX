@@ -9,3 +9,5 @@
 /MPlayerX/MPlayerX.xcodeproj/xcuserdata/*/xcdebugger/
 /build-mplayer/
 .DS_Store
+/HANDOFF.md
+/HANDOFF-ARCHIVE-*.md
