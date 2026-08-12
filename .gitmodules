@@ -1,13 +1,3 @@
-[submodule "BGHUDAppKit"]
-	path = BGHUDAppKit
-	url = https://github.com/horowolf/BGHUDAppKit.git
-	branch = arm64-support
-[submodule "UniversalDetector"]
-	path = UniversalDetector
-	url = https://github.com/niltsh/UniversalDetector.git
-[submodule "Apple Remote Control"]
-	path = Apple Remote Control
-	url = https://github.com/niltsh/apple_remote_control.git
 [submodule "localization"]
 	path = localization
 	url = https://github.com/niltsh/MPlayerX-Localization.git
