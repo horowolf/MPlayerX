@@ -25,15 +25,15 @@ addressed separately and does not affect playback.
 ## Building
 
 ```
-git clone https://github.com/niltsh/MPlayerX.git
+git clone https://github.com/horowolf/MPlayerX.git
 cd MPlayerX
-git submodule update --init
 open MPlayerX/MPlayerX.xcodeproj
 ```
 
-Then press Build. There is no separate bootstrap step: the submodule sources
-are compiled directly into the application, so nothing has to be built by hand
-first.
+Then press Build. There is no bootstrap step and no submodules to
+initialize — every dependency this app actually compiles against
+(BGHUDAppKit, UniversalDetector, Apple Remote Control) is committed
+directly into this repository.
 
 The repository does not ship a prebuilt `mplayer` binary; `MPlayerX/binaries/arm64/`
 must be built locally before the app has anything to spawn:
@@ -76,6 +76,13 @@ on nothing from Homebrew at runtime. Homebrew is a build-time requirement only.
 - **Assorted defects** surfaced by 15 years of new compiler warnings, including
   a malformed format string in the donation URL, a `[super release]` in a
   `dealloc`, and `fabsf()` applied to `CGFloat`.
+- **Submodules vendored.** BGHUDAppKit, UniversalDetector, Apple Remote
+  Control and the localization strings used to be git submodules pointing at
+  niltsh's own forks, dormant since 2011-2015 with no way to push further
+  changes. Their sources are now committed directly into this repository;
+  see [THIRD-PARTY-LICENSES.md](THIRD-PARTY-LICENSES.md) for what moved
+  where. Sparkle, which was declared as a submodule but never actually
+  compiled into the app, was dropped instead of vendored.
 
 ## Support the original author
 
@@ -91,7 +98,7 @@ later. See [COPYING](COPYING) for the full text.
 
 Every third-party component that this repository or a built `MPlayerX.app`
 redistributes — the MPlayer binary, its support libraries, the bundled font,
-and the submodules — is listed in
+and the vendored dependencies — is listed in
 [THIRD-PARTY-LICENSES.md](THIRD-PARTY-LICENSES.md), along with its license and
 the upstream source it came from. That file also records a compliance gap
 inherited from the original repository that is worth knowing about before
