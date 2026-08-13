@@ -58,8 +58,6 @@
 		8609C28110C6944A00B102CE /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8609C28010C6944A00B102CE /* IOKit.framework */; };
 		860EF90E1127BAE40015B6EE /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 860EF90D1127BAE40015B6EE /* MainMenu.xib */; };
 		860EF9101127BB050015B6EE /* Pref.xib in Resources */ = {isa = PBXBuildFile; fileRef = 860EF90F1127BB050015B6EE /* Pref.xib */; };
-		860EF9121127BB0E0015B6EE /* VideoTuner.xib in Resources */ = {isa = PBXBuildFile; fileRef = 860EF9111127BB0E0015B6EE /* VideoTuner.xib */; };
-		860F6727111C5A7D00190BCC /* VideoTunerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 860F6726111C5A7D00190BCC /* VideoTunerController.m */; };
 		860F6733111C6A7E00190BCC /* brightness-max.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 860F6729111C6A7E00190BCC /* brightness-max.tiff */; };
 		860F6734111C6A7E00190BCC /* brightness-min.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 860F672A111C6A7E00190BCC /* brightness-min.tiff */; };
 		860F6735111C6A7E00190BCC /* contrast-max.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 860F672B111C6A7E00190BCC /* contrast-max.tiff */; };
@@ -184,6 +182,7 @@
 		9D873541DFC81C3C4FD517BD /* nsEUCTWProber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1CF438D643BC20D977B07882 /* nsEUCTWProber.cpp */; };
 		A480BC7A498CEBC4999EFCEA /* PlayerWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C1F3244AAD51741F6FDE85 /* PlayerWindow.swift */; };
 		AAE0AD5742625D26BF4DCA0F /* AudioInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2049E0153776E592D174FD2A /* AudioInfo.swift */; };
+		AC236C6D4044FD12556A3C1C /* VideoTunerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A48BC90C3A2DE8C8D191BEC /* VideoTunerController.swift */; };
 		B22E5565A854EBB67D231651 /* nsBig5Prober.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83EA66CD43AD68A2025A37E0 /* nsBig5Prober.cpp */; };
 		B3BE345CAAE6DF3FB6ED90E8 /* WrappedUniversalDetector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F758CF97DA54F28E18835F0F /* WrappedUniversalDetector.cpp */; };
 		BA265A802FB2B87D628F8768 /* nsLatin1Prober.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F777EED89E6DEBD653E51B84 /* nsLatin1Prober.cpp */; };
@@ -278,9 +277,6 @@
 		8609C25810C693D400B102CE /* RemoteControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RemoteControl.h; path = "../Apple Remote Control/RemoteControl.h"; sourceTree = SOURCE_ROOT; };
 		8609C25910C693D500B102CE /* RemoteControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RemoteControl.m; path = "../Apple Remote Control/RemoteControl.m"; sourceTree = SOURCE_ROOT; };
 		8609C28010C6944A00B102CE /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
-		860F671F111C561B00190BCC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/VideoTuner.xib; sourceTree = "<group>"; };
-		860F6725111C5A7D00190BCC /* VideoTunerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = VideoTunerController.h; sourceTree = "<group>"; };
-		860F6726111C5A7D00190BCC /* VideoTunerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = VideoTunerController.m; sourceTree = "<group>"; };
 		860F6729111C6A7E00190BCC /* brightness-max.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "brightness-max.tiff"; sourceTree = "<group>"; };
 		860F672A111C6A7E00190BCC /* brightness-min.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "brightness-min.tiff"; sourceTree = "<group>"; };
 		860F672B111C6A7E00190BCC /* contrast-max.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "contrast-max.tiff"; sourceTree = "<group>"; };
@@ -429,6 +425,7 @@
 		86FB6FC41131B42D005E95B5 /* KeyCode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = KeyCode.m; sourceTree = "<group>"; };
 		874046B846009D3330D62607 /* HueSliderCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = HueSliderCell.swift; sourceTree = "<group>"; };
 		8985C8FCA46920307FA6A499 /* MPXWindowButton.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MPXWindowButton.swift; sourceTree = "<group>"; };
+		8A48BC90C3A2DE8C8D191BEC /* VideoTunerController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = VideoTunerController.swift; sourceTree = "<group>"; };
 		8B09BBC4298D083206AAC82D /* LangGreekModel.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = LangGreekModel.cpp; path = ../UniversalDetector/universalchardet/src/base/LangGreekModel.cpp; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* MPlayerX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MPlayerX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9138AFA0FD13F684B22AD6A7 /* MPXAccessibilityConstants.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = MPXAccessibilityConstants.h; sourceTree = "<group>"; };
@@ -803,7 +800,6 @@
 				86030A9211F1E00600F8D1E8 /* Localizable.strings */,
 				860EF90D1127BAE40015B6EE /* MainMenu.xib */,
 				860EF90F1127BB050015B6EE /* Pref.xib */,
-				860EF9111127BB0E0015B6EE /* VideoTuner.xib */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -853,8 +849,6 @@
 				86C5492410C5216600DC1511 /* PlayListController.m */,
 				865A5D2812CA0E100021CF8E /* AppController.h */,
 				865A5D2912CA0E100021CF8E /* AppController.m */,
-				860F6725111C5A7D00190BCC /* VideoTunerController.h */,
-				860F6726111C5A7D00190BCC /* VideoTunerController.m */,
 				86E34BC010FF42B10004C4E7 /* PlayerController.h */,
 				86E34BC110FF42B10004C4E7 /* PlayerController.m */,
 				865AB3FB10EC82A300065E2F /* PrefController.h */,
@@ -865,6 +859,7 @@
 				CEF8E035F4CC51F8C7C93120 /* OpenURLController.swift */,
 				FFA95FACCE3D139A8052DF98 /* InspectorController.swift */,
 				D4C2043AD33E0C5FB8E7AF4E /* EqualizerController.swift */,
+				8A48BC90C3A2DE8C8D191BEC /* VideoTunerController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -988,7 +983,6 @@
 			files = (
 				860EF90E1127BAE40015B6EE /* MainMenu.xib in Resources */,
 				860EF9101127BB050015B6EE /* Pref.xib in Resources */,
-				860EF9121127BB0E0015B6EE /* VideoTuner.xib in Resources */,
 				861097F110F1C9A50085B3DF /* MPlayerX.icns in Resources */,
 				86F6D4D310EB42620038895F /* doc_video.icns in Resources */,
 				86F6D4D210EB42620038895F /* doc_audio.icns in Resources */,
@@ -1158,7 +1152,6 @@
 				86E34BBF10FF42A40004C4E7 /* CoreController.m in Sources */,
 				86E34BC210FF42B10004C4E7 /* PlayerController.m in Sources */,
 				86CA9E9E110094FE00A3CDBC /* OsdText.m in Sources */,
-				860F6727111C5A7D00190BCC /* VideoTunerController.m in Sources */,
 				86FB6F741131A2EB005E95B5 /* coredef.m in Sources */,
 				86FB6F801131A4BF005E95B5 /* coredef_private.m in Sources */,
 				86FB6FC51131B42D005E95B5 /* KeyCode.m in Sources */,
@@ -1223,6 +1216,7 @@
 				481F41E866A3D76449F91601 /* OpenURLController.swift in Sources */,
 				3D7669B9C6F818E9307911EC /* InspectorController.swift in Sources */,
 				52B82FC4E9F766EE368D3C8A /* EqualizerController.swift in Sources */,
+				AC236C6D4044FD12556A3C1C /* VideoTunerController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1259,14 +1253,6 @@
 				8624A94410F8560400029251 /* English */,
 			);
 			name = Pref.xib;
-			sourceTree = "<group>";
-		};
-		860EF9111127BB0E0015B6EE /* VideoTuner.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				860F671F111C561B00190BCC /* English */,
-			);
-			name = VideoTuner.xib;
 			sourceTree = "<group>";
 		};
 		8674A56412CF294F009A2D05 /* Credits.rtf */ = {

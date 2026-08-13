@@ -27,7 +27,6 @@
 #import "PlayerController.h"
 #import "ShortCutManager.h"
 #import "OsdText.h"
-#import "VideoTunerController.h"
 #import "TitleView.h"
 #import "CocoaAppendix.h"
 #import "MPXAccessibilityConstants.h"
