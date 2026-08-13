@@ -25,7 +25,6 @@
 #import "PlayerController.h"
 #import "PlayListController.h"
 #import <sys/sysctl.h>
-#import "OpenURLController.h"
 #import "AppController.h"
 #import "CoreController.h"
 #import "AODetector.h"

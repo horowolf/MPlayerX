@@ -22,7 +22,6 @@
 #import "UserDefaults.h"
 #import "CocoaAppendix.h"
 #import "PlayerController.h"
-#import "OpenURLController.h"
 #import "LocalizedStrings.h"
 #import "RootLayerView.h"
 #import "SPMediaKeyTap.h"

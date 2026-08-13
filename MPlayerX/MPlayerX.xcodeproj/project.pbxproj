@@ -33,6 +33,7 @@
 		306C8BD705EC2C3648414E89 /* LangBulgarianModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FEF40EF6F04DCDD9E06BA1F4 /* LangBulgarianModel.cpp */; };
 		3C593AD8B38A2F1B17D0C6D8 /* nsEscSM.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F29E88D794EA2732C94EFEFB /* nsEscSM.cpp */; };
 		3DA6B499791F3039B5490299 /* CharDistribution.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0F6EC57C5E2A62FAD783AB1F /* CharDistribution.cpp */; };
+		481F41E866A3D76449F91601 /* OpenURLController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF8E035F4CC51F8C7C93120 /* OpenURLController.swift */; };
 		62AD8EDB0CF27ED793308C7C /* PlayingInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E1759EDE3F25607D8673421 /* PlayingInfo.swift */; };
 		66DDEC454A8353CBD33109C8 /* nsHebrewProber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C557FD16413CFBBBA9507296 /* nsHebrewProber.cpp */; };
 		72E6E934A04A61C702917C8F /* nsUniversalDetector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B6303A2C7A7807D62F06DD4C /* nsUniversalDetector.cpp */; };
@@ -142,7 +143,6 @@
 		868CB5CB1358710200EDC86F /* BGTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 868CB5C51358710200EDC86F /* BGTheme.m */; };
 		868CB5CC1358710200EDC86F /* BGThemeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 868CB5C71358710200EDC86F /* BGThemeManager.m */; };
 		86A5E40C10C7D24D00D061C7 /* wqy-microhei.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 86A5E40B10C7D24D00D061C7 /* wqy-microhei.ttc */; };
-		86B99D0210C9418600AB28FB /* OpenURLController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86B99D0110C9418600AB28FB /* OpenURLController.m */; };
 		86B9E23712D1B0910094B55E /* Inspector.xib in Resources */ = {isa = PBXBuildFile; fileRef = 86B9E23612D1B0910094B55E /* Inspector.xib */; };
 		86C02AEF12309BCF004E8181 /* UserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C02AEE12309BCF004E8181 /* UserDefaults.m */; };
 		86C5492510C5216600DC1511 /* PlayListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C5492410C5216600DC1511 /* PlayListController.m */; };
@@ -391,8 +391,6 @@
 		868CB5CD1358718500EDC86F /* BGHUDGeometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BGHUDGeometry.h; path = ../BGHUDAppKit/Framework/BGHUDGeometry.h; sourceTree = SOURCE_ROOT; };
 		869A335F13D6EBFA0014B201 /* MPXWindowButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPXWindowButton.h; sourceTree = "<group>"; };
 		86A5E40B10C7D24D00D061C7 /* wqy-microhei.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "wqy-microhei.ttc"; sourceTree = "<group>"; };
-		86B99D0010C9418600AB28FB /* OpenURLController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = OpenURLController.h; sourceTree = "<group>"; };
-		86B99D0110C9418600AB28FB /* OpenURLController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OpenURLController.m; sourceTree = "<group>"; };
 		86B9E23212D1B07F0094B55E /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/Inspector.xib; sourceTree = "<group>"; };
 		86C02AED12309BCF004E8181 /* UserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDefaults.h; sourceTree = "<group>"; };
 		86C02AEE12309BCF004E8181 /* UserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDefaults.m; sourceTree = "<group>"; };
@@ -451,6 +449,7 @@
 		B6303A2C7A7807D62F06DD4C /* nsUniversalDetector.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = nsUniversalDetector.cpp; path = ../UniversalDetector/universalchardet/src/base/nsUniversalDetector.cpp; sourceTree = "<group>"; };
 		BF0D532D7807322D0281BF12 /* MovieInfo.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MovieInfo.swift; sourceTree = "<group>"; };
 		C557FD16413CFBBBA9507296 /* nsHebrewProber.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = nsHebrewProber.cpp; path = ../UniversalDetector/universalchardet/src/base/nsHebrewProber.cpp; sourceTree = "<group>"; };
+		CEF8E035F4CC51F8C7C93120 /* OpenURLController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = OpenURLController.swift; sourceTree = "<group>"; };
 		D4A7A66B514C6B797CEA8EC2 /* CharsetQueryController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CharsetQueryController.swift; sourceTree = "<group>"; };
 		D8C1F3244AAD51741F6FDE85 /* PlayerWindow.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PlayerWindow.swift; sourceTree = "<group>"; };
 		DF3D9339AAB58CB52F5DE35B /* nsSJISProber.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = nsSJISProber.cpp; path = ../UniversalDetector/universalchardet/src/base/nsSJISProber.cpp; sourceTree = "<group>"; };
@@ -870,13 +869,12 @@
 				86E34BC110FF42B10004C4E7 /* PlayerController.m */,
 				865AB3FB10EC82A300065E2F /* PrefController.h */,
 				865AB3FC10EC82A300065E2F /* PrefController.m */,
-				86B99D0010C9418600AB28FB /* OpenURLController.h */,
-				86B99D0110C9418600AB28FB /* OpenURLController.m */,
 				8612503D12D1C2290085DFF0 /* InspectorController.h */,
 				8612503E12D1C2290085DFF0 /* InspectorController.m */,
 				8605F0D4137E67FE00317941 /* MPApplication.h */,
 				8605F0D5137E67FE00317941 /* MPApplication.m */,
 				D4A7A66B514C6B797CEA8EC2 /* CharsetQueryController.swift */,
+				CEF8E035F4CC51F8C7C93120 /* OpenURLController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -1167,7 +1165,6 @@
 				8609C25A10C693D500B102CE /* AppleRemote.m in Sources */,
 				8609C25B10C693D500B102CE /* HIDRemoteControlDevice.m in Sources */,
 				8609C25D10C693D500B102CE /* RemoteControl.m in Sources */,
-				86B99D0210C9418600AB28FB /* OpenURLController.m in Sources */,
 				865AB3FD10EC82A300065E2F /* PrefController.m in Sources */,
 				8661414210FA2B7E007F36DA /* SubConverter.m in Sources */,
 				86E34BBF10FF42A40004C4E7 /* CoreController.m in Sources */,
@@ -1237,6 +1234,7 @@
 				17F003917D880576288B1C8D /* MPXWindowButton.swift in Sources */,
 				2C30FDB2D638652A40FCEC38 /* MPXAccessibilityConstants.m in Sources */,
 				9A427B18C938AFFBAC2AF0A0 /* CharsetQueryController.swift in Sources */,
+				481F41E866A3D76449F91601 /* OpenURLController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

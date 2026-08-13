@@ -928,81 +928,6 @@
             </connections>
             <point key="canvasLocation" x="139" y="330"/>
         </window>
-        <window title="Open URL" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="627" customClass="NSPanel">
-            <windowStyleMask key="styleMask" titled="YES"/>
-            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="204" y="896" width="500" height="94"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1512" height="949"/>
-            <value key="minSize" type="size" width="500" height="94"/>
-            <value key="maxSize" type="size" width="500" height="94"/>
-            <view key="contentView" id="628">
-                <rect key="frame" x="0.0" y="0.0" width="500" height="94"/>
-                <autoresizingMask key="autoresizingMask"/>
-                <subviews>
-                    <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="67" translatesAutoresizingMaskIntoConstraints="NO" id="629">
-                        <rect key="frame" x="17" y="54" width="71" height="17"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" refusesFirstResponder="YES" allowsUndo="NO" sendsActionOnEndEditing="YES" alignment="right" title="Media URL" id="630">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <button imageHugsTitle="YES" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="633">
-                        <rect key="frame" x="294" y="14" width="96" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                        <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="634">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                            <string key="keyEquivalent" base64-UTF8="YES">
-Gw
-</string>
-                        </buttonCell>
-                        <connections>
-                            <action selector="canceled:" target="645" id="648"/>
-                            <outlet property="nextKeyView" destination="651" id="835"/>
-                        </connections>
-                    </button>
-                    <button imageHugsTitle="YES" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="635">
-                        <rect key="frame" x="390" y="14" width="96" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                        <buttonCell key="cell" type="push" title="OK" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="636">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                            <string key="keyEquivalent" base64-UTF8="YES">
-DQ
-</string>
-                        </buttonCell>
-                        <connections>
-                            <action selector="confirmed:" target="645" id="649"/>
-                            <outlet property="nextKeyView" destination="633" id="642"/>
-                        </connections>
-                    </button>
-                    <comboBox focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="651">
-                        <rect key="frame" x="95" y="50" width="388" height="26"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                        <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" alignment="left" drawsBackground="YES" usesSingleLineMode="YES" numberOfVisibleItems="7" id="652">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                        </comboBoxCell>
-                        <connections>
-                            <action selector="urlSelected:" target="645" id="921"/>
-                        </connections>
-                    </comboBox>
-                    <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="250" translatesAutoresizingMaskIntoConstraints="NO" id="939">
-                        <rect key="frame" x="17" y="23" width="254" height="14"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" controlSize="small" allowsUndo="NO" sendsActionOnEndEditing="YES" alignment="left" title="⌘-OK: Use ffmpeg to handle the stream" id="940">
-                            <font key="font" metaFont="smallSystem"/>
-                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                </subviews>
-            </view>
-            <point key="canvasLocation" x="139" y="142"/>
-        </window>
         <customView id="1149" userLabel="OpenPanelAcce">
             <rect key="frame" x="0.0" y="0.0" width="541" height="62"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1057,10 +982,7 @@ DQ
         </customObject>
         <customObject id="645" userLabel="OpenUrlController" customClass="OpenURLController">
             <connections>
-                <outlet property="cmdOptionalText" destination="939" id="941"/>
-                <outlet property="openURLPanel" destination="627" id="646"/>
                 <outlet property="playerController" destination="494" id="878"/>
-                <outlet property="urlBox" destination="651" id="653"/>
             </connections>
         </customObject>
         <customObject id="603" customClass="ShortCutManager">
