@@ -151,7 +151,24 @@ class InspectorController: NSObject {
 							 defer: false)
 		panel.title = NSLocalizedString("Inspector", comment: "Inspector Info")
 		panel.isReleasedWhenClosed = false
-		panel.setFrameAutosaveName("Inspector")
+
+		// Deliberately not using setFrameAutosaveName/isRestorable here: this
+		// panel isn't user-resizable (no .resizable in styleMask) -- its
+		// height is entirely driven by setExpanded(), toggling between
+		// compactHeight and compactHeight + infoContainerHeight. AppKit's
+		// frame autosave/window-restoration persist and reapply whatever
+		// height happened to be in effect at save time, including a
+		// mid-animation or otherwise transient one, and reapply it lazily
+		// (observably later than window construction, sometimes only once
+		// the panel is actually ordered on screen) -- there is no reliable
+		// point at which to "fix" a restored frame before it's shown. Since
+		// the correct height is always fully determined by
+		// setExpanded()/model.showInfo anyway, there's nothing worth
+		// persisting: let the panel just use the OS's default placement
+		// every time instead of fighting AppKit's restore timing.
+		panel.isRestorable = false
+		panel.center()
+
 		panel.contentView = NSHostingView(rootView: InspectorView(model: model))
 
 		window = panel
@@ -293,31 +310,40 @@ class InspectorController: NSObject {
 				model.formatInfo = dispStr
 			}
 
-			if !model.showInfo {
-				model.showInfo = true
-				resizeWindow(expanded: true)
-			}
+			model.showInfo = true
+			setExpanded(true)
 		} else {
 			model.filename = kMPXStringInfoNoInfo
 
-			if model.showInfo {
-				model.showInfo = false
-				resizeWindow(expanded: false)
-			}
+			model.showInfo = false
+			setExpanded(false)
 		}
 	}
 
-	private func resizeWindow(expanded: Bool) {
+	// Sets the panel to its absolute target height for the given state,
+	// instead of nudging the current frame by +/- infoContainerHeight. The
+	// previous relative version (`rc.size.height += infoContainerHeight`)
+	// assumed every expand/collapse call was paired with exactly one
+	// matching call in the opposite direction; any call that ran while the
+	// window was already in the target state (e.g. a duplicate KVO
+	// notification re-triggering the `!model.showInfo` branch) would keep
+	// adding/subtracting infoContainerHeight and the panel would drift to
+	// the wrong size, compounding with every stray call instead of just
+	// being a no-op. Computing the height directly from `expanded` makes
+	// repeated calls idempotent -- calling this redundantly is harmless,
+	// and it self-corrects even if some earlier call left the window at an
+	// unexpected height.
+	private func setExpanded(_ expanded: Bool) {
 		guard let window else { return }
 
+		let targetHeight = expanded ? (compactHeight + infoContainerHeight) : compactHeight
 		var rc = window.frame
-		if expanded {
-			rc.size.height += infoContainerHeight
-			rc.origin.y -= infoContainerHeight
-		} else {
-			rc.size.height -= infoContainerHeight
-			rc.origin.y += infoContainerHeight
-		}
+		guard rc.size.height != targetHeight else { return }
+
+		let top = rc.origin.y + rc.size.height
+		rc.size.width = contentWidth
+		rc.size.height = targetHeight
+		rc.origin.y = top - targetHeight
 
 		window.setFrame(rc, display: true, animate: true)
 	}
