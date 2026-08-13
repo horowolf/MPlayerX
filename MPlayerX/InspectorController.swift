@@ -104,7 +104,7 @@ private struct InspectorView: View {
 				.font(.system(size: 13))
 				.foregroundColor(Color(white: 0.75))
 				.multilineTextAlignment(.center)
-				.fixedSize(horizontal: false, vertical: true)
+                .fixedSize(horizontal: false, vertical: false)
 
 			if model.showInfo {
 				VStack(alignment: .leading, spacing: 8) {
