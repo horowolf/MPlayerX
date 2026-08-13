@@ -9,6 +9,7 @@
 #import "CocoaAppendix.h"
 #import "KeyCode.h"
 #import "UserDefaults.h"
+#import "coredef.h"
 #import "TitleView.h"
 #import "MPXWindowButton.h"
 #import "MPXAccessibilityConstants.h"
