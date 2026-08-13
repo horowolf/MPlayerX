@@ -35,6 +35,7 @@
 		3D7669B9C6F818E9307911EC /* InspectorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA95FACCE3D139A8052DF98 /* InspectorController.swift */; };
 		3DA6B499791F3039B5490299 /* CharDistribution.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0F6EC57C5E2A62FAD783AB1F /* CharDistribution.cpp */; };
 		481F41E866A3D76449F91601 /* OpenURLController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF8E035F4CC51F8C7C93120 /* OpenURLController.swift */; };
+		52B82FC4E9F766EE368D3C8A /* EqualizerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C2043AD33E0C5FB8E7AF4E /* EqualizerController.swift */; };
 		62AD8EDB0CF27ED793308C7C /* PlayingInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E1759EDE3F25607D8673421 /* PlayingInfo.swift */; };
 		66DDEC454A8353CBD33109C8 /* nsHebrewProber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C557FD16413CFBBBA9507296 /* nsHebrewProber.cpp */; };
 		72E6E934A04A61C702917C8F /* nsUniversalDetector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B6303A2C7A7807D62F06DD4C /* nsUniversalDetector.cpp */; };
@@ -122,8 +123,6 @@
 		865AB3FD10EC82A300065E2F /* PrefController.m in Sources */ = {isa = PBXBuildFile; fileRef = 865AB3FC10EC82A300065E2F /* PrefController.m */; };
 		8661414210FA2B7E007F36DA /* SubConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8661414110FA2B7E007F36DA /* SubConverter.m */; };
 		86689CA511304163009DA72C /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 86689CA411304163009DA72C /* logo.png */; };
-		866CCF5511DE378300032F96 /* EqualizerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 866CCF5411DE378300032F96 /* EqualizerController.m */; };
-		866CCFAC11DE3EAB00032F96 /* Equalizer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 866CCFAB11DE3EAB00032F96 /* Equalizer.xib */; };
 		8670CC1F1418E32B009EDB63 /* close-active-graphite-lion.png in Resources */ = {isa = PBXBuildFile; fileRef = 8670CC161418E32B009EDB63 /* close-active-graphite-lion.png */; };
 		8670CC201418E32B009EDB63 /* close-inactive-disabled-graphite-lion.png in Resources */ = {isa = PBXBuildFile; fileRef = 8670CC171418E32B009EDB63 /* close-inactive-disabled-graphite-lion.png */; };
 		8670CC211418E32B009EDB63 /* close-rollover-graphite-lion.png in Resources */ = {isa = PBXBuildFile; fileRef = 8670CC181418E32B009EDB63 /* close-rollover-graphite-lion.png */; };
@@ -359,9 +358,6 @@
 		8661414010FA2B7E007F36DA /* SubConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SubConverter.h; sourceTree = "<group>"; };
 		8661414110FA2B7E007F36DA /* SubConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SubConverter.m; sourceTree = "<group>"; };
 		86689CA411304163009DA72C /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
-		866CCF5311DE378300032F96 /* EqualizerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EqualizerController.h; sourceTree = "<group>"; };
-		866CCF5411DE378300032F96 /* EqualizerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EqualizerController.m; sourceTree = "<group>"; };
-		866CCFA811DE3E8200032F96 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/Equalizer.xib; sourceTree = "<group>"; };
 		8670CC161418E32B009EDB63 /* close-active-graphite-lion.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close-active-graphite-lion.png"; sourceTree = "<group>"; };
 		8670CC171418E32B009EDB63 /* close-inactive-disabled-graphite-lion.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close-inactive-disabled-graphite-lion.png"; sourceTree = "<group>"; };
 		8670CC181418E32B009EDB63 /* close-rollover-graphite-lion.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close-rollover-graphite-lion.png"; sourceTree = "<group>"; };
@@ -447,6 +443,7 @@
 		C557FD16413CFBBBA9507296 /* nsHebrewProber.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = nsHebrewProber.cpp; path = ../UniversalDetector/universalchardet/src/base/nsHebrewProber.cpp; sourceTree = "<group>"; };
 		CEF8E035F4CC51F8C7C93120 /* OpenURLController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = OpenURLController.swift; sourceTree = "<group>"; };
 		D4A7A66B514C6B797CEA8EC2 /* CharsetQueryController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CharsetQueryController.swift; sourceTree = "<group>"; };
+		D4C2043AD33E0C5FB8E7AF4E /* EqualizerController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = EqualizerController.swift; sourceTree = "<group>"; };
 		D8C1F3244AAD51741F6FDE85 /* PlayerWindow.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PlayerWindow.swift; sourceTree = "<group>"; };
 		DF3D9339AAB58CB52F5DE35B /* nsSJISProber.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = nsSJISProber.cpp; path = ../UniversalDetector/universalchardet/src/base/nsSJISProber.cpp; sourceTree = "<group>"; };
 		F29E88D794EA2732C94EFEFB /* nsEscSM.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = nsEscSM.cpp; path = ../UniversalDetector/universalchardet/src/base/nsEscSM.cpp; sourceTree = "<group>"; };
@@ -807,7 +804,6 @@
 				860EF90D1127BAE40015B6EE /* MainMenu.xib */,
 				860EF90F1127BB050015B6EE /* Pref.xib */,
 				860EF9111127BB0E0015B6EE /* VideoTuner.xib */,
-				866CCFAB11DE3EAB00032F96 /* Equalizer.xib */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -859,8 +855,6 @@
 				865A5D2912CA0E100021CF8E /* AppController.m */,
 				860F6725111C5A7D00190BCC /* VideoTunerController.h */,
 				860F6726111C5A7D00190BCC /* VideoTunerController.m */,
-				866CCF5311DE378300032F96 /* EqualizerController.h */,
-				866CCF5411DE378300032F96 /* EqualizerController.m */,
 				86E34BC010FF42B10004C4E7 /* PlayerController.h */,
 				86E34BC110FF42B10004C4E7 /* PlayerController.m */,
 				865AB3FB10EC82A300065E2F /* PrefController.h */,
@@ -870,6 +864,7 @@
 				D4A7A66B514C6B797CEA8EC2 /* CharsetQueryController.swift */,
 				CEF8E035F4CC51F8C7C93120 /* OpenURLController.swift */,
 				FFA95FACCE3D139A8052DF98 /* InspectorController.swift */,
+				D4C2043AD33E0C5FB8E7AF4E /* EqualizerController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -1035,7 +1030,6 @@
 				8617DB38116A0CA40085DFBC /* gamma-min.png in Resources */,
 				8617DB39116A0CA40085DFBC /* hue-minus.png in Resources */,
 				8617DB3A116A0CA40085DFBC /* hue-plus.png in Resources */,
-				866CCFAC11DE3EAB00032F96 /* Equalizer.xib in Resources */,
 				86030A9311F1E00600F8D1E8 /* Localizable.strings in Resources */,
 				863D0A9712CDE85900170081 /* close-active.tiff in Resources */,
 				863D0A9812CDE85900170081 /* close-inactive-disabled.tiff in Resources */,
@@ -1170,7 +1164,6 @@
 				86FB6FC51131B42D005E95B5 /* KeyCode.m in Sources */,
 				86E7A8F11155E8980014155D /* CocoaAppendix.m in Sources */,
 				861EE37D116718AF00D16C87 /* TitleView.m in Sources */,
-				866CCF5511DE378300032F96 /* EqualizerController.m in Sources */,
 				86C02AEF12309BCF004E8181 /* UserDefaults.m in Sources */,
 				865A5D2A12CA0E100021CF8E /* AppController.m in Sources */,
 				865845171346D7E900570BA6 /* def.m in Sources */,
@@ -1229,6 +1222,7 @@
 				9A427B18C938AFFBAC2AF0A0 /* CharsetQueryController.swift in Sources */,
 				481F41E866A3D76449F91601 /* OpenURLController.swift in Sources */,
 				3D7669B9C6F818E9307911EC /* InspectorController.swift in Sources */,
+				52B82FC4E9F766EE368D3C8A /* EqualizerController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1273,14 +1267,6 @@
 				860F671F111C561B00190BCC /* English */,
 			);
 			name = VideoTuner.xib;
-			sourceTree = "<group>";
-		};
-		866CCFAB11DE3EAB00032F96 /* Equalizer.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				866CCFA811DE3E8200032F96 /* English */,
-			);
-			name = Equalizer.xib;
 			sourceTree = "<group>";
 		};
 		8674A56412CF294F009A2D05 /* Credits.rtf */ = {

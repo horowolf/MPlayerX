@@ -15,3 +15,4 @@
 #import "MPXAccessibilityConstants.h"
 #import "MPXLegacyAccessibility.h"
 #import <BGHUDSliderCell.h>
+#import <BGHUDButtonCell.h>
