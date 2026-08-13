@@ -23,7 +23,6 @@
 #import "KeyCode.h"
 #import "LocalizedStrings.h"
 #import "PlayerController.h"
-#import "PlayListController.h"
 #import <sys/sysctl.h>
 #import "AppController.h"
 #import "CoreController.h"
