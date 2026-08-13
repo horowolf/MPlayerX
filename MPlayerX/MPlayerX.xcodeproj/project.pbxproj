@@ -163,9 +163,7 @@
 		86D10C1C10F4A40D000B573F /* resizeindicator.png in Resources */ = {isa = PBXBuildFile; fileRef = 86D10C1B10F4A40D000B573F /* resizeindicator.png */; };
 		86E34BBF10FF42A40004C4E7 /* CoreController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86E34BBE10FF42A40004C4E7 /* CoreController.m */; };
 		86E34BC210FF42B10004C4E7 /* PlayerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86E34BC110FF42B10004C4E7 /* PlayerController.m */; };
-		86E7A89E1155C1740014155D /* CharsetQueryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86E7A89D1155C1740014155D /* CharsetQueryController.m */; };
 		86E7A8F11155E8980014155D /* CocoaAppendix.m in Sources */ = {isa = PBXBuildFile; fileRef = 86E7A8F01155E8980014155D /* CocoaAppendix.m */; };
-		86E7A8FF1155EBCD0014155D /* SubEncoding.xib in Resources */ = {isa = PBXBuildFile; fileRef = 86E7A8FE1155EBCD0014155D /* SubEncoding.xib */; };
 		86E7CEC5143C876500EF8CDD /* fullscreen-active-lion.png in Resources */ = {isa = PBXBuildFile; fileRef = 86E7CEC3143C876500EF8CDD /* fullscreen-active-lion.png */; };
 		86E7CEC6143C876500EF8CDD /* fullscreen-rollover-lion.png in Resources */ = {isa = PBXBuildFile; fileRef = 86E7CEC4143C876500EF8CDD /* fullscreen-rollover-lion.png */; };
 		86F4DADB10BC329F007AE56A /* ControlUIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86F4DADA10BC329F007AE56A /* ControlUIView.m */; };
@@ -183,6 +181,7 @@
 		8F1D1A7037E49D72FD66E872 /* MovieInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF0D532D7807322D0281BF12 /* MovieInfo.swift */; };
 		94DD2BAA1FCDE25F5633A76B /* nsSBCharSetProber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D0BB34CC9215A312DDF6D16 /* nsSBCharSetProber.cpp */; };
 		94EF5E02EDD341500AA74E66 /* LangGreekModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B09BBC4298D083206AAC82D /* LangGreekModel.cpp */; };
+		9A427B18C938AFFBAC2AF0A0 /* CharsetQueryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A7A66B514C6B797CEA8EC2 /* CharsetQueryController.swift */; };
 		9ACEC0B6C93637F283058A20 /* LangThaiModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0371664A6662EC5D246831EA /* LangThaiModel.cpp */; };
 		9D873541DFC81C3C4FD517BD /* nsEUCTWProber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1CF438D643BC20D977B07882 /* nsEUCTWProber.cpp */; };
 		A480BC7A498CEBC4999EFCEA /* PlayerWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C1F3244AAD51741F6FDE85 /* PlayerWindow.swift */; };
@@ -425,11 +424,8 @@
 		86E34BBE10FF42A40004C4E7 /* CoreController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CoreController.m; sourceTree = "<group>"; };
 		86E34BC010FF42B10004C4E7 /* PlayerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = PlayerController.h; sourceTree = "<group>"; };
 		86E34BC110FF42B10004C4E7 /* PlayerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = PlayerController.m; sourceTree = "<group>"; };
-		86E7A89C1155C1740014155D /* CharsetQueryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = CharsetQueryController.h; sourceTree = "<group>"; };
-		86E7A89D1155C1740014155D /* CharsetQueryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CharsetQueryController.m; sourceTree = "<group>"; };
 		86E7A8EF1155E8980014155D /* CocoaAppendix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = CocoaAppendix.h; sourceTree = "<group>"; };
 		86E7A8F01155E8980014155D /* CocoaAppendix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CocoaAppendix.m; sourceTree = "<group>"; };
-		86E7A8FC1155EBC60014155D /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SubEncoding.xib; sourceTree = "<group>"; };
 		86E7CEC3143C876500EF8CDD /* fullscreen-active-lion.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fullscreen-active-lion.png"; sourceTree = "<group>"; };
 		86E7CEC4143C876500EF8CDD /* fullscreen-rollover-lion.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fullscreen-rollover-lion.png"; sourceTree = "<group>"; };
 		86F4DAD910BC329F007AE56A /* ControlUIView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ControlUIView.h; sourceTree = "<group>"; };
@@ -455,6 +451,7 @@
 		B6303A2C7A7807D62F06DD4C /* nsUniversalDetector.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = nsUniversalDetector.cpp; path = ../UniversalDetector/universalchardet/src/base/nsUniversalDetector.cpp; sourceTree = "<group>"; };
 		BF0D532D7807322D0281BF12 /* MovieInfo.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MovieInfo.swift; sourceTree = "<group>"; };
 		C557FD16413CFBBBA9507296 /* nsHebrewProber.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = nsHebrewProber.cpp; path = ../UniversalDetector/universalchardet/src/base/nsHebrewProber.cpp; sourceTree = "<group>"; };
+		D4A7A66B514C6B797CEA8EC2 /* CharsetQueryController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CharsetQueryController.swift; sourceTree = "<group>"; };
 		D8C1F3244AAD51741F6FDE85 /* PlayerWindow.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PlayerWindow.swift; sourceTree = "<group>"; };
 		DF3D9339AAB58CB52F5DE35B /* nsSJISProber.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = nsSJISProber.cpp; path = ../UniversalDetector/universalchardet/src/base/nsSJISProber.cpp; sourceTree = "<group>"; };
 		F29E88D794EA2732C94EFEFB /* nsEscSM.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = nsEscSM.cpp; path = ../UniversalDetector/universalchardet/src/base/nsEscSM.cpp; sourceTree = "<group>"; };
@@ -814,7 +811,6 @@
 				860EF90D1127BAE40015B6EE /* MainMenu.xib */,
 				860EF90F1127BB050015B6EE /* Pref.xib */,
 				860EF9111127BB0E0015B6EE /* VideoTuner.xib */,
-				86E7A8FE1155EBCD0014155D /* SubEncoding.xib */,
 				866CCFAB11DE3EAB00032F96 /* Equalizer.xib */,
 				86B9E23612D1B0910094B55E /* Inspector.xib */,
 			);
@@ -876,12 +872,11 @@
 				865AB3FC10EC82A300065E2F /* PrefController.m */,
 				86B99D0010C9418600AB28FB /* OpenURLController.h */,
 				86B99D0110C9418600AB28FB /* OpenURLController.m */,
-				86E7A89C1155C1740014155D /* CharsetQueryController.h */,
-				86E7A89D1155C1740014155D /* CharsetQueryController.m */,
 				8612503D12D1C2290085DFF0 /* InspectorController.h */,
 				8612503E12D1C2290085DFF0 /* InspectorController.m */,
 				8605F0D4137E67FE00317941 /* MPApplication.h */,
 				8605F0D5137E67FE00317941 /* MPApplication.m */,
+				D4A7A66B514C6B797CEA8EC2 /* CharsetQueryController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -1040,7 +1035,6 @@
 				860F673B111C6A7E00190BCC /* sharpen-max.tiff in Resources */,
 				860F673C111C6A7E00190BCC /* sharpen-min.tiff in Resources */,
 				86689CA511304163009DA72C /* logo.png in Resources */,
-				86E7A8FF1155EBCD0014155D /* SubEncoding.xib in Resources */,
 				861EE3F71167263300D16C87 /* titlebar-corner-left.png in Resources */,
 				861EE3F81167263300D16C87 /* titlebar-middle.png in Resources */,
 				861EE3FE1167290A00D16C87 /* titlebar-corner-right.png in Resources */,
@@ -1110,7 +1104,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "genstrings -o English.lproj *.m *.h";
+			shellScript = "genstrings -o English.lproj *.m *.h *.swift";
 		};
 		863CD3D212D9B98B00C8E321 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1183,7 +1177,6 @@
 				86FB6F741131A2EB005E95B5 /* coredef.m in Sources */,
 				86FB6F801131A4BF005E95B5 /* coredef_private.m in Sources */,
 				86FB6FC51131B42D005E95B5 /* KeyCode.m in Sources */,
-				86E7A89E1155C1740014155D /* CharsetQueryController.m in Sources */,
 				86E7A8F11155E8980014155D /* CocoaAppendix.m in Sources */,
 				861EE37D116718AF00D16C87 /* TitleView.m in Sources */,
 				866CCF5511DE378300032F96 /* EqualizerController.m in Sources */,
@@ -1243,6 +1236,7 @@
 				A480BC7A498CEBC4999EFCEA /* PlayerWindow.swift in Sources */,
 				17F003917D880576288B1C8D /* MPXWindowButton.swift in Sources */,
 				2C30FDB2D638652A40FCEC38 /* MPXAccessibilityConstants.m in Sources */,
+				9A427B18C938AFFBAC2AF0A0 /* CharsetQueryController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1313,14 +1307,6 @@
 			name = Inspector.xib;
 			sourceTree = "<group>";
 		};
-		86E7A8FE1155EBCD0014155D /* SubEncoding.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				86E7A8FC1155EBC60014155D /* English */,
-			);
-			name = SubEncoding.xib;
-			sourceTree = "<group>";
-		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -1346,7 +1332,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 			};
 			name = Release;
 		};
@@ -1379,7 +1365,7 @@
 				);
 				INFOPLIST_FILE = "MPlayerX-Info.plist";
 				INSTALL_PATH = /Applications;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_NAME = MPlayerX;
 				SWIFT_OBJC_BRIDGING_HEADER = "MPlayerX-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -1401,7 +1387,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 			};
 			name = Deploy;
 		};
@@ -1435,7 +1421,7 @@
 				);
 				INFOPLIST_FILE = "MPlayerX-Info.plist";
 				INSTALL_PATH = /Applications;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_NAME = MPlayerX;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "MPlayerX-Bridging-Header.h";
@@ -1467,7 +1453,7 @@
 				);
 				INFOPLIST_FILE = "MPlayerX-Info.plist";
 				INSTALL_PATH = /Applications;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_NAME = MPlayerX;
 				SWIFT_OBJC_BRIDGING_HEADER = "MPlayerX-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -1490,7 +1476,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				ONLY_ACTIVE_ARCH = YES;
 			};
 			name = Debug;

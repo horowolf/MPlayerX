@@ -26,7 +26,6 @@
 #import "PlayListController.h"
 #import <sys/sysctl.h>
 #import "OpenURLController.h"
-#import "CharsetQueryController.h"
 #import "AppController.h"
 #import "CoreController.h"
 #import "AODetector.h"
