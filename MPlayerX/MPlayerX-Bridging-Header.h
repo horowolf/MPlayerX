@@ -10,6 +10,7 @@
 #import "KeyCode.h"
 #import "UserDefaults.h"
 #import "coredef.h"
+#import "def.h"
 #import "TitleView.h"
 #import "MPXWindowButton.h"
 #import "MPXAccessibilityConstants.h"

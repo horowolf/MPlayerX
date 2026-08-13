@@ -23,11 +23,12 @@ import SwiftUI
 
 // Menu entries for the encoding picker, in the same order/grouping as the
 // Objective-C original's -[NSMenu(CharsetListAppend) appendCharsetList]
-// (CocoaAppendix.m). That category method is left untouched -- PrefController
-// (not yet ported) still uses it for its own charset picker -- so this list
-// is a deliberate duplicate, not a shared source. Retire the duplication when
-// PrefController's stage of the rewrite lands.
-private enum CharsetMenuEntry {
+// (CocoaAppendix.m). That category method itself is left untouched (still
+// used by the not-yet-ported CocoaAppendix.m callers), but this Swift list is
+// the single shared source for both CharsetQueryController and
+// PrefController's subtitle-encoding picker -- not `private` so PrefController
+// can reference it too.
+enum CharsetMenuEntry {
 	case separator
 	case item(title: String, tag: CFStringEncoding)
 }
@@ -41,7 +42,7 @@ private enum CharsetMenuEntry {
 // getting 30-some case names right by guessing is exactly the trap HANDOFF's
 // stage-B notes warn about (see lesson 8) -- the numeric values are unambiguous
 // and don't depend on how a given SDK's ClangImporter happens to case them.
-private let charsetMenuEntries: [CharsetMenuEntry] = [
+let charsetMenuEntries: [CharsetMenuEntry] = [
 	.item(title: NSLocalizedString("Unicode (UTF-8)", comment: "Text Enc"), tag: 0x08000100),               // kCFStringEncodingUTF8
 	.item(title: NSLocalizedString("Unicode (UTF-16BE)", comment: "Text Enc"), tag: 0x10000100),             // kCFStringEncodingUTF16BE
 	.item(title: NSLocalizedString("Unicode (UTF-16LE)", comment: "Text Enc"), tag: 0x14000100),             // kCFStringEncodingUTF16LE
