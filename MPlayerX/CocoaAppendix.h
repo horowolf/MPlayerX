@@ -28,6 +28,7 @@ extern NSString * const kMPCStringMPlayerX;
 #define SAFERELEASE(x)		{if(x) {[x release];x = nil;}}
 
 void MPLog(NSString *format, ...);
+void MPLogString(NSString *str);	/**< non-variadic wrapper so Swift can call it -- MPLog itself is unavailable from Swift */
 void MPSetLogEnable(BOOL en);
 
 SInt32 MPXGetSysVersion();

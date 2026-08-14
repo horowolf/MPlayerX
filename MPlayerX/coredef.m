@@ -25,6 +25,10 @@ NSString * const kI386Key	= @"i386";
 NSString * const kX86_64Key	= @"x86_64";
 NSString * const kArm64Key	= @"arm64";
 
+// formerly defined alongside ParameterManager's other -demuxer values; kept
+// here since PlayerController.m (still ObjC) references it directly
+NSString * const kPMValDemuxFFMpeg	= @"lavf";
+
 // KeyPath of the properties observed via KVO
 NSString * const kKVOPropertyKeyPathCurrentTime		= @"movieInfo.playingInfo.currentTime";
 NSString * const kKVOPropertyKeyPathLength			= @"movieInfo.length";

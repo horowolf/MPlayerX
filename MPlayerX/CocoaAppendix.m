@@ -40,6 +40,11 @@ void MPLog(NSString *format, ...)
 	}
 }
 
+void MPLogString(NSString *str)
+{
+	MPLog(@"%@", str);
+}
+
 void MPSetLogEnable(BOOL en)
 {
 	logEnable = en;

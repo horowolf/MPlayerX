@@ -20,9 +20,8 @@
 
 #import <Cocoa/Cocoa.h>
 #import "coredef.h"
-#import "PlayerCore.h"
-#import "ParameterManager.h"
 #import "LogAnalyzer.h"
+#import "MPlayerX-Swift.h"
 
 @class LogAnalyzer, ParameterManager, MovieInfo, PlayerCore, SubConverter;
 

@@ -5,7 +5,6 @@
 //  new Swift files require it -- keep it minimal, not a blanket umbrella.
 //
 
-#import "ParameterManager.h"
 #import "CocoaAppendix.h"
 #import "KeyCode.h"
 #import "UserDefaults.h"
