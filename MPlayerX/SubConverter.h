@@ -19,7 +19,7 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import "coredef_private.h"
+#import "coredef.h"
 
 @class UniversalDetector, SubConverter;
 

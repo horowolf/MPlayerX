@@ -21,7 +21,7 @@
 #import "AppController.h"
 #import "UserDefaults.h"
 #import "CocoaAppendix.h"
-#import "PlayerController.h"
+#import "MPlayerX-Swift.h"
 #import "LocalizedStrings.h"
 #import "RootLayerView.h"
 #import "SPMediaKeyTap.h"

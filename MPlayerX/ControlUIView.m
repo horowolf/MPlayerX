@@ -23,10 +23,10 @@
 #import "LocalizedStrings.h"
 #import "ControlUIView.h"
 #import "RootLayerView.h"
-#import "PlayerController.h"
 #import "OsdText.h"
 #import "TitleView.h"
 #import "CocoaAppendix.h"
+#import "PlayerControllerConstants.h"
 #import "MPlayerX-Swift.h"
 #import "DisplayLayer.h"
 

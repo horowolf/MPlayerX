@@ -26,7 +26,7 @@ NSString * const kX86_64Key	= @"x86_64";
 NSString * const kArm64Key	= @"arm64";
 
 // formerly defined alongside ParameterManager's other -demuxer values; kept
-// here since PlayerController.m (still ObjC) references it directly
+// here since PlayerController.swift references it via the bridging header
 NSString * const kPMValDemuxFFMpeg	= @"lavf";
 
 // KeyPath of the properties observed via KVO

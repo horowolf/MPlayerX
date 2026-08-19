@@ -24,12 +24,11 @@
 #import "RootLayerView.h"
 #import "DisplayLayer.h"
 #import "ControlUIView.h"
-#import "PlayerController.h"
-#import "ShortCutManager.h"
 #import "OsdText.h"
 #import "TitleView.h"
 #import "CocoaAppendix.h"
 #import "MPXAccessibilityConstants.h"
+#import "PlayerControllerConstants.h"
 #import "MPlayerX-Swift.h"
 
 #define kOnTopModeNormal		(0)

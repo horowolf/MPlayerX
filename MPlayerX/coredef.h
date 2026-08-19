@@ -135,10 +135,6 @@ extern NSString * const kArm64Key;
 
 extern NSString * const kPMValDemuxFFMpeg;
 
-extern NSString * const kMPCPlayStoppedByForceKey;
-extern NSString * const kMPCPlayStoppedTimeKey;
-
-
 // KeyPath of the properties observed via KVO
 extern NSString * const kKVOPropertyKeyPathCurrentTime;
 extern NSString * const kKVOPropertyKeyPathLength;
