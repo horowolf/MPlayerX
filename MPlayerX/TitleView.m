@@ -302,14 +302,24 @@ static NSRect trackRect;
 		@try {
 			NSSize dotSize = [kStringDots sizeWithAttributes:titleAttr];
 			NSSize strSize = [renderStr sizeWithAttributes:titleAttr];
-			float widthMax = titleSize.width - 80;
+			// The 80pt subtracted here is the chrome budget on either side of the
+			// title, but the window can end up narrower than that (a resize gone
+			// wrong will do it), which makes widthMax negative -- and then no
+			// amount of trimming ever satisfies the loop below. The original code
+			// assumed "a title of fewer than 3 characters is never wider than
+			// widthMax" and deleted characters without checking the length, which
+			// walks off the end of the string and throws
+			// -[__NSCFString deleteCharactersInRange:]: Range or index out of
+			// bounds. Clamp the budget and check the length on every deletion.
+			float widthMax = MAX(0.0f, titleSize.width - 80);
 
 			if (strSize.width > widthMax) {
-				// the title less than 3 characters should be never longer than widMax,
-				// so it is safe to delete the first three chars, without checking
-				[renderStr deleteCharactersInRange:NSMakeRange(0, 2)];
+				if ([renderStr length] > 2) {
+					[renderStr deleteCharactersInRange:NSMakeRange(0, 2)];
+					strSize = [renderStr sizeWithAttributes:titleAttr];
+				}
 
-				while (dotSize.width + strSize.width > widthMax) {
+				while (([renderStr length] > 0) && (dotSize.width + strSize.width > widthMax)) {
 					[renderStr deleteCharactersInRange:NSMakeRange(0, 1)];
 					strSize = [renderStr sizeWithAttributes:titleAttr];
 				}
