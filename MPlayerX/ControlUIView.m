@@ -28,7 +28,6 @@
 #import "CocoaAppendix.h"
 #import "PlayerControllerConstants.h"
 #import "MPlayerX-Swift.h"
-#import "DisplayLayer.h"
 
 #define CONTROLALPHA		(1)
 #define BACKGROUNDALPHA		(0.9)

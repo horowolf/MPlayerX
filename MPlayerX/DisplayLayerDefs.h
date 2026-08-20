@@ -1,5 +1,5 @@
 /*
- * MPlayerX - MPApplication.m
+ * MPlayerX - DisplayLayerDefs.h
  *
  * Copyright (C) 2009 - 2011, Zongyao QU
  * 
@@ -18,22 +18,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import "MPApplication.h"
-#import "CocoaAppendix.h"
-#import "def.h"
-#import "SPMediaKeyTap.h"
+// The two aspect-ratio macros that used to live in DisplayLayer.h, kept in a
+// header of their own now that DisplayLayer itself is Swift. Only the ObjC
+// files that are still waiting to be ported need them (RootLayerView); Swift
+// code uses kDisplayAspectRatioInvalid / IsDisplayLayerAspectValid() from
+// DisplayLayer.swift instead. Delete this header once RootLayerView is Swift.
 
-@implementation MPApplication
+// this value must be less than 0; internally it is actually compared against 0
+#define kDisplayAscpectRatioInvalid		(-1)
 
--(void) sendEvent:(NSEvent*)theEvent
-{
-	// If event tap is not installed, handle events that reach the app instead	
-	if((![SPMediaKeyTap usesGlobalMediaKeyTap]) && 
-	   [theEvent type] == NSSystemDefined && 
-	   [theEvent subtype] == SPSystemDefinedEventMediaKeys) {
-		[(id)[self delegate] mediaKeyTap:nil receivedMediaKeyEvent:theEvent];
-	}
-	[super sendEvent:theEvent];
-}
-
-@end
+#define IsDisplayLayerAspectValid(x)	(x > 0)

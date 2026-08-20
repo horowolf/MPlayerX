@@ -21,6 +21,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		04EC0970D1249F816B34A4CF /* DisplayLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A862170477A7C6F73665DC53 /* DisplayLayer.swift */; };
 		0DE4095609815203ADBC268F /* nsMBCSGroupProber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 34E984D277914F6124E3975D /* nsMBCSGroupProber.cpp */; };
 		15DA74489596FD2026B579E4 /* FloatWrapFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FB25592BB48AF4674AF62A /* FloatWrapFormatter.swift */; };
 		167BE07D1F78188C3546A270 /* TimeFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3762D2FA60977F874CA9E12D /* TimeFormatter.swift */; };
@@ -43,6 +44,7 @@
 		62AD8EDB0CF27ED793308C7C /* PlayingInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E1759EDE3F25607D8673421 /* PlayingInfo.swift */; };
 		66DDEC454A8353CBD33109C8 /* nsHebrewProber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C557FD16413CFBBBA9507296 /* nsHebrewProber.cpp */; };
 		72E6E934A04A61C702917C8F /* nsUniversalDetector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B6303A2C7A7807D62F06DD4C /* nsUniversalDetector.cpp */; };
+		73E8D40222DBFFD5047376E4 /* MPApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EBFE6FE5A4CABD195BC6AC5 /* MPApplication.swift */; };
 		7C6BFF64945B7DA9C7D68070 /* nsEUCKRProber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FC676B12B21F345C48BCB4A3 /* nsEUCKRProber.cpp */; };
 		7E96E328EFEDE9D449957473 /* ResizeIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E6B45C02F3612821C3DC3ED /* ResizeIndicator.swift */; };
 		7F3AE25EC81C2946816CFF24 /* SubInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BC4F86EFB3B23C873469F2 /* SubInfo.swift */; };
@@ -52,8 +54,8 @@
 		86030A9311F1E00600F8D1E8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 86030A9211F1E00600F8D1E8 /* Localizable.strings */; };
 		86034C3210D13DBF001CB180 /* fold.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 86034C3010D13DBF001CB180 /* fold.pdf */; };
 		86034C3310D13DBF001CB180 /* unfold.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 86034C3110D13DBF001CB180 /* unfold.pdf */; };
-		8605F0D6137E67FE00317941 /* MPApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 8605F0D5137E67FE00317941 /* MPApplication.m */; };
-		8608652E10BA55CE00459392 /* DisplayLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8608652B10BA55CE00459392 /* DisplayLayer.m */; };
+		8605F0D6137E67FE00317941 /* BuildFile in Sources */ = {isa = PBXBuildFile; };
+		8608652E10BA55CE00459392 /* BuildFile in Sources */ = {isa = PBXBuildFile; };
 		8608652F10BA55CE00459392 /* RootLayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8608652D10BA55CE00459392 /* RootLayerView.m */; };
 		8608653910BA56A700459392 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8608653810BA56A700459392 /* OpenGL.framework */; };
 		8608654010BA56C100459392 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8608653F10BA56C100459392 /* QuartzCore.framework */; };
@@ -121,7 +123,7 @@
 		8644F0F5BC4CA15AC91F9647 /* nsEscCharsetProber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 73E3ADF95923D264249F4257 /* nsEscCharsetProber.cpp */; };
 		865845171346D7E900570BA6 /* def.m in Sources */ = {isa = PBXBuildFile; fileRef = 865845161346D7E900570BA6 /* def.m */; };
 		8658451B1346D8E300570BA6 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8658451A1346D8E300570BA6 /* ApplicationServices.framework */; };
-		865A5D2A12CA0E100021CF8E /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 865A5D2912CA0E100021CF8E /* AppController.m */; };
+		865A5D2A12CA0E100021CF8E /* BuildFile in Sources */ = {isa = PBXBuildFile; };
 		8661414210FA2B7E007F36DA /* SubConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8661414110FA2B7E007F36DA /* SubConverter.m */; };
 		86689CA511304163009DA72C /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 86689CA411304163009DA72C /* logo.png */; };
 		8670CC1F1418E32B009EDB63 /* close-active-graphite-lion.png in Resources */ = {isa = PBXBuildFile; fileRef = 8670CC161418E32B009EDB63 /* close-active-graphite-lion.png */; };
@@ -192,6 +194,7 @@
 		C4BB858093EC8CBFC01DEE05 /* nsUTF8Prober.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 79B3F86699FE548A081FB653 /* nsUTF8Prober.cpp */; };
 		C9A0D00BBC4AD46C8961B00E /* UniversalDetector.m in Sources */ = {isa = PBXBuildFile; fileRef = A4BE853F2F7306E6E333A0B8 /* UniversalDetector.m */; };
 		CADC80ECD150764F94A2FB01 /* VideoInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDD8A0D3276B744B711C776 /* VideoInfo.swift */; };
+		D3158B5BBCE542FB19A42ADD /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E5D7EC64E5FE43830AD279 /* AppController.swift */; };
 		D7C68EE3B6759A2885FBCF2C /* nsEUCJPProber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2799923CF7862B6B945AAA2E /* nsEUCJPProber.cpp */; };
 		D9F73E2CE5FBD5E8DC0F3FF0 /* nsSBCSGroupProber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8098742A8D4221954DDB31DB /* nsSBCSGroupProber.cpp */; };
 		DCBE4C52180D79FB410C4134 /* nsCharSetProber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57F43165D751EFB4D226967F /* nsCharSetProber.cpp */; };
@@ -256,6 +259,7 @@
 		648205113B2FA95CBD503DD7 /* nsGB2312Prober.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = nsGB2312Prober.cpp; path = ../UniversalDetector/universalchardet/src/base/nsGB2312Prober.cpp; sourceTree = "<group>"; };
 		6E1759EDE3F25607D8673421 /* PlayingInfo.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PlayingInfo.swift; sourceTree = "<group>"; };
 		73E3ADF95923D264249F4257 /* nsEscCharsetProber.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = nsEscCharsetProber.cpp; path = ../UniversalDetector/universalchardet/src/base/nsEscCharsetProber.cpp; sourceTree = "<group>"; };
+		773B4DD6010734D52CD6ADE4 /* DisplayLayerDefs.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = DisplayLayerDefs.h; sourceTree = "<group>"; };
 		79A968D5DF4F93B97BA9AB5A /* DOBridge.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = DOBridge.h; sourceTree = "<group>"; };
 		79B1CFFDFB437BDD2D548709 /* CoreController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CoreController.swift; sourceTree = "<group>"; };
 		79B3F86699FE548A081FB653 /* nsUTF8Prober.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = nsUTF8Prober.cpp; path = ../UniversalDetector/universalchardet/src/base/nsUTF8Prober.cpp; sourceTree = "<group>"; };
@@ -266,11 +270,7 @@
 		86030A8E11F1DFA300F8D1E8 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		86034C3010D13DBF001CB180 /* fold.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = fold.pdf; sourceTree = "<group>"; };
 		86034C3110D13DBF001CB180 /* unfold.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = unfold.pdf; sourceTree = "<group>"; };
-		8605F0D4137E67FE00317941 /* MPApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPApplication.h; sourceTree = "<group>"; };
-		8605F0D5137E67FE00317941 /* MPApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPApplication.m; sourceTree = "<group>"; };
 		8608645C10BA533400459392 /* binaries */ = {isa = PBXFileReference; lastKnownFileType = folder; path = binaries; sourceTree = SOURCE_ROOT; };
-		8608652A10BA55CE00459392 /* DisplayLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = DisplayLayer.h; sourceTree = "<group>"; };
-		8608652B10BA55CE00459392 /* DisplayLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = DisplayLayer.m; sourceTree = "<group>"; };
 		8608652C10BA55CE00459392 /* RootLayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = RootLayerView.h; sourceTree = "<group>"; };
 		8608652D10BA55CE00459392 /* RootLayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RootLayerView.m; sourceTree = "<group>"; };
 		8608653810BA56A700459392 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
@@ -350,8 +350,6 @@
 		865845151346D7E900570BA6 /* def.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = def.h; sourceTree = "<group>"; };
 		865845161346D7E900570BA6 /* def.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = def.m; sourceTree = "<group>"; };
 		8658451A1346D8E300570BA6 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
-		865A5D2812CA0E100021CF8E /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
-		865A5D2912CA0E100021CF8E /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppController.m; sourceTree = "<group>"; };
 		8661414010FA2B7E007F36DA /* SubConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SubConverter.h; sourceTree = "<group>"; };
 		8661414110FA2B7E007F36DA /* SubConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SubConverter.m; sourceTree = "<group>"; };
 		86689CA411304163009DA72C /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
@@ -422,9 +420,11 @@
 		92AE2AF80B909C1626F81CBA /* MPlayerX-Bridging-Header.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MPlayerX-Bridging-Header.h"; sourceTree = "<group>"; };
 		9E39F706D315F4EC539C460C /* LangCyrillicModel.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = LangCyrillicModel.cpp; path = ../UniversalDetector/universalchardet/src/base/LangCyrillicModel.cpp; sourceTree = "<group>"; };
 		9E6B45C02F3612821C3DC3ED /* ResizeIndicator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ResizeIndicator.swift; sourceTree = "<group>"; };
+		9EBFE6FE5A4CABD195BC6AC5 /* MPApplication.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MPApplication.swift; sourceTree = "<group>"; };
 		9F8746959C91B9ABFB083731 /* kludge.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; name = kludge.c; path = ../UniversalDetector/kludge/kludge.c; sourceTree = "<group>"; };
 		A2ED895ABB137EAE9AC3648D /* ChapterItem.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ChapterItem.swift; sourceTree = "<group>"; };
 		A4BE853F2F7306E6E333A0B8 /* UniversalDetector.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = UniversalDetector.m; path = ../UniversalDetector/UniversalDetector.m; sourceTree = "<group>"; };
+		A862170477A7C6F73665DC53 /* DisplayLayer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DisplayLayer.swift; sourceTree = "<group>"; };
 		B6303A2C7A7807D62F06DD4C /* nsUniversalDetector.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = nsUniversalDetector.cpp; path = ../UniversalDetector/universalchardet/src/base/nsUniversalDetector.cpp; sourceTree = "<group>"; };
 		BF0D532D7807322D0281BF12 /* MovieInfo.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MovieInfo.swift; sourceTree = "<group>"; };
 		C18EECDE18DA3D2C9115390F /* DOBridge.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = DOBridge.m; sourceTree = "<group>"; };
@@ -439,6 +439,7 @@
 		DB0CA16725281BF9D0D36789 /* ShortCutManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ShortCutManager.swift; sourceTree = "<group>"; };
 		DB8442964058C97B6391B61F /* PlayListController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PlayListController.swift; sourceTree = "<group>"; };
 		DF3D9339AAB58CB52F5DE35B /* nsSJISProber.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = nsSJISProber.cpp; path = ../UniversalDetector/universalchardet/src/base/nsSJISProber.cpp; sourceTree = "<group>"; };
+		E2E5D7EC64E5FE43830AD279 /* AppController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppController.swift; sourceTree = "<group>"; };
 		F29E88D794EA2732C94EFEFB /* nsEscSM.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = nsEscSM.cpp; path = ../UniversalDetector/universalchardet/src/base/nsEscSM.cpp; sourceTree = "<group>"; };
 		F758CF97DA54F28E18835F0F /* WrappedUniversalDetector.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = WrappedUniversalDetector.cpp; path = ../UniversalDetector/WrappedUniversalDetector.cpp; sourceTree = "<group>"; };
 		F777EED89E6DEBD653E51B84 /* nsLatin1Prober.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = nsLatin1Prober.cpp; path = ../UniversalDetector/universalchardet/src/base/nsLatin1Prober.cpp; sourceTree = "<group>"; };
@@ -603,8 +604,6 @@
 			children = (
 				8608652C10BA55CE00459392 /* RootLayerView.h */,
 				8608652D10BA55CE00459392 /* RootLayerView.m */,
-				8608652A10BA55CE00459392 /* DisplayLayer.h */,
-				8608652B10BA55CE00459392 /* DisplayLayer.m */,
 				86CA9E9C110094FE00A3CDBC /* OsdText.h */,
 				86CA9E9D110094FE00A3CDBC /* OsdText.m */,
 				861EE37B116718AF00D16C87 /* TitleView.h */,
@@ -614,6 +613,8 @@
 				8985C8FCA46920307FA6A499 /* MPXWindowButton.swift */,
 				9138AFA0FD13F684B22AD6A7 /* MPXAccessibilityConstants.h */,
 				59CE4B649B0C58959AC39FD5 /* MPXAccessibilityConstants.m */,
+				A862170477A7C6F73665DC53 /* DisplayLayer.swift */,
+				773B4DD6010734D52CD6ADE4 /* DisplayLayerDefs.h */,
 			);
 			name = Display;
 			sourceTree = "<group>";
@@ -839,10 +840,6 @@
 		86B99CFE10C93E4D00AB28FB /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				865A5D2812CA0E100021CF8E /* AppController.h */,
-				865A5D2912CA0E100021CF8E /* AppController.m */,
-				8605F0D4137E67FE00317941 /* MPApplication.h */,
-				8605F0D5137E67FE00317941 /* MPApplication.m */,
 				D4A7A66B514C6B797CEA8EC2 /* CharsetQueryController.swift */,
 				CEF8E035F4CC51F8C7C93120 /* OpenURLController.swift */,
 				FFA95FACCE3D139A8052DF98 /* InspectorController.swift */,
@@ -853,6 +850,8 @@
 				C5828034CC9EB0AC0D84E1F6 /* PlayerController.swift */,
 				22159A75E5BD17C5FC2AC98C /* PlayerControllerConstants.h */,
 				CD0F65CDB23BC39B6192DA1F /* PlayerControllerConstants.m */,
+				9EBFE6FE5A4CABD195BC6AC5 /* MPApplication.swift */,
+				E2E5D7EC64E5FE43830AD279 /* AppController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -1127,7 +1126,7 @@
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
 				86CAF23D10BA44DD00848B8E /* LogAnalyzeOperation.m in Sources */,
 				86CAF23E10BA44DD00848B8E /* LogAnalyzer.m in Sources */,
-				8608652E10BA55CE00459392 /* DisplayLayer.m in Sources */,
+				8608652E10BA55CE00459392 /* BuildFile in Sources */,
 				8608652F10BA55CE00459392 /* RootLayerView.m in Sources */,
 				86F4DADB10BC329F007AE56A /* ControlUIView.m in Sources */,
 				8609C25A10C693D500B102CE /* AppleRemote.m in Sources */,
@@ -1140,14 +1139,14 @@
 				86E7A8F11155E8980014155D /* CocoaAppendix.m in Sources */,
 				861EE37D116718AF00D16C87 /* TitleView.m in Sources */,
 				86C02AEF12309BCF004E8181 /* UserDefaults.m in Sources */,
-				865A5D2A12CA0E100021CF8E /* AppController.m in Sources */,
+				865A5D2A12CA0E100021CF8E /* BuildFile in Sources */,
 				865845171346D7E900570BA6 /* def.m in Sources */,
 				868CB5C81358710200EDC86F /* BGGradientTheme.m in Sources */,
 				868CB5C91358710200EDC86F /* BGHUDButtonCell.m in Sources */,
 				868CB5CA1358710200EDC86F /* BGHUDSliderCell.m in Sources */,
 				868CB5CB1358710200EDC86F /* BGTheme.m in Sources */,
 				868CB5CC1358710200EDC86F /* BGThemeManager.m in Sources */,
-				8605F0D6137E67FE00317941 /* MPApplication.m in Sources */,
+				8605F0D6137E67FE00317941 /* BuildFile in Sources */,
 				863C0FE013801A9A00B5C906 /* SPMediaKeyTap.m in Sources */,
 				863C0FE313801AAF00B5C906 /* NSObject+SPInvocationGrabbing.m in Sources */,
 				863702E4138EA4AB00FD13BE /* AODetector.m in Sources */,
@@ -1209,6 +1208,9 @@
 				A9523EFB1467FD8C0657B3FC /* PlayerController.swift in Sources */,
 				BB1B7F7E3730506D2862A681 /* PlayerControllerConstants.m in Sources */,
 				1C060787A467F43181ACA8EC /* ShortCutManager.swift in Sources */,
+				73E8D40222DBFFD5047376E4 /* MPApplication.swift in Sources */,
+				04EC0970D1249F816B34A4CF /* DisplayLayer.swift in Sources */,
+				D3158B5BBCE542FB19A42ADD /* AppController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

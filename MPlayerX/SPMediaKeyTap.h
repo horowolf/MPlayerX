@@ -29,7 +29,7 @@
 -(void)handleAndReleaseMediaKeyEvent:(NSEvent *)event;
 @end
 
-@interface NSObject (SPMediaKeyTapDelegate)
+@protocol SPMediaKeyTapDelegate <NSObject>
 -(void)mediaKeyTap:(SPMediaKeyTap*)keyTap receivedMediaKeyEvent:(NSEvent*)event;
 @end
 

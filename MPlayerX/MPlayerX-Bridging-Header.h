@@ -10,7 +10,7 @@
 #import "UserDefaults.h"
 #import "coredef.h"
 #import "def.h"
-#import "AppController.h"
+#import "SPMediaKeyTap.h"
 #import "TitleView.h"
 #import "MPXWindowButton.h"
 #import "MPXAccessibilityConstants.h"

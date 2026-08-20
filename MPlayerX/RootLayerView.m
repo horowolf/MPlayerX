@@ -22,7 +22,7 @@
 #import "UserDefaults.h"
 #import "KeyCode.h"
 #import "RootLayerView.h"
-#import "DisplayLayer.h"
+#import "DisplayLayerDefs.h"
 #import "ControlUIView.h"
 #import "OsdText.h"
 #import "TitleView.h"
@@ -155,7 +155,12 @@ BOOL doesPrimaryScreenHasScreenAbove( void )
 		shouldResize = NO;
 		rcBeforeFullScrn = [[self window] frame];
 		
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+		// DisplayLayer is marked deprecated because it is built on OpenGL;
+		// that is a known, deliberate state, not something to fix here.
 		dispLayer = [[DisplayLayer alloc] init];
+#pragma clang diagnostic pop
 		displaying = NO;
 		fullScreenOptions = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
 							 [NSNumber numberWithInt:NSApplicationPresentationAutoHideDock | NSApplicationPresentationAutoHideMenuBar], NSFullScreenModeApplicationPresentationOptions,
