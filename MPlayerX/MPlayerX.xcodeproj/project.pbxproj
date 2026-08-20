@@ -39,6 +39,7 @@
 		3C593AD8B38A2F1B17D0C6D8 /* nsEscSM.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F29E88D794EA2732C94EFEFB /* nsEscSM.cpp */; };
 		3D7669B9C6F818E9307911EC /* InspectorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA95FACCE3D139A8052DF98 /* InspectorController.swift */; };
 		3DA6B499791F3039B5490299 /* CharDistribution.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0F6EC57C5E2A62FAD783AB1F /* CharDistribution.cpp */; };
+		3F151960F737EB4D6A9EF9A8 /* ControlUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7821FAEBAC4917C5CA8317D9 /* ControlUIView.swift */; };
 		445412E3AE678C62A7AE1FEB /* PlayListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB8442964058C97B6391B61F /* PlayListController.swift */; };
 		481F41E866A3D76449F91601 /* OpenURLController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF8E035F4CC51F8C7C93120 /* OpenURLController.swift */; };
 		4F11621F9E016043901A5EFF /* MPXExceptionTrap.m in Sources */ = {isa = PBXBuildFile; fileRef = B29F513CE4B3130F4E1E67A5 /* MPXExceptionTrap.m */; };
@@ -164,7 +165,7 @@
 		86E7A8F11155E8980014155D /* CocoaAppendix.m in Sources */ = {isa = PBXBuildFile; fileRef = 86E7A8F01155E8980014155D /* CocoaAppendix.m */; };
 		86E7CEC5143C876500EF8CDD /* fullscreen-active-lion.png in Resources */ = {isa = PBXBuildFile; fileRef = 86E7CEC3143C876500EF8CDD /* fullscreen-active-lion.png */; };
 		86E7CEC6143C876500EF8CDD /* fullscreen-rollover-lion.png in Resources */ = {isa = PBXBuildFile; fileRef = 86E7CEC4143C876500EF8CDD /* fullscreen-rollover-lion.png */; };
-		86F4DADB10BC329F007AE56A /* ControlUIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86F4DADA10BC329F007AE56A /* ControlUIView.m */; };
+		86F4DADB10BC329F007AE56A /* BuildFile in Sources */ = {isa = PBXBuildFile; };
 		86F4DD8110BD6ECA007AE56A /* pause.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 86F4DD7F10BD6ECA007AE56A /* pause.pdf */; };
 		86F4DD8210BD6ECA007AE56A /* play.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 86F4DD8010BD6ECA007AE56A /* play.pdf */; };
 		86F6D4D210EB42620038895F /* doc_audio.icns in Resources */ = {isa = PBXBuildFile; fileRef = 86F6D4CF10EB42620038895F /* doc_audio.icns */; };
@@ -265,9 +266,8 @@
 		5D81BDDED649839E6177A387 /* UniversalDetector.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = UniversalDetector.h; path = ../UniversalDetector/UniversalDetector.h; sourceTree = "<group>"; };
 		648205113B2FA95CBD503DD7 /* nsGB2312Prober.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = nsGB2312Prober.cpp; path = ../UniversalDetector/universalchardet/src/base/nsGB2312Prober.cpp; sourceTree = "<group>"; };
 		6E1759EDE3F25607D8673421 /* PlayingInfo.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PlayingInfo.swift; sourceTree = "<group>"; };
-		709F709D4F920EE508D525F2 /* OsdTextDefs.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = OsdTextDefs.h; sourceTree = "<group>"; };
 		73E3ADF95923D264249F4257 /* nsEscCharsetProber.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = nsEscCharsetProber.cpp; path = ../UniversalDetector/universalchardet/src/base/nsEscCharsetProber.cpp; sourceTree = "<group>"; };
-		773B4DD6010734D52CD6ADE4 /* DisplayLayerDefs.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = DisplayLayerDefs.h; sourceTree = "<group>"; };
+		7821FAEBAC4917C5CA8317D9 /* ControlUIView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ControlUIView.swift; sourceTree = "<group>"; };
 		79A968D5DF4F93B97BA9AB5A /* DOBridge.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = DOBridge.h; sourceTree = "<group>"; };
 		79B1CFFDFB437BDD2D548709 /* CoreController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CoreController.swift; sourceTree = "<group>"; };
 		79B3F86699FE548A081FB653 /* nsUTF8Prober.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = nsUTF8Prober.cpp; path = ../UniversalDetector/universalchardet/src/base/nsUTF8Prober.cpp; sourceTree = "<group>"; };
@@ -405,8 +405,6 @@
 		86E7A8F01155E8980014155D /* CocoaAppendix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CocoaAppendix.m; sourceTree = "<group>"; };
 		86E7CEC3143C876500EF8CDD /* fullscreen-active-lion.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fullscreen-active-lion.png"; sourceTree = "<group>"; };
 		86E7CEC4143C876500EF8CDD /* fullscreen-rollover-lion.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fullscreen-rollover-lion.png"; sourceTree = "<group>"; };
-		86F4DAD910BC329F007AE56A /* ControlUIView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ControlUIView.h; sourceTree = "<group>"; };
-		86F4DADA10BC329F007AE56A /* ControlUIView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ControlUIView.m; sourceTree = "<group>"; };
 		86F4DD7F10BD6ECA007AE56A /* pause.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = pause.pdf; sourceTree = "<group>"; };
 		86F4DD8010BD6ECA007AE56A /* play.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = play.pdf; sourceTree = "<group>"; };
 		86F6D4CF10EB42620038895F /* doc_audio.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = doc_audio.icns; sourceTree = "<group>"; };
@@ -612,9 +610,7 @@
 				9138AFA0FD13F684B22AD6A7 /* MPXAccessibilityConstants.h */,
 				59CE4B649B0C58959AC39FD5 /* MPXAccessibilityConstants.m */,
 				A862170477A7C6F73665DC53 /* DisplayLayer.swift */,
-				773B4DD6010734D52CD6ADE4 /* DisplayLayerDefs.h */,
 				DF36D0C146C095095DFB280C /* OsdText.swift */,
-				709F709D4F920EE508D525F2 /* OsdTextDefs.h */,
 				235B237011CA27554C4FE435 /* TitleView.swift */,
 				B29F513CE4B3130F4E1E67A5 /* MPXExceptionTrap.m */,
 				31B9591AA95D7C5FB75C6742 /* MPXExceptionTrap.h */,
@@ -906,9 +902,8 @@
 		86F4DAD810BC3272007AE56A /* ControlUI */ = {
 			isa = PBXGroup;
 			children = (
-				86F4DAD910BC329F007AE56A /* ControlUIView.h */,
-				86F4DADA10BC329F007AE56A /* ControlUIView.m */,
 				9E6B45C02F3612821C3DC3ED /* ResizeIndicator.swift */,
+				7821FAEBAC4917C5CA8317D9 /* ControlUIView.swift */,
 			);
 			name = ControlUI;
 			sourceTree = "<group>";
@@ -1132,7 +1127,7 @@
 				86CAF23E10BA44DD00848B8E /* LogAnalyzer.m in Sources */,
 				8608652E10BA55CE00459392 /* BuildFile in Sources */,
 				8608652F10BA55CE00459392 /* BuildFile in Sources */,
-				86F4DADB10BC329F007AE56A /* ControlUIView.m in Sources */,
+				86F4DADB10BC329F007AE56A /* BuildFile in Sources */,
 				8609C25A10C693D500B102CE /* AppleRemote.m in Sources */,
 				8609C25B10C693D500B102CE /* HIDRemoteControlDevice.m in Sources */,
 				8609C25D10C693D500B102CE /* RemoteControl.m in Sources */,
@@ -1219,6 +1214,7 @@
 				27F900B4A61D7C276AB9A6AB /* TitleView.swift in Sources */,
 				4F11621F9E016043901A5EFF /* MPXExceptionTrap.m in Sources */,
 				A11DFFA48F2B4827C43D8F34 /* RootLayerView.swift in Sources */,
+				3F151960F737EB4D6A9EF9A8 /* ControlUIView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

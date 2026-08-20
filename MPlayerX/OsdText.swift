@@ -26,6 +26,15 @@ private let kOSDAutoHideTimeInterval: Float = 5
 private let kOSDFontSizeMinDefault: Float = 24
 private let kOSDFontSizeMaxDefault: Float = 48
 
+/// Was a plain C enum in OsdTextDefs.h while ControlUIView and RootLayerView
+/// were still ObjC and needed the bare kOSDOwner* spellings; both are Swift
+/// now, so it lives here.
+@objc(OSDOWNER)
+enum OSDOWNER: Int {
+	case time = 1
+	case other = 2
+}
+
 @objc(OsdText)
 class OsdText: NSTextField {
 
@@ -33,7 +42,7 @@ class OsdText: NSTextField {
 
 	private var activeValue = false
 	private var shouldHide = true
-	private var ownerValue = kOSDOwnerOther
+	private var ownerValue = OSDOWNER.other
 
 	/// Renamed from the original's `shadow` ivar: NSView already has a `shadow`
 	/// property, which the ObjC ivar quietly shadowed without ever touching.
