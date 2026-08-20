@@ -104,31 +104,24 @@ private func realVolume(_ x: Float) -> Float { 0.01 * x * x }
 let kMPCPlayStoppedByForceKey = "kMPCPlayStoppedByForceKey"
 let kMPCPlayStoppedTimeKey = "kMPCPlayStoppedTimeKey"
 
-// The Distant Object protocol the patched mplayer binary's vo_corevideo
-// talks to. Declared here (rather than as a bare ObjC @protocol the way the
-// original CoreController.m had it) so it can be handed to `conforms(to:)`;
-// see the comment there for why the override exists at all. bycopy has no
-// effect on any of these scalar parameters, so it's dropped -- see the
-// stage-D-part-2 HANDOFF notes for the full reasoning on why that, and the
-// dropped `int`/`NSUInteger`/`OSType`/`float` Swift type choices below, are
-// safe: mplayer's own compiled-in copy of this protocol is what actually
-// determines the wire format, and scalar argument marshalling only depends
-// on matching primitive type encodings (UInt<->NSUInteger, UInt32<->OSType,
-// Float<->float, Int32<->int), which is preserved exactly.
-@objc private protocol MPlayerOSXVOProto: NSObjectProtocol {
-	func start(withWidth width: UInt, withHeight height: UInt, withPixelFormat pixelFormat: UInt32, withAspect aspect: Float) -> Int32
-	func stop()
-	func render(_ frameNum: UInt)
-	func toggleFullscreen()
-	func ontop()
-	// Upstream mplayer's vo_corevideo speaks a slightly different dialect of this
-	// protocol than the patched build MPlayerX used to ship: it reports bytes per
-	// pixel rather than a pixel format, gives the aspect as an integer scaled by
-	// 100, renders a single shared buffer rather than two, and takes no frame
-	// number. Both spellings are declared so either binary can drive MPlayerX.
-	func start(withWidth width: Int32, withHeight height: Int32, withBytes bytes: Int32, withAspect aspect: Int32) -> Int32
-	func render()
-}
+// The Distant Object surface that the mplayer child process's vo_corevideo
+// drives lives in CoreControllerVOProto.m, not here. It has to: every method
+// in mplayer's own copy of @protocol MPlayerOSXVOProto qualifies its scalar
+// arguments with `bycopy`, and clang bakes that qualifier into the emitted
+// method type encoding ("i32@0:8Oi16Oi20Oi24Oi28", note the `O` prefixes).
+// NSConnection compares the incoming invocation's signature against the
+// server object's method signature byte for byte, and Swift has no way to
+// spell `bycopy`, so a Swift @objc implementation is rejected on arrival with
+// "Object does not implement or has different method signature for selector".
+// The same file also owns `conformsToProtocol:` and the @protocol declaration
+// itself: mplayer's `[proxy conformsToProtocol:@protocol(MPlayerOSXVOProto)]`
+// makes DO look the protocol up in this process by name, and a Swift
+// `@objc protocol` gets a mangled runtime name
+// (_TtP8MPlayerXP33_..17MPlayerOSXVOProto_), so the lookup would find nothing
+// and the handshake would fail before any frame was ever sent.
+//
+// Everything below the ObjC forwarding layer stays here, reached through the
+// vo*-prefixed @objc methods further down.
 
 @objc(CoreController)
 class CoreController: NSObject, LogAnalyzerDelegate, PlayerCoreDelegate {
@@ -170,6 +163,11 @@ class CoreController: NSObject, LogAnalyzerDelegate, PlayerCoreDelegate {
 	// be passed to Thread(target:selector:object:); never reassigned or nil'd
 	// afterwards, so force-unwrapping at every other use site is safe.
 	private var renderThread: Thread!
+	// The DO service connection created on the render thread. The ObjC original
+	// retained it explicitly; keeping it in a property does the same job and
+	// makes the lifetime independent of how ARC decides to schedule the release
+	// of a local in renderRoutine() (whose run loop never returns).
+	private var renderConn: NSObject?
 
 	private var pollingTimer: Timer?
 
@@ -213,11 +211,18 @@ class CoreController: NSObject, LogAnalyzerDelegate, PlayerCoreDelegate {
 		let la = LogAnalyzer()
 		self.la = la
 
-		// The ObjC original named the shared-memory segment after self's own
-		// pointer value (purely to be unique per instance, since there's only
-		// ever one CoreController); a globally-unique string does the same job
-		// without needing `self`, which isn't usable yet at this point in init.
-		sharedBufferName = "MPlayerX_" + ProcessInfo.processInfo.globallyUniqueString
+		// Names the POSIX shared-memory segment (and, with it, the DO service
+		// mplayer connects back to). The ObjC original used self's own pointer
+		// value, purely to be unique per instance; `self` isn't usable this
+		// early in init, so pid + a random word gives the same guarantee.
+		//
+		// It has to stay SHORT: shm_open() on macOS caps names at PSHMNAMLEN
+		// (31 characters) and fails the whole segment with ENAMETOOLONG past
+		// that -- which mplayer reports only as "FATAL: Cannot initialize video
+		// driver", with no hint about the name. "MPlayerX_" + two hex words is
+		// at most 26. (A ProcessInfo.globallyUniqueString here would be 68 and
+		// silently break all video output.)
+		sharedBufferName = String(format: "MPlayerX_%X_%X", getpid(), UInt32.random(in: 0 ... UInt32.max))
 
 		super.init()
 
@@ -245,20 +250,10 @@ class CoreController: NSObject, LogAnalyzerDelegate, PlayerCoreDelegate {
 	@objc private func renderRoutine() {
 		autoreleasepool {
 			let rl = RunLoop.current
-			let renderConn = MPXStartServiceConnection(sharedBufferName, self)
-			_ = renderConn
+			renderConn = MPXStartServiceConnection(sharedBufferName, self)
 
 			rl.run()
 		}
-	}
-
-	// MARK: Hack to get communicate with mplayer
-
-	@objc override func conforms(to aProtocol: Protocol) -> Bool {
-		if aProtocol === (MPlayerOSXVOProto.self as Protocol) {
-			return true
-		}
-		return super.conforms(to: aProtocol)
 	}
 
 	// MARK: communication with playerCore (PlayerCoreDelegate)
@@ -268,7 +263,7 @@ class CoreController: NSObject, LogAnalyzerDelegate, PlayerCoreDelegate {
 		// and stop always happens before mplayer really exit
 		// so imageData is there means stop is forgotten
 		if imageData != nil {
-			perform(#selector(stop), on: renderThread, with: nil, waitUntilDone: true,
+			perform(#selector(voStop), on: renderThread, with: nil, waitUntilDone: true,
 					modes: [RunLoop.Mode.default.rawValue, RunLoop.Mode.modalPanel.rawValue, RunLoop.Mode.eventTracking.rawValue])
 		}
 
@@ -310,8 +305,10 @@ class CoreController: NSObject, LogAnalyzerDelegate, PlayerCoreDelegate {
 
 	// MARK: protocol for render
 
-	@objc(startWithWidth:withHeight:withBytes:withAspect:)
-	private func start(withWidth width: Int32, withHeight height: Int32, withBytes bytes: Int32, withAspect aspect: Int32) -> Int32 {
+	// Called from CoreControllerVOProto.m; see the comment at the top of this
+	// file for why the DO-facing selectors themselves have to live in ObjC.
+	@objc(voStartWithWidth:height:bytes:aspect:)
+	func voStart(withWidth width: Int32, height: Int32, bytes: Int32, aspect: Int32) -> Int32 {
 		// Upstream mplayer's entry point. It reports bytes per pixel instead of a
 		// pixel format, so the format has to be inferred. The mapping is ambiguous
 		// in principle -- vo_corevideo accepts YUY2 and UYVY at two bytes, and ARGB
@@ -332,8 +329,8 @@ class CoreController: NSObject, LogAnalyzerDelegate, PlayerCoreDelegate {
 					 withAspect: Float(aspect) / 100.0, bufferCount: 1)
 	}
 
-	@objc(startWithWidth:withHeight:withPixelFormat:withAspect:)
-	private func start(withWidth width: UInt, withHeight height: UInt, withPixelFormat pixelFormat: OSType, withAspect aspect: Float) -> Int32 {
+	@objc(voStartWithWidth:height:pixelFormat:aspect:)
+	func voStart(withWidth width: UInt, height: UInt, pixelFormat: OSType, aspect: Float) -> Int32 {
 		// MPlayerX's own mplayer build double-buffers the shared memory.
 		return start(withWidth: width, withHeight: height, withPixelFormat: pixelFormat, withAspect: aspect, bufferCount: 2)
 	}
@@ -388,7 +385,8 @@ class CoreController: NSObject, LogAnalyzerDelegate, PlayerCoreDelegate {
 		}
 	}
 
-	@objc private func stop() {
+	@objc(voStop)
+	func voStop() {
 		if let dispDelegate = dispDelegate {
 			dispDelegate.coreControllerStop(self)
 		}
@@ -400,18 +398,10 @@ class CoreController: NSObject, LogAnalyzerDelegate, PlayerCoreDelegate {
 		}
 	}
 
-	@objc(render:)
-	private func render(_ frameNum: UInt) {
+	@objc(voRender:)
+	func voRender(_ frameNum: UInt) {
 		dispDelegate?.coreController(self, draw: frameNum)
 	}
-
-	@objc private func render() {
-		// Upstream mplayer renders a single shared buffer and sends no frame number.
-		render(0)
-	}
-
-	@objc private func toggleFullscreen() { /* This function should be realized at up-level */ }
-	@objc private func ontop() { /* This function should be realized at up-level */ }
 
 	// MARK: playing thing
 
@@ -793,7 +783,14 @@ class CoreController: NSObject, LogAnalyzerDelegate, PlayerCoreDelegate {
 				// Currently this event is only triggered when playback starts, so a notification can be posted here
 				// but if it becomes a general-purpose event, posting a notification will need care!!!
 				let stateOld = state
-				state = (value as? NSNumber)?.int32Value ?? state
+				// LogAnalyzeOperation always hands back NSString values (it slices
+				// them straight out of mplayer's stdout), so this has to go
+				// through -intValue like the ObjC original did. Bridging it as
+				// NSNumber silently fails and leaves `state` stuck at
+				// kMPCOpenedState, which strands the whole UI: the play/pause
+				// button never flips, and getCurrentTime: stops polling
+				// get_time_pos, so the time slider never moves.
+				state = (value as? NSString)?.intValue ?? state
 				if ((stateOld & kMPCStateMask) == 0) && ((state & kMPCStateMask) != 0) {
 					delegate?.playbackStarted(self)
 				}

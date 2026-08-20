@@ -25,14 +25,27 @@
 
 @synthesize delegate;
 
--(id) initWithDelegate:(id<LogAnalyzerDelegate>) obj
+-(id) init
 {
 	self = [super init];
-	
+
+	if (self) {
+		// Queue for parsing the log. This has to happen in -init, not only in
+		// -initWithDelegate:, or a plain [[LogAnalyzer alloc] init] silently
+		// leaves queue == nil -- and since -addOperation: on nil is a no-op,
+		// every line of mplayer's output would be dropped without a single
+		// error: no playback state, no time updates, no track info.
+		queue = [[NSOperationQueue alloc] init];
+	}
+	return self;
+}
+
+-(id) initWithDelegate:(id<LogAnalyzerDelegate>) obj
+{
+	self = [self init];
+
 	if (self) {
 		delegate = obj;
-		// Queue for parsing the log
-		queue = [[NSOperationQueue alloc] init];
 	}
 	return self;
 }

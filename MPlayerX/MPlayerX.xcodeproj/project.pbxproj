@@ -25,6 +25,7 @@
 		15DA74489596FD2026B579E4 /* FloatWrapFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FB25592BB48AF4674AF62A /* FloatWrapFormatter.swift */; };
 		167BE07D1F78188C3546A270 /* TimeFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3762D2FA60977F874CA9E12D /* TimeFormatter.swift */; };
 		177FC50EB38793AAAABE784A /* DOBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = C18EECDE18DA3D2C9115390F /* DOBridge.m */; };
+		177FC50EB38793AAAABE785A /* CoreControllerVOProto.m in Sources */ = {isa = PBXBuildFile; fileRef = C18EECDE18DA3D2C9115391A /* CoreControllerVOProto.m */; };
 		17F003917D880576288B1C8D /* MPXWindowButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8985C8FCA46920307FA6A499 /* MPXWindowButton.swift */; };
 		1C060787A467F43181ACA8EC /* ShortCutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0CA16725281BF9D0D36789 /* ShortCutManager.swift */; };
 		230883A51D6D456AF2AD1D5C /* ArrowTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540849AC6DFD80F2C503F5A1 /* ArrowTextField.swift */; };
@@ -427,6 +428,7 @@
 		B6303A2C7A7807D62F06DD4C /* nsUniversalDetector.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = nsUniversalDetector.cpp; path = ../UniversalDetector/universalchardet/src/base/nsUniversalDetector.cpp; sourceTree = "<group>"; };
 		BF0D532D7807322D0281BF12 /* MovieInfo.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MovieInfo.swift; sourceTree = "<group>"; };
 		C18EECDE18DA3D2C9115390F /* DOBridge.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = DOBridge.m; sourceTree = "<group>"; };
+		C18EECDE18DA3D2C9115391A /* CoreControllerVOProto.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = CoreControllerVOProto.m; sourceTree = "<group>"; };
 		C557FD16413CFBBBA9507296 /* nsHebrewProber.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = nsHebrewProber.cpp; path = ../UniversalDetector/universalchardet/src/base/nsHebrewProber.cpp; sourceTree = "<group>"; };
 		C5828034CC9EB0AC0D84E1F6 /* PlayerController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PlayerController.swift; sourceTree = "<group>"; };
 		CD0F65CDB23BC39B6192DA1F /* PlayerControllerConstants.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = PlayerControllerConstants.m; sourceTree = "<group>"; };
@@ -893,6 +895,7 @@
 				79B1CFFDFB437BDD2D548709 /* CoreController.swift */,
 				79A968D5DF4F93B97BA9AB5A /* DOBridge.h */,
 				C18EECDE18DA3D2C9115390F /* DOBridge.m */,
+				C18EECDE18DA3D2C9115391A /* CoreControllerVOProto.m */,
 			);
 			name = PlayerCore;
 			sourceTree = "<group>";
@@ -1202,6 +1205,7 @@
 				445412E3AE678C62A7AE1FEB /* PlayListController.swift in Sources */,
 				A0576F9B02D17772D82656C9 /* CoreController.swift in Sources */,
 				177FC50EB38793AAAABE784A /* DOBridge.m in Sources */,
+				177FC50EB38793AAAABE785A /* CoreControllerVOProto.m in Sources */,
 				A9523EFB1467FD8C0657B3FC /* PlayerController.swift in Sources */,
 				BB1B7F7E3730506D2862A681 /* PlayerControllerConstants.m in Sources */,
 				1C060787A467F43181ACA8EC /* ShortCutManager.swift in Sources */,
