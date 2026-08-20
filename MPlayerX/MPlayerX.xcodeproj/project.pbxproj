@@ -58,7 +58,7 @@
 		86034C3310D13DBF001CB180 /* unfold.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 86034C3110D13DBF001CB180 /* unfold.pdf */; };
 		8605F0D6137E67FE00317941 /* BuildFile in Sources */ = {isa = PBXBuildFile; };
 		8608652E10BA55CE00459392 /* BuildFile in Sources */ = {isa = PBXBuildFile; };
-		8608652F10BA55CE00459392 /* RootLayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8608652D10BA55CE00459392 /* RootLayerView.m */; };
+		8608652F10BA55CE00459392 /* BuildFile in Sources */ = {isa = PBXBuildFile; };
 		8608653910BA56A700459392 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8608653810BA56A700459392 /* OpenGL.framework */; };
 		8608654010BA56C100459392 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8608653F10BA56C100459392 /* QuartzCore.framework */; };
 		86086A5E10BAD0F400459392 /* binaries in Copy Binaries */ = {isa = PBXBuildFile; fileRef = 8608645C10BA533400459392 /* binaries */; };
@@ -183,6 +183,7 @@
 		9B989C8180C73F3AB7B92757 /* PrefController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530A58377EC3262A92D8C9ED /* PrefController.swift */; };
 		9D873541DFC81C3C4FD517BD /* nsEUCTWProber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1CF438D643BC20D977B07882 /* nsEUCTWProber.cpp */; };
 		A0576F9B02D17772D82656C9 /* CoreController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B1CFFDFB437BDD2D548709 /* CoreController.swift */; };
+		A11DFFA48F2B4827C43D8F34 /* RootLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C869A285CB6982CB1B63FD /* RootLayerView.swift */; };
 		A480BC7A498CEBC4999EFCEA /* PlayerWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C1F3244AAD51741F6FDE85 /* PlayerWindow.swift */; };
 		A9523EFB1467FD8C0657B3FC /* PlayerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5828034CC9EB0AC0D84E1F6 /* PlayerController.swift */; };
 		AAE0AD5742625D26BF4DCA0F /* AudioInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2049E0153776E592D174FD2A /* AudioInfo.swift */; };
@@ -244,6 +245,7 @@
 		208744B4A7EE175554C1D21F /* TimeSliderCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TimeSliderCell.swift; sourceTree = "<group>"; };
 		22159A75E5BD17C5FC2AC98C /* PlayerControllerConstants.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = PlayerControllerConstants.h; sourceTree = "<group>"; };
 		235B237011CA27554C4FE435 /* TitleView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TitleView.swift; sourceTree = "<group>"; };
+		23C869A285CB6982CB1B63FD /* RootLayerView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RootLayerView.swift; sourceTree = "<group>"; };
 		26349D05D41DF6C6AB7343CE /* LangHungarianModel.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = LangHungarianModel.cpp; path = ../UniversalDetector/universalchardet/src/base/LangHungarianModel.cpp; sourceTree = "<group>"; };
 		2799923CF7862B6B945AAA2E /* nsEUCJPProber.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = nsEUCJPProber.cpp; path = ../UniversalDetector/universalchardet/src/base/nsEUCJPProber.cpp; sourceTree = "<group>"; };
 		28FB25592BB48AF4674AF62A /* FloatWrapFormatter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FloatWrapFormatter.swift; sourceTree = "<group>"; };
@@ -277,8 +279,6 @@
 		86034C3010D13DBF001CB180 /* fold.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = fold.pdf; sourceTree = "<group>"; };
 		86034C3110D13DBF001CB180 /* unfold.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = unfold.pdf; sourceTree = "<group>"; };
 		8608645C10BA533400459392 /* binaries */ = {isa = PBXFileReference; lastKnownFileType = folder; path = binaries; sourceTree = SOURCE_ROOT; };
-		8608652C10BA55CE00459392 /* RootLayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = RootLayerView.h; sourceTree = "<group>"; };
-		8608652D10BA55CE00459392 /* RootLayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RootLayerView.m; sourceTree = "<group>"; };
 		8608653810BA56A700459392 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		8608653F10BA56C100459392 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		8609C03D10C676C800B102CE /* coredef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = coredef.h; sourceTree = "<group>"; };
@@ -606,8 +606,6 @@
 		8608652910BA557700459392 /* Display */ = {
 			isa = PBXGroup;
 			children = (
-				8608652C10BA55CE00459392 /* RootLayerView.h */,
-				8608652D10BA55CE00459392 /* RootLayerView.m */,
 				869A335F13D6EBFA0014B201 /* MPXWindowButton.h */,
 				D8C1F3244AAD51741F6FDE85 /* PlayerWindow.swift */,
 				8985C8FCA46920307FA6A499 /* MPXWindowButton.swift */,
@@ -620,6 +618,7 @@
 				235B237011CA27554C4FE435 /* TitleView.swift */,
 				B29F513CE4B3130F4E1E67A5 /* MPXExceptionTrap.m */,
 				31B9591AA95D7C5FB75C6742 /* MPXExceptionTrap.h */,
+				23C869A285CB6982CB1B63FD /* RootLayerView.swift */,
 			);
 			name = Display;
 			sourceTree = "<group>";
@@ -1132,7 +1131,7 @@
 				86CAF23D10BA44DD00848B8E /* LogAnalyzeOperation.m in Sources */,
 				86CAF23E10BA44DD00848B8E /* LogAnalyzer.m in Sources */,
 				8608652E10BA55CE00459392 /* BuildFile in Sources */,
-				8608652F10BA55CE00459392 /* RootLayerView.m in Sources */,
+				8608652F10BA55CE00459392 /* BuildFile in Sources */,
 				86F4DADB10BC329F007AE56A /* ControlUIView.m in Sources */,
 				8609C25A10C693D500B102CE /* AppleRemote.m in Sources */,
 				8609C25B10C693D500B102CE /* HIDRemoteControlDevice.m in Sources */,
@@ -1219,6 +1218,7 @@
 				E37D708A7739859607DA6532 /* OsdText.swift in Sources */,
 				27F900B4A61D7C276AB9A6AB /* TitleView.swift in Sources */,
 				4F11621F9E016043901A5EFF /* MPXExceptionTrap.m in Sources */,
+				A11DFFA48F2B4827C43D8F34 /* RootLayerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

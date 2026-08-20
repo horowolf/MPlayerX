@@ -31,11 +31,12 @@ let kDisplayAspectRatioInvalid: CGFloat = -1
 
 @inline(__always) func IsDisplayLayerAspectValid(_ x: CGFloat) -> Bool { x > 0 }
 
-/// The whole class is one big deprecated-OpenGL call site (CAOpenGLLayer,
-/// CGL*, CVOpenGLTextureCache, immediate-mode GL). Marking the class deprecated
-/// is what silences those warnings inside it -- Swift has no per-call pragma,
-/// and the C-level GL_SILENCE_DEPRECATION define does not apply to Swift.
-@available(macOS, deprecated: 10.14, message: "Built on the deprecated OpenGL stack; replacing it with Metal is a separate job")
+/// This class is one big deprecated-OpenGL call site (CAOpenGLLayer, CGL*,
+/// CVOpenGLTextureCache, immediate-mode GL). Swift has no per-call pragma and
+/// ignores the C-level GL_SILENCE_DEPRECATION define, so the suppression is
+/// done by marking the members that touch OpenGL deprecated. Marking the whole
+/// class instead would work too, but that marker reaches every caller and
+/// turns into a warning at each use of DisplayLayer.
 @objc(DisplayLayer)
 class DisplayLayer: CAOpenGLLayer {
 
@@ -44,6 +45,7 @@ class DisplayLayer: CAOpenGLLayer {
 	private var frames: [CVPixelBuffer] = []
 	private var frameNow: Int = -1
 
+	@available(macOS, deprecated: 10.14, message: "OpenGL")
 	private var cache: CVOpenGLTextureCache?
 
 	private var fmt = DisplayFormat()
@@ -303,6 +305,7 @@ class DisplayLayer: CAOpenGLLayer {
 	}
 
 	//////////////////////////////////////OpenGLLayer inherent/////////////////////////////////////
+	@available(macOS, deprecated: 10.14, message: "OpenGL")
 	override func copyCGLContext(forPixelFormat pf: CGLPixelFormatObj) -> CGLContextObj {
 		var i: GLint = 1
 
@@ -328,12 +331,14 @@ class DisplayLayer: CAOpenGLLayer {
 		return ctx
 	}
 
+	@available(macOS, deprecated: 10.14, message: "OpenGL")
 	override func releaseCGLContext(_ ctx: CGLContextObj) {
 		cache = nil
 
 		super.releaseCGLContext(ctx)
 	}
 
+	@available(macOS, deprecated: 10.14, message: "OpenGL")
 	override func draw(inCGLContext glContext: CGLContextObj,
 					   pixelFormat: CGLPixelFormatObj,
 					   forLayerTime timeInterval: CFTimeInterval,

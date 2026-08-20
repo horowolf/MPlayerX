@@ -22,7 +22,6 @@
 #import "KeyCode.h"
 #import "LocalizedStrings.h"
 #import "ControlUIView.h"
-#import "RootLayerView.h"
 #import "OsdTextDefs.h"
 #import "CocoaAppendix.h"
 #import "PlayerControllerConstants.h"
