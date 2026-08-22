@@ -5,7 +5,6 @@
 //  new Swift files require it -- keep it minimal, not a blanket umbrella.
 //
 
-#import "CocoaAppendix.h"
 #import "MPXExceptionTrap.h"
 #import "coredef.h"
 #import "SPMediaKeyTap.h"

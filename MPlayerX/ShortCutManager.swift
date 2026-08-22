@@ -102,9 +102,13 @@ class ShortCutManager: NSObject {
 		case NSNotification.Name.mpxMediaKeyPlayPause:
 			controlUI?.togglePlayPause(nil)
 		case NSNotification.Name.mpxMediaKeyForward:
-			_ = mainMenu?.performKeyEquivalent(with: NSEvent.makeKeyDownEvent(kSCMNextEpisodeKeyEquivalent, modifierFlags: 0))
+			if let ev = NSEvent.makeKeyDownEvent(kSCMNextEpisodeKeyEquivalent, modifierFlags: 0) {
+				_ = mainMenu?.performKeyEquivalent(with: ev)
+			}
 		case NSNotification.Name.mpxMediaKeyBackward:
-			_ = mainMenu?.performKeyEquivalent(with: NSEvent.makeKeyDownEvent(kSCMPrevEpisodeKeyEquivalent, modifierFlags: 0))
+			if let ev = NSEvent.makeKeyDownEvent(kSCMPrevEpisodeKeyEquivalent, modifierFlags: 0) {
+				_ = mainMenu?.performKeyEquivalent(with: ev)
+			}
 		default:
 			break
 		}
@@ -261,13 +265,9 @@ class ShortCutManager: NSObject {
 				break
 			}
 
-			if let target = target, let action = action {
-				let ev: NSEvent
-				if let keyEqTemp = keyEqTemp {
-					ev = NSEvent.makeKeyDownEvent(keyEqTemp, modifierFlags: 0)
-				} else {
-					ev = NSEvent.makeKeyDownEvent(String(utf16CodeUnits: [key], count: 1), modifierFlags: 0)
-				}
+			if let target = target, let action = action,
+			   let ev = NSEvent.makeKeyDownEvent(keyEqTemp ?? String(utf16CodeUnits: [key], count: 1),
+												 modifierFlags: 0) {
 				simulateEvent(SimulateEventBox(target: target, selector: action, event: ev))
 			}
 		} else {
@@ -312,7 +312,8 @@ class ShortCutManager: NSObject {
 
 				if key == UInt16(NSRightArrowFunctionKey) || key == UInt16(NSLeftArrowFunctionKey) {
 					key = (key == UInt16(NSRightArrowFunctionKey)) ? UInt16(NSUpArrowFunctionKey) : UInt16(NSDownArrowFunctionKey)
-					newEv = NSEvent.makeKeyDownEvent(String(utf16CodeUnits: [key], count: 1), modifierFlags: 0)
+					newEv = NSEvent.makeKeyDownEvent(String(utf16CodeUnits: [key], count: 1),
+													 modifierFlags: 0) ?? newEv
 					timeLong = ud.float(forKey: kUDKeyARKeyRepeatTimeIntervalLong)
 				}
 

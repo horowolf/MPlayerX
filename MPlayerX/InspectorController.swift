@@ -36,9 +36,9 @@ private let kMPXStringInfoTrackInfoVideo = NSLocalizedString("Video:%d", comment
 private let kMPXStringInfoTrackInfoAudio = NSLocalizedString("Audio:%d", comment: "Inspector Info")
 private let kMPXStringInfoTrackInfoSubtitle = NSLocalizedString("Subtitle:%d", comment: "Inspector Info")
 private let kMPXStringInfoTrackTrackText = NSLocalizedString(" tracks", comment: "Inspector Info")
-private let kMPXStringInfoVideoInfoNoBPS = NSLocalizedString("%@, %d\u{00D7}%d, %.1ffps\n", comment: "OSD hint media info")
+private let kMPXStringInfoVideoInfoNoBPS = NSLocalizedString("%@, %d×%d, %.1ffps\n", comment: "OSD hint media info")
 private let kMPXStringInfoAudioInfoNoBPS = NSLocalizedString("%@, %.1fkHz %dbit, %d channels", comment: "OSD hint media info")
-private let kMPXStringInfoVideoInfo = NSLocalizedString("%@, %.1fkbps, %d\u{00D7}%d, %.1ffps\n", comment: "OSD hint media info")
+private let kMPXStringInfoVideoInfo = NSLocalizedString("%@, %.1fkbps, %d×%d, %.1ffps\n", comment: "OSD hint media info")
 private let kMPXStringInfoAudioInfo = NSLocalizedString("%@, %.1fkbps, %.1fkHz %dbit, %d channels", comment: "OSD hint media info")
 
 // Mirrors the original's kLoadMIMask* bitmask (0 = "clear").
@@ -54,7 +54,7 @@ private struct MediaInfoMask: OptionSet {
 
 private func hexValue(of string: String?) -> UInt32 {
 	guard let string else { return 0 }
-	return (string as NSString).hexValue()
+	return (string as NSString).hexValue
 }
 
 private final class InspectorModel: ObservableObject {

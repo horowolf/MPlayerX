@@ -116,7 +116,7 @@ class AppController: NSObject, NSApplicationDelegate, NSMenuItemValidation, SPMe
 
 		/////////////////////////setup bookmarks////////////////////
 		// get the bookmark file name
-		let lastStoppedTimePath = (FileManager.userPath(.applicationSupportDirectory, withSuffix: kMPCStringMPlayerX) as NSString)
+		let lastStoppedTimePath = ((FileManager.userPath(.applicationSupportDirectory, withSuffix: kMPCStringMPlayerX) ?? "") as NSString)
 			.appendingPathComponent(kMPCFMTBookmarkPath)
 
 		// get the dict that records playback time
@@ -379,7 +379,7 @@ class AppController: NSObject, NSApplicationDelegate, NSMenuItemValidation, SPMe
 
 		openUrlController.syncToBookmark(bookmarks)
 
-		let path = (FileManager.userPath(.applicationSupportDirectory, withSuffix: kMPCStringMPlayerX) as NSString)
+		let path = ((FileManager.userPath(.applicationSupportDirectory, withSuffix: kMPCStringMPlayerX) ?? "") as NSString)
 			.appendingPathComponent(kMPCFMTBookmarkPath)
 		bookmarks.write(toFile: path, atomically: true)
 

@@ -136,13 +136,13 @@ class ParameterManager: NSObject {
     @objc(setSubFontColor:)
     func setSubFontColor(_ color: NSColor?) {
         guard let color = color else { return }
-        frontColor = color.hexValue()
+        frontColor = color.hexValue
     }
 
     @objc(setSubFontBorderColor:)
     func setSubFontBorderColor(_ color: NSColor?) {
         guard let color = color else { return }
-        borderColor = color.hexValue()
+        borderColor = color.hexValue
     }
 
     @objc(supportsStartPausedOption)

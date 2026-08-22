@@ -161,7 +161,7 @@
 		86CC77C1143DDDC8006686AE /* zoom-inactive-disabled-graphite.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 86CC77B8143DDDC8006686AE /* zoom-inactive-disabled-graphite.tiff */; };
 		86CC77C2143DDDC8006686AE /* zoom-rollover-graphite.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 86CC77B9143DDDC8006686AE /* zoom-rollover-graphite.tiff */; };
 		86D10C1C10F4A40D000B573F /* resizeindicator.png in Resources */ = {isa = PBXBuildFile; fileRef = 86D10C1B10F4A40D000B573F /* resizeindicator.png */; };
-		86E7A8F11155E8980014155D /* CocoaAppendix.m in Sources */ = {isa = PBXBuildFile; fileRef = 86E7A8F01155E8980014155D /* CocoaAppendix.m */; };
+		86E7A8F11155E8980014155D /* CocoaAppendix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E7A8F01155E8980014155D /* CocoaAppendix.swift */; };
 		86E7CEC5143C876500EF8CDD /* fullscreen-active-lion.png in Resources */ = {isa = PBXBuildFile; fileRef = 86E7CEC3143C876500EF8CDD /* fullscreen-active-lion.png */; };
 		86E7CEC6143C876500EF8CDD /* fullscreen-rollover-lion.png in Resources */ = {isa = PBXBuildFile; fileRef = 86E7CEC4143C876500EF8CDD /* fullscreen-rollover-lion.png */; };
 		86F4DADB10BC329F007AE56A /* BuildFile in Sources */ = {isa = PBXBuildFile; };
@@ -347,7 +347,6 @@
 		863D0A9312CDE85900170081 /* zoom-active.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "zoom-active.tiff"; sourceTree = "<group>"; };
 		863D0A9412CDE85900170081 /* zoom-inactive-disabled.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "zoom-inactive-disabled.tiff"; sourceTree = "<group>"; };
 		863D0A9612CDE85900170081 /* zoom-rollover.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "zoom-rollover.tiff"; sourceTree = "<group>"; };
-		86450B871108840700E79645 /* LocalizedStrings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = LocalizedStrings.h; sourceTree = "<group>"; };
 		865845161346D7E900570BA6 /* def.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = def.swift; sourceTree = "<group>"; };
 		8658451A1346D8E300570BA6 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
 		8661414110FA2B7E007F36DA /* SubConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = SubConverter.swift; sourceTree = "<group>"; };
@@ -390,8 +389,7 @@
 		86CC77B9143DDDC8006686AE /* zoom-rollover-graphite.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "zoom-rollover-graphite.tiff"; sourceTree = "<group>"; };
 		86D10C1B10F4A40D000B573F /* resizeindicator.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = resizeindicator.png; sourceTree = "<group>"; };
 		86D5E9F012FA3FC100073C66 /* getAppVersion.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = getAppVersion.rb; sourceTree = "<group>"; };
-		86E7A8EF1155E8980014155D /* CocoaAppendix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = CocoaAppendix.h; sourceTree = "<group>"; };
-		86E7A8F01155E8980014155D /* CocoaAppendix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CocoaAppendix.m; sourceTree = "<group>"; };
+		86E7A8F01155E8980014155D /* CocoaAppendix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = CocoaAppendix.swift; sourceTree = "<group>"; };
 		86E7CEC3143C876500EF8CDD /* fullscreen-active-lion.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fullscreen-active-lion.png"; sourceTree = "<group>"; };
 		86E7CEC4143C876500EF8CDD /* fullscreen-rollover-lion.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fullscreen-rollover-lion.png"; sourceTree = "<group>"; };
 		86F4DD7F10BD6ECA007AE56A /* pause.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = pause.pdf; sourceTree = "<group>"; };
@@ -461,9 +459,7 @@
 			isa = PBXGroup;
 			children = (
 				863702E3138EA4AB00FD13BE /* AODetector.swift */,
-				86E7A8EF1155E8980014155D /* CocoaAppendix.h */,
-				86E7A8F01155E8980014155D /* CocoaAppendix.m */,
-				86450B871108840700E79645 /* LocalizedStrings.h */,
+				86E7A8F01155E8980014155D /* CocoaAppendix.swift */,
 				86C02AEE12309BCF004E8181 /* UserDefaults.swift */,
 				865845161346D7E900570BA6 /* def.swift */,
 				86B99CFE10C93E4D00AB28FB /* Controllers */,
@@ -1111,7 +1107,7 @@
 				86CA9E9E110094FE00A3CDBC /* BuildFile in Sources */,
 				86FB6F741131A2EB005E95B5 /* coredef.m in Sources */,
 				86FB6FC51131B42D005E95B5 /* KeyCode.swift in Sources */,
-				86E7A8F11155E8980014155D /* CocoaAppendix.m in Sources */,
+				86E7A8F11155E8980014155D /* CocoaAppendix.swift in Sources */,
 				861EE37D116718AF00D16C87 /* BuildFile in Sources */,
 				86C02AEF12309BCF004E8181 /* UserDefaults.swift in Sources */,
 				865A5D2A12CA0E100021CF8E /* BuildFile in Sources */,
