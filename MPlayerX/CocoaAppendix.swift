@@ -56,7 +56,7 @@ func MPXGetSysVersion() -> Int32 {
 extension NSColor {
 	/// RGB plus *inverted* alpha, packed the way the subtitle color options want it.
 	@objc var hexValue: UInt32 {
-		guard let col = usingColorSpaceName(.calibratedRGB) else { return 0 }
+		guard let col = usingColorSpace(.genericRGB) else { return 0 }
 
 		return (UInt32(255 * col.redComponent) << 24) +
 			   (UInt32(255 * col.greenComponent) << 16) +

@@ -83,9 +83,9 @@ private struct OpenURLView: View {
 					.font(.system(size: 10))
 					.lineLimit(1)
 				Spacer()
-				Button(NSLocalizedString("Cancel", comment: "OpenURL Panel"), action: onCancel)
+				Button(NSLocalizedString("Cancel", comment: "Panel Button"), action: onCancel)
 					.keyboardShortcut(.cancelAction)
-				Button(NSLocalizedString("OK", comment: "OpenURL Panel"), action: onConfirm)
+				Button(NSLocalizedString("OK", comment: "Panel Button"), action: onConfirm)
 					.keyboardShortcut(.defaultAction)
 			}
 		}

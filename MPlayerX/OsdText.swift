@@ -70,6 +70,9 @@ class OsdText: NSTextField {
 		UserDefaults.standard.register(defaults: [
 			kUDKeyOSDFontSizeMax: kOSDFontSizeMaxDefault,
 			kUDKeyOSDFontSizeMin: kOSDFontSizeMinDefault,
+			// NSArchiver rather than NSKeyedArchiver on purpose: this value is
+			// persisted in the user defaults, and switching format would silently
+			// discard the color already saved on every existing install.
 			kUDKeyOSDFrontColor: NSArchiver.archivedData(withRootObject: NSColor(deviceWhite: 1.0, alpha: 1.0)),
 			kUDKeyOSDAutoHideTime: kOSDAutoHideTimeInterval,
 		])

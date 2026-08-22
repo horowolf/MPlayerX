@@ -72,7 +72,7 @@ class AppController: NSObject, NSApplicationDelegate, NSMenuItemValidation, SPMe
 			kUDKeyLogMode: false,
 			kUDKeySnapshotSavePath: kSnapshotSaveDefaultPath,
 			"AppleMomentumScrollSupported": "NO",
-			kMediaKeyUsingBundleIdentifiersDefaultsKey: SPMediaKeyTap.defaultMediaKeyUserBundleIdentifiers(),
+			kMediaKeyUsingBundleIdentifiersDefaultsKey: SPMediaKeyTap.defaultMediaKeyUserBundleIdentifiers() ?? [],
 			kUDKeyEnableMediaKeyTap: true,
 			kUDKeyDisableLastStopBookmark: false,
 		])

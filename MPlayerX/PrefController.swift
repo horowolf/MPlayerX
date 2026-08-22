@@ -265,7 +265,7 @@ private struct VideoPrefView: View {
 						Picker("", selection: $imgEnhMethod) {
 							Text(NSLocalizedString("None", comment: "Pref Video")).tag(0)
 							Text(NSLocalizedString("Normal", comment: "Pref Video")).tag(129)
-							Text(NSLocalizedString("Advanced", comment: "Pref Video")).tag(130)
+							Text(NSLocalizedString("Advanced", comment: "Pref Video & PrefToolBarLabel")).tag(130)
 						}
 						.pickerStyle(.segmented)
 						.frame(width: 220)
@@ -292,10 +292,10 @@ private struct VideoPrefView: View {
 
 			Text(NSLocalizedString("How to keep the settings in the \"Video Tuner\" ?", comment: "Pref Video"))
 			Picker("", selection: $autoSaveVTSettings) {
-				Text(NSLocalizedString("Do not keep, always reset the settings when the playback stops", comment: "Pref Video")).tag(0)
-				Text(NSLocalizedString("Reset the settings when there is no next one to play", comment: "Pref Video")).tag(1)
-				Text(NSLocalizedString("Reset the settings when the application quits", comment: "Pref Video")).tag(2)
-				Text(NSLocalizedString("Never reset, save it as my preferences", comment: "Pref Video")).tag(3)
+				Text(NSLocalizedString("Do not keep, always reset the settings when the playback stops", comment: "Pref Audio & Pref Video")).tag(0)
+				Text(NSLocalizedString("Reset the settings when there is no next one to play", comment: "Pref Audio & Pref Video")).tag(1)
+				Text(NSLocalizedString("Reset the settings when the application quits", comment: "Pref Audio & Pref Video")).tag(2)
+				Text(NSLocalizedString("Never reset, save it as my preferences", comment: "Pref Audio & Pref Video")).tag(3)
 			}
 			.labelsHidden()
 
@@ -336,10 +336,10 @@ private struct AudioPrefView: View {
 
 			Text(NSLocalizedString("How to keep the settings in the \"Equalizer\" ?", comment: "Pref Audio"))
 			Picker("", selection: $autoSaveEQSettings) {
-				Text(NSLocalizedString("Do not keep, always reset the settings when the playback stops", comment: "Pref Audio")).tag(0)
-				Text(NSLocalizedString("Reset the settings when there is no next one to play", comment: "Pref Audio")).tag(1)
-				Text(NSLocalizedString("Reset the settings when the application quits", comment: "Pref Audio")).tag(2)
-				Text(NSLocalizedString("Never reset, save it as my preferences", comment: "Pref Audio")).tag(3)
+				Text(NSLocalizedString("Do not keep, always reset the settings when the playback stops", comment: "Pref Audio & Pref Video")).tag(0)
+				Text(NSLocalizedString("Reset the settings when there is no next one to play", comment: "Pref Audio & Pref Video")).tag(1)
+				Text(NSLocalizedString("Reset the settings when the application quits", comment: "Pref Audio & Pref Video")).tag(2)
+				Text(NSLocalizedString("Never reset, save it as my preferences", comment: "Pref Audio & Pref Video")).tag(3)
 			}
 			.labelsHidden()
 
@@ -783,7 +783,7 @@ class PrefController: NSObject, NSToolbarDelegate {
 			item.image = NSImage(named: NSImage.networkName)
 			item.tag = 4
 		case prefTBIAdvanced:
-			item.label = NSLocalizedString("Advanced", comment: "PrefToolBarLabel")
+			item.label = NSLocalizedString("Advanced", comment: "Pref Video & PrefToolBarLabel")
 			item.image = NSImage(named: NSImage.advancedName)
 			item.tag = 5
 		default:

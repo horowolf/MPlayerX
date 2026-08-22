@@ -85,6 +85,9 @@ class PlayerController: NSObject, CoreControllerDelegate, SubConverterDelegate {
 		defaults[kUDKeyEnableMultiThread] = true
 		defaults[kUDKeySubScale] = Float(1.0)
 		defaults[kUDKeySubScaleStepValue] = Float(0.1)
+		// NSArchiver rather than NSKeyedArchiver on purpose: these colors are
+		// persisted in the user defaults, and switching format would silently
+		// discard what is already saved on every existing install.
 		defaults[kUDKeySubFontColor] = NSArchiver.archivedData(withRootObject: NSColor(calibratedWhite: 1.0, alpha: 1.00))
 		defaults[kUDKeySubFontBorderColor] = NSArchiver.archivedData(withRootObject: NSColor(calibratedWhite: 0.0, alpha: 0.85))
 		defaults[kUDKeyForceIndex] = false

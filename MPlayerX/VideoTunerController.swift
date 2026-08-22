@@ -307,7 +307,7 @@ class VideoTunerController: NSObject {
 		let button = NSButton()
 		button.cell = BGHUDButtonCell()
 		button.bezelStyle = .roundRect
-		button.title = NSLocalizedString("Reset", comment: "Video Tuner Panel")
+		button.title = NSLocalizedString("Reset", comment: "Equalizer & Video Tuner Panel")
 		return button
 	}
 

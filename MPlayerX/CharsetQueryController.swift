@@ -172,9 +172,9 @@ private struct CharsetQueryView: View {
 			}
 			HStack {
 				Spacer()
-				Button(NSLocalizedString("Cancel", comment: "SubEncoding"), action: onCancel)
+				Button(NSLocalizedString("Cancel", comment: "Panel Button"), action: onCancel)
 					.keyboardShortcut(.cancelAction)
-				Button(NSLocalizedString("OK", comment: "SubEncoding"), action: onConfirm)
+				Button(NSLocalizedString("OK", comment: "Panel Button"), action: onConfirm)
 					.keyboardShortcut(.defaultAction)
 			}
 		}

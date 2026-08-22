@@ -59,7 +59,7 @@ class LogAnalyzer: NSObject {
 	}
 }
 
-private final class LogAnalyzeOperation: Operation {
+private final class LogAnalyzeOperation: Operation, @unchecked Sendable {
 
 	private var log: Data?
 	private weak var delegate: LogAnalyzerDelegate?

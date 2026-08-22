@@ -30,7 +30,7 @@
 // bridge back to them.
 
 /** Wraps +[NSConnection serviceConnectionWithName:rootObject:], which Swift can't call directly. */
-NSObject * _Nullable MPXStartServiceConnection(NSString *name, id rootObject);
+NSObject * _Nullable MPXStartServiceConnection(NSString * _Nonnull name, id _Nonnull rootObject);
 
 /** Wraps shm_open(name, O_RDONLY, S_IRUSR); Swift can't call shm_open directly since it's variadic. */
-int MPXShmOpenReadOnly(const char *name);
+int MPXShmOpenReadOnly(const char * _Nonnull name);

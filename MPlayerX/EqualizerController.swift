@@ -167,7 +167,7 @@ class EqualizerController: NSObject {
 		let button = NSButton()
 		button.cell = BGHUDButtonCell()
 		button.bezelStyle = .roundRect
-		button.title = NSLocalizedString("Reset", comment: "Equalizer Panel")
+		button.title = NSLocalizedString("Reset", comment: "Equalizer & Video Tuner Panel")
 		return button
 	}
 
