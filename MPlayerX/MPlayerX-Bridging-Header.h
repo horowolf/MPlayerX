@@ -14,5 +14,4 @@
 #import <BGHUDButtonCell.h>
 #import "AppleRemote.h"
 #import "SubConverter.h"
-#import "AODetector.h"
 #import "DOBridge.h"
