@@ -150,8 +150,7 @@
 		86A5E40C10C7D24D00D061C7 /* wqy-microhei.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 86A5E40B10C7D24D00D061C7 /* wqy-microhei.ttc */; };
 		86C02AEF12309BCF004E8181 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C02AEE12309BCF004E8181 /* UserDefaults.swift */; };
 		86CA9E9E110094FE00A3CDBC /* BuildFile in Sources */ = {isa = PBXBuildFile; };
-		86CAF23D10BA44DD00848B8E /* LogAnalyzeOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 86CAF23A10BA44DD00848B8E /* LogAnalyzeOperation.m */; };
-		86CAF23E10BA44DD00848B8E /* LogAnalyzer.m in Sources */ = {isa = PBXBuildFile; fileRef = 86CAF23C10BA44DD00848B8E /* LogAnalyzer.m */; };
+		86CAF23E10BA44DD00848B8E /* LogAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CAF23C10BA44DD00848B8E /* LogAnalyzer.swift */; };
 		86CC77BA143DDDC8006686AE /* close-active-graphite.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 86CC77B1143DDDC8006686AE /* close-active-graphite.tiff */; };
 		86CC77BB143DDDC8006686AE /* close-inactive-disabled-graphite.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 86CC77B2143DDDC8006686AE /* close-inactive-disabled-graphite.tiff */; };
 		86CC77BC143DDDC8006686AE /* close-rollover-graphite.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 86CC77B3143DDDC8006686AE /* close-rollover-graphite.tiff */; };
@@ -381,10 +380,7 @@
 		868CB5CD1358718500EDC86F /* BGHUDGeometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BGHUDGeometry.h; path = ../BGHUDAppKit/Framework/BGHUDGeometry.h; sourceTree = SOURCE_ROOT; };
 		86A5E40B10C7D24D00D061C7 /* wqy-microhei.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "wqy-microhei.ttc"; sourceTree = "<group>"; };
 		86C02AEE12309BCF004E8181 /* UserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
-		86CAF23910BA44DD00848B8E /* LogAnalyzeOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = LogAnalyzeOperation.h; sourceTree = "<group>"; };
-		86CAF23A10BA44DD00848B8E /* LogAnalyzeOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = LogAnalyzeOperation.m; sourceTree = "<group>"; };
-		86CAF23B10BA44DD00848B8E /* LogAnalyzer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = LogAnalyzer.h; sourceTree = "<group>"; };
-		86CAF23C10BA44DD00848B8E /* LogAnalyzer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = LogAnalyzer.m; sourceTree = "<group>"; };
+		86CAF23C10BA44DD00848B8E /* LogAnalyzer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = LogAnalyzer.swift; sourceTree = "<group>"; };
 		86CC77B1143DDDC8006686AE /* close-active-graphite.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "close-active-graphite.tiff"; sourceTree = "<group>"; };
 		86CC77B2143DDDC8006686AE /* close-inactive-disabled-graphite.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "close-inactive-disabled-graphite.tiff"; sourceTree = "<group>"; };
 		86CC77B3143DDDC8006686AE /* close-rollover-graphite.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "close-rollover-graphite.tiff"; sourceTree = "<group>"; };
@@ -860,10 +856,7 @@
 		86CAF22210BA446E00848B8E /* LogAnalyzer */ = {
 			isa = PBXGroup;
 			children = (
-				86CAF23910BA44DD00848B8E /* LogAnalyzeOperation.h */,
-				86CAF23A10BA44DD00848B8E /* LogAnalyzeOperation.m */,
-				86CAF23B10BA44DD00848B8E /* LogAnalyzer.h */,
-				86CAF23C10BA44DD00848B8E /* LogAnalyzer.m */,
+				86CAF23C10BA44DD00848B8E /* LogAnalyzer.swift */,
 			);
 			name = LogAnalyzer;
 			sourceTree = "<group>";
@@ -1111,8 +1104,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
-				86CAF23D10BA44DD00848B8E /* LogAnalyzeOperation.m in Sources */,
-				86CAF23E10BA44DD00848B8E /* LogAnalyzer.m in Sources */,
+				86CAF23E10BA44DD00848B8E /* LogAnalyzer.swift in Sources */,
 				8608652E10BA55CE00459392 /* BuildFile in Sources */,
 				8608652F10BA55CE00459392 /* BuildFile in Sources */,
 				86F4DADB10BC329F007AE56A /* BuildFile in Sources */,
