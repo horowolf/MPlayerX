@@ -13,5 +13,5 @@
 #import <BGHUDSliderCell.h>
 #import <BGHUDButtonCell.h>
 #import "AppleRemote.h"
-#import "SubConverter.h"
+#import "UniversalDetector.h"
 #import "DOBridge.h"

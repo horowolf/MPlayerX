@@ -420,21 +420,21 @@ class CoreController: NSObject, LogAnalyzerDelegate, PlayerCoreDelegate {
 			// To support dynamically loading subtitles in the future, the subtitle must first be set to UTF-8, even when there are no subtitles
 			pm.subCP = "UTF-8"
 
-			var vobStr: NSString?
+			var vobStr: String?
 			let subEncDict = subConv.getCPFromMoviePath(moviePath, nameRule: pm.subNameRule, alsoFindVobSub: &vobStr)
 
 			if pm.vobSub == nil {
 				// If the user hasn't set vobsub themselves, this variable is set to nil after every playback ends
 				// If the user has their own vobsub, then don't set it and use the user's vobsub instead
-				pm.vobSub = vobStr as String?
+				pm.vobSub = vobStr
 			}
-			if let subEncDict = subEncDict, subEncDict.count > 0 {
+			if !subEncDict.isEmpty {
 				// If there is a subtitle file
 				let subsArray = subConv.convertTextSubsAndEncodings(subEncDict)
 
-				if let subsArray = subsArray, subsArray.count > 0 {
+				if !subsArray.isEmpty {
 					pm.textSubs = subsArray
-				} else if let subStr = subEncDict.values.first as? String, !subStr.isEmpty {
+				} else if let subStr = subEncDict.values.first, !subStr.isEmpty {
 					// If it was successfully guessed
 					pm.subCP = subStr
 				}
@@ -665,7 +665,7 @@ class CoreController: NSObject, LogAnalyzerDelegate, PlayerCoreDelegate {
 		if let cpStr = subConv.getCPOfTextSubtitle(path) {
 			// Found the encoding
 			let newPaths = subConv.convertTextSubsAndEncodings([path: cpStr])
-			if let firstPath = newPaths?.first as? String {
+			if let firstPath = newPaths.first {
 				_ = playerCore.sendStringCommand("\(kMPCSubLoad) \"\(firstPath)\"\n")
 			}
 		}

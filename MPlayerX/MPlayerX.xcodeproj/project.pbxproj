@@ -127,7 +127,7 @@
 		865845171346D7E900570BA6 /* def.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865845161346D7E900570BA6 /* def.swift */; };
 		8658451B1346D8E300570BA6 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8658451A1346D8E300570BA6 /* ApplicationServices.framework */; };
 		865A5D2A12CA0E100021CF8E /* BuildFile in Sources */ = {isa = PBXBuildFile; };
-		8661414210FA2B7E007F36DA /* SubConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8661414110FA2B7E007F36DA /* SubConverter.m */; };
+		8661414210FA2B7E007F36DA /* SubConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8661414110FA2B7E007F36DA /* SubConverter.swift */; };
 		86689CA511304163009DA72C /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 86689CA411304163009DA72C /* logo.png */; };
 		8670CC1F1418E32B009EDB63 /* close-active-graphite-lion.png in Resources */ = {isa = PBXBuildFile; fileRef = 8670CC161418E32B009EDB63 /* close-active-graphite-lion.png */; };
 		8670CC201418E32B009EDB63 /* close-inactive-disabled-graphite-lion.png in Resources */ = {isa = PBXBuildFile; fileRef = 8670CC171418E32B009EDB63 /* close-inactive-disabled-graphite-lion.png */; };
@@ -350,8 +350,7 @@
 		86450B871108840700E79645 /* LocalizedStrings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = LocalizedStrings.h; sourceTree = "<group>"; };
 		865845161346D7E900570BA6 /* def.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = def.swift; sourceTree = "<group>"; };
 		8658451A1346D8E300570BA6 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
-		8661414010FA2B7E007F36DA /* SubConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SubConverter.h; sourceTree = "<group>"; };
-		8661414110FA2B7E007F36DA /* SubConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SubConverter.m; sourceTree = "<group>"; };
+		8661414110FA2B7E007F36DA /* SubConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = SubConverter.swift; sourceTree = "<group>"; };
 		86689CA411304163009DA72C /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		8670CC161418E32B009EDB63 /* close-active-graphite-lion.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close-active-graphite-lion.png"; sourceTree = "<group>"; };
 		8670CC171418E32B009EDB63 /* close-inactive-disabled-graphite-lion.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close-inactive-disabled-graphite-lion.png"; sourceTree = "<group>"; };
@@ -862,8 +861,7 @@
 		86CAF22310BA447900848B8E /* PlayerCore */ = {
 			isa = PBXGroup;
 			children = (
-				8661414010FA2B7E007F36DA /* SubConverter.h */,
-				8661414110FA2B7E007F36DA /* SubConverter.m */,
+				8661414110FA2B7E007F36DA /* SubConverter.swift */,
 				86CAF22110BA446800848B8E /* Info */,
 				8609C03D10C676C800B102CE /* coredef.h */,
 				86FB6F731131A2EB005E95B5 /* coredef.m */,
@@ -1109,7 +1107,7 @@
 				8609C25A10C693D500B102CE /* AppleRemote.m in Sources */,
 				8609C25B10C693D500B102CE /* HIDRemoteControlDevice.m in Sources */,
 				8609C25D10C693D500B102CE /* RemoteControl.m in Sources */,
-				8661414210FA2B7E007F36DA /* SubConverter.m in Sources */,
+				8661414210FA2B7E007F36DA /* SubConverter.swift in Sources */,
 				86CA9E9E110094FE00A3CDBC /* BuildFile in Sources */,
 				86FB6F741131A2EB005E95B5 /* coredef.m in Sources */,
 				86FB6FC51131B42D005E95B5 /* KeyCode.swift in Sources */,
