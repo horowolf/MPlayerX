@@ -140,6 +140,13 @@ upstream text was actually fetched. `MPlayerX/SPMediaKeyTap-LICENSE.txt` now
 carries that text verbatim, and all four source files (`SPMediaKeyTap.{h,m}`,
 `NSObject+SPInvocationGrabbing.{h,m}`) point at it.
 
+**Local modification (2026-08-20)**: `SPMediaKeyTap.h` declares its delegate
+callback as a formal `@protocol SPMediaKeyTapDelegate` instead of the original
+informal `@interface NSObject (SPMediaKeyTapDelegate)` category. Swift cannot
+override a member declared in an Objective-C category on `NSObject`, so the
+Swift `AppController` could not otherwise implement it. Four lines in the
+header; `SPMediaKeyTap.m` still messages `id` and is unchanged.
+
 ## A note on distribution channels
 
 MPlayerX links against and ships GPLv2 code, and the GPL's requirements

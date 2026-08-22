@@ -14,7 +14,8 @@ and the tree as it stood could not be built by any current version of Xcode.
 | | |
 |---|---|
 | Builds | Xcode 26 on macOS 26, arm64 only |
-| Minimum macOS | 10.13 |
+| Minimum macOS | 11.0 |
+| Source language | Swift, apart from six Objective-C files (see below) |
 | Playback backend | MPlayer 1.5, built natively for arm64 |
 
 Video and audio playback, subtitle rendering and charset detection work. Some
@@ -76,6 +77,18 @@ on nothing from Homebrew at runtime. Homebrew is a build-time requirement only.
 - **Assorted defects** surfaced by 15 years of new compiler warnings, including
   a malformed format string in the donation URL, a `[super release]` in a
   `dealloc`, and `fabsf()` applied to `CGFloat`.
+- **Rewritten in Swift.** The app was 2009-2011 Objective-C throughout,
+  including manual retain/release. It is Swift now, ported in stages — model
+  classes, custom views, dialog controllers (those use SwiftUI, hosted in the
+  existing window structure), the mplayer IPC layer, the main window, and
+  finally the leftovers. The main window stays AppKit, written in Swift rather
+  than converted to SwiftUI: it is tied closely to CALayer, the mmap'd frame
+  buffer and custom slider drawing, where a rewrite would be high risk for
+  little gain. `MainMenu.xib` is unchanged. Six Objective-C files remain on
+  purpose — `coredef.m` (the Distributed Objects protocols, which pass
+  `char**`), three small trampolines for things Swift cannot express
+  (`NSConnection`/`shm_open`, `@try`/`@catch` around `NSException`), and the
+  two vendored SPMediaKeyTap files.
 - **Submodules vendored.** BGHUDAppKit, UniversalDetector, Apple Remote
   Control and the localization strings used to be git submodules pointing at
   niltsh's own forks, dormant since 2011-2015 with no way to push further
@@ -111,5 +124,5 @@ through the Mac App Store, whose terms conflict with the GPL.
 
 MPlayerX was written by Zongyao QU, copyright 2009-2011.
 
-The Apple Silicon port in this branch was carried out by Claude Opus 5
-(Anthropic).
+The Apple Silicon port and the Swift rewrite in this branch were carried out
+by Claude Opus 5 (Anthropic).
