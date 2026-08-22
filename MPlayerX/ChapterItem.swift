@@ -20,11 +20,6 @@
 
 import Cocoa
 
-// Also defined (as an ObjC macro, for files still in Objective-C) in def.h --
-// kept in sync manually since a Swift global and a C macro can't share one
-// definition across the bridging-header boundary.
-private let kMPCChapterTimeBase = 1000
-
 @objc(ChapterItem)
 class ChapterItem: NSObject {
 	@objc var name: String?

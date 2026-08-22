@@ -18,11 +18,17 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-// MPXWindowButtonType itself is declared in MPXWindowButton.h (a plain
-// NS_ENUM) and reaches this file via the bridging header, since TitleView.m
-// (still Objective-C) references its cases as bare kMPXWindow*ButtonType
-// identifiers.
 import Cocoa
+
+// Was an NS_ENUM in MPXWindowButton.h, kept there only while TitleView was
+// still Objective-C and referenced its cases as bare kMPXWindow*ButtonType
+// identifiers.
+@objc enum MPXWindowButtonType: Int {
+	case closeButtonType = 1
+	case minimizeButtonType = 2
+	case zoomButtonType = 3
+	case fullscreenButtonType = 4
+}
 
 private let kMPXAccessibilityCloseButtonDesc = "closeButton"
 private let kMPXAccessibilityMinimizeButtonDesc = "minimizeButton"

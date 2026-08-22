@@ -32,13 +32,6 @@ import SwiftUI
 	func setEqualizer(_ amps: [Any]?)
 }
 
-// PlayerController.h's kMPCPlayFinalizedNotification/kMPCPlayStoppedNotification
-// can't be imported for the same reason; their values are just their own
-// symbol names (see PlayerController.m), duplicated here as in
-// InspectorController.
-private let kMPCPlayFinalizedNotificationName = Notification.Name("kMPCPlayFinalizedNotification")
-private let kMPCPlayStoppedNotificationName = Notification.Name("kMPCPlayStoppedNotification")
-
 // These four were a private #define block local to EqualizerController.m,
 // not shared with any other file, so they're plain private Swift constants.
 private let kAutoSaveEQSettingsLifeNone: Int = 0 /**< reset as soon as playback starts */
@@ -149,9 +142,9 @@ class EqualizerController: NSObject {
 
 		let center = NotificationCenter.default
 		center.addObserver(self, selector: #selector(playBackFinalized(_:)),
-							name: kMPCPlayFinalizedNotificationName, object: playerController)
+							name: .mpcPlayFinalized, object: playerController)
 		center.addObserver(self, selector: #selector(playBackStopped(_:)),
-							name: kMPCPlayStoppedNotificationName, object: playerController)
+							name: .mpcPlayStopped, object: playerController)
 	}
 
 	private static func makeSlider() -> NSSlider {

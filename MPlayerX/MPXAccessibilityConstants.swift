@@ -1,5 +1,5 @@
 /*
- * MPlayerX - MPXAccessibilityConstants.h
+ * MPlayerX - MPXAccessibilityConstants.swift
  *
  * Copyright (C) 2009 - 2011, Zongyao QU
  *
@@ -18,11 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-// Split out of PlayerWindow.h when PlayerWindow itself moved to Swift
-// (PlayerWindow.swift): Swift can't re-expose top-level constants as bare
-// extern identifiers, and RootLayerView.m (still Objective-C) references
-// kMPXAccessibilityWindowFrameAttribute as one. PlayerWindow.swift picks
-// these up via the bridging header.
+// Was MPXAccessibilityConstants.h/.m, split out of PlayerWindow.h only because
+// RootLayerView.m was still Objective-C. It is Swift now, so these can be too.
 
-extern NSString * const kMPXAccessibilityWindowFrameAttribute;
-extern NSString * const kMPXAccessibilityPlayerWindowDesc;
+let kMPXAccessibilityWindowFrameAttribute = "AXMPXWindowFrame"
+let kMPXAccessibilityPlayerWindowDesc = "PlayerWindow"

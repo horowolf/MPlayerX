@@ -291,23 +291,20 @@ class ControlUIView: NSView {
 		}
 
 		////////////////////////////////////////set KeyEquivalents////////////////////////////////////////
-		// The kSCM*ModifierFlagMask entries in KeyCode.h are macros over the
-		// pre-10.12 NSEventModifierFlag spellings, which the Swift importer
-		// drops; they are spelled out here, matching that header value for value.
 		volumeButton.keyEquivalent = kSCMMuteKeyEquivalent
 		playPauseButton.keyEquivalent = kSCMPlayPauseKeyEquivalent
-		fullScreenButton.keyEquivalentModifierMask = .command
+		fullScreenButton.keyEquivalentModifierMask = kSCMFullscreenKeyEquivalentModifierFlagMask
 		fullScreenButton.keyEquivalent = kSCMFullScrnKeyEquivalent
 
 		menuSnapshot.keyEquivalent = kSCMSnapShotKeyEquivalent
 
-		menuSubScaleInc.keyEquivalentModifierMask = .command
+		menuSubScaleInc.keyEquivalentModifierMask = kSCMSubScaleIncreaseKeyEquivalentModifierFlagMask
 		menuSubScaleInc.keyEquivalent = kSCMSubScaleIncreaseKeyEquivalent
-		menuSubScaleDec.keyEquivalentModifierMask = .command
+		menuSubScaleDec.keyEquivalentModifierMask = kSCMSubScaleDecreaseKeyEquivalentModifierFlagMask
 		menuSubScaleDec.keyEquivalent = kSCMSubScaleDecreaseKeyEquivalent
 
 		menuPlayFromLastStoppedPlace.keyEquivalent = kSCMPlayFromLastStoppedKeyEquivalent
-		menuPlayFromLastStoppedPlace.keyEquivalentModifierMask = .shift
+		menuPlayFromLastStoppedPlace.keyEquivalentModifierMask = kSCMPlayFromLastStoppedKeyEquivalentModifierFlagMask
 
 		menuSwitchSub.keyEquivalent = kSCMSwitchSubKeyEquivalent
 		menuSwitchAudio.keyEquivalent = kSCMSwitchAudioKeyEquivalent
@@ -321,12 +318,12 @@ class ControlUIView: NSView {
 		menuToggleLockAspectRatio.keyEquivalent = kSCMToggleLockAspectRatioKeyEquivalent
 
 		menuResetLockAspectRatio.keyEquivalent = kSCMResetLockAspectRatioKeyEquivalent
-		menuResetLockAspectRatio.keyEquivalentModifierMask = .shift
+		menuResetLockAspectRatio.keyEquivalentModifierMask = kSCMResetLockAspectRatioKeyEquivalentModifierFlagMask
 
 		menuToggleLetterBox.keyEquivalent = kSCMToggleLetterBoxKeyEquivalent
 
-		menuSizeInc.keyEquivalentModifierMask = [.command, .option]
-		menuSizeDec.keyEquivalentModifierMask = [.command, .option]
+		menuSizeInc.keyEquivalentModifierMask = kSCMWindowSizeIncKeyEquivalentModifierFlagMask
+		menuSizeDec.keyEquivalentModifierMask = kSCMWindowSizeDecKeyEquivalentModifierFlagMask
 		menuSizeInc.keyEquivalent = kSCMWindowSizeIncKeyEquivalent
 		menuSizeDec.keyEquivalent = kSCMWindowSizeDecKeyEquivalent
 
@@ -336,8 +333,8 @@ class ControlUIView: NSView {
 		menuToggleFillScreen.keyEquivalent = kSCMFillScrnKeyEquivalent
 		menuToggleAuxiliaryCtrls.keyEquivalent = kSCMAcceControlKeyEquivalent
 
-		menuMoveToTrash.keyEquivalentModifierMask = .command
-		var keyTemp = unichar(NSBackspaceCharacter)
+		menuMoveToTrash.keyEquivalentModifierMask = kSCMMoveToTrashKeyEquivalentModifierFlagMask
+		var keyTemp = kSCMMoveToTrashKeyEquivalent
 		menuMoveToTrash.keyEquivalent = String(utf16CodeUnits: &keyTemp, count: 1)
 
 		menuMoveFrameToCenter.keyEquivalent = kSCMMoveFrameToCenterKeyEquivalent
@@ -345,49 +342,49 @@ class ControlUIView: NSView {
 		menuNextEpisode.keyEquivalent = kSCMNextEpisodeKeyEquivalent
 		menuPrevEpisode.keyEquivalent = kSCMPrevEpisodeKeyEquivalent
 
-		menuResetFrameScaleRatio.keyEquivalentModifierMask = .shift
+		menuResetFrameScaleRatio.keyEquivalentModifierMask = kSCMResetFrameScaleRatioKeyEquivalentModifierFlagMask
 		menuResetFrameScaleRatio.keyEquivalent = kSCMResetFrameScaleRatioKeyEquivalent
 
-		menuEnlargeFrame.keyEquivalentModifierMask = .option
+		menuEnlargeFrame.keyEquivalentModifierMask = kSCMScaleFrameLargerKeyEquivalentModifierFlagMask
 		menuEnlargeFrame.keyEquivalent = kSCMScaleFrameLargerKeyEquivalent
-		menuShrinkFrame.keyEquivalentModifierMask = .option
+		menuShrinkFrame.keyEquivalentModifierMask = kSCMScaleFrameSmallerKeyEquivalentModifierFlagMask
 		menuShrinkFrame.keyEquivalent = kSCMScaleFrameSmallerKeyEquivalent
 
-		menuEnlargeFrame2.keyEquivalentModifierMask = [.option, .shift]
+		menuEnlargeFrame2.keyEquivalentModifierMask = kSCMScaleFrameLarger2KeyEquivalentModifierFlagMask
 		menuEnlargeFrame2.keyEquivalent = kSCMScaleFrameLargerKeyEquivalent
-		menuShrinkFrame2.keyEquivalentModifierMask = [.option, .shift]
+		menuShrinkFrame2.keyEquivalentModifierMask = kSCMScaleFrameSmaller2KeyEquivalentModifierFlagMask
 		menuShrinkFrame2.keyEquivalent = kSCMScaleFrameSmallerKeyEquivalent
 
-		menuMirror.keyEquivalentModifierMask = .option
+		menuMirror.keyEquivalentModifierMask = kSCMMirrorKeyEquivalentModifierFlagMask
 		menuMirror.keyEquivalent = kSCMMirrorKeyEquivalent
-		menuFlip.keyEquivalentModifierMask = .option
+		menuFlip.keyEquivalentModifierMask = kSCMFlipKeyEquivalentModifierFlagMask
 		menuFlip.keyEquivalent = kSCMFlipKeyEquivalent
 
 		menuSpeedUp.keyEquivalent = kSCMSpeedUpKeyEquivalent
 		menuSpeedDown.keyEquivalent = kSCMSpeedDownKeyEquivalent
 		menuSpeedReset.keyEquivalent = kSCMSpeedResetKeyEquivalent
 
-		menuAudioDelayInc.keyEquivalentModifierMask = .option
+		menuAudioDelayInc.keyEquivalentModifierMask = kSCMAudioDelayKeyEquivalentModifierFlagMask
 		menuAudioDelayInc.keyEquivalent = kSCMAudioDelayPlusKeyEquivalent
-		menuAudioDelayDec.keyEquivalentModifierMask = .option
+		menuAudioDelayDec.keyEquivalentModifierMask = kSCMAudioDelayKeyEquivalentModifierFlagMask
 		menuAudioDelayDec.keyEquivalent = kSCMAudioDelayMinusKeyEquivalent
-		menuAudioDelayReset.keyEquivalentModifierMask = .option
+		menuAudioDelayReset.keyEquivalentModifierMask = kSCMAudioDelayKeyEquivalentModifierFlagMask
 		menuAudioDelayReset.keyEquivalent = kSCMAudioDelayResetKeyEquivalent
 
-		menuSubDelayInc.keyEquivalentModifierMask = .command
+		menuSubDelayInc.keyEquivalentModifierMask = kSCMSubDelayKeyEquivalentModifierFlagMask
 		menuSubDelayInc.keyEquivalent = kSCMSubDelayPlusKeyEquivalent
-		menuSubDelayDec.keyEquivalentModifierMask = .command
+		menuSubDelayDec.keyEquivalentModifierMask = kSCMSubDelayKeyEquivalentModifierFlagMask
 		menuSubDelayDec.keyEquivalent = kSCMSubDelayMinusKeyEquivalent
-		menuSubDelayReset.keyEquivalentModifierMask = .command
+		menuSubDelayReset.keyEquivalentModifierMask = kSCMSubDelayKeyEquivalentModifierFlagMask
 		menuSubDelayReset.keyEquivalent = kSCMSubDelayResetKeyEquivalent
 
-		menuZoomToHalfSize.keyEquivalentModifierMask = .command
+		menuZoomToHalfSize.keyEquivalentModifierMask = kSCMWindowZoomHalfSizeKeyEquivalentModifierFlagMask
 		menuZoomToHalfSize.keyEquivalent = kSCMWindowZoomHalfSizeKeyEquivalent
-		menuZoomToOriginSize.keyEquivalentModifierMask = .command
+		menuZoomToOriginSize.keyEquivalentModifierMask = kSCMWindowZoomToOrgSizeKeyEquivalentModifierFlagMask
 		menuZoomToOriginSize.keyEquivalent = kSCMWindowZoomToOrgSizeKeyEquivalent
-		menuZoomToDoubleSize.keyEquivalentModifierMask = .command
+		menuZoomToDoubleSize.keyEquivalentModifierMask = kSCMWindowZoomDblSizeKeyEquivalentModifierFlagMask
 		menuZoomToDoubleSize.keyEquivalent = kSCMWindowZoomDblSizeKeyEquivalent
-		menuWndFitToScrn.keyEquivalentModifierMask = .command
+		menuWndFitToScrn.keyEquivalentModifierMask = kSCMWindowFitToScreenKeyEquivalentModifierFlagMask
 		menuWndFitToScrn.keyEquivalent = kSCMWindowFitToScreenKeyEquivalent
 
 		////////////////////////////////////////load Images////////////////////////////////////////
@@ -1779,8 +1776,7 @@ class ControlUIView: NSView {
 
 		var timeDisp = ((pt.x - frm.origin.x) * CGFloat(timeSlider.maxValue)) / frm.size.width
 
-		// kSCMSwitchTimeHintKeyModifierMask is NSFunctionKeyMask
-		let fnPressed = (NSEvent.modifierFlags == .function)
+		let fnPressed = (NSEvent.modifierFlags == kSCMSwitchTimeHintKeyModifierMask)
 		if fnPressed != ud.bool(forKey: kUDKeySwitchTimeHintPressOnAbusolute) {
 			// if Fn is not pressed, show the time difference
 			// otherwise show the absolute time

@@ -87,9 +87,8 @@ class PlayerWindow: NSWindow {
 	}
 
 	override func toggleFullScreen(_ sender: Any?) {
-		// matches KeyCode.h's kSCMFullscreenKeyEquivalentModifierFlagMask (NSCommandKeyMask);
-		// spelled out here since Swift's Clang importer won't import that macro
-		if let event = NSEvent.makeKeyDownEvent(kSCMFullScrnKeyEquivalent, modifierFlags: NSEvent.ModifierFlags.command.rawValue) {
+		if let event = NSEvent.makeKeyDownEvent(kSCMFullScrnKeyEquivalent,
+											   modifierFlags: kSCMFullscreenKeyEquivalentModifierFlagMask.rawValue) {
 			self.postEvent(event, atStart: true)
 		}
 	}

@@ -31,17 +31,6 @@ import SwiftUI
 	var lastPlayedPath: URL? { get }
 }
 
-// Notification names/keys are declared as `extern NSString * const` in
-// PlayerController.h, which can't be imported here for the same reason as
-// above. Their actual values are just their own symbol names (see
-// PlayerController.m), so they're duplicated here rather than re-exposed --
-// same cross-language-boundary approach as stage A's lesson on KVO key
-// constants.
-private let kMPCPlayInfoUpdatedNotificationName = Notification.Name("kMPCPlayInfoUpdatedNotification")
-private let kMPCPlayStartedNotificationName = Notification.Name("kMPCPlayStartedNotification")
-private let kMPCPlayStoppedNotificationName = Notification.Name("kMPCPlayStoppedNotification")
-private let kMPCPlayInfoUpdatedKeyPathKey = "kMPCPlayInfoUpdatedKeyPathKey"
-
 private let kMPXStringInfoNoInfo = NSLocalizedString("No Info", comment: "Inspector Info")
 private let kMPXStringInfoTrackInfoVideo = NSLocalizedString("Video:%d", comment: "Inspector Info")
 private let kMPXStringInfoTrackInfoAudio = NSLocalizedString("Audio:%d", comment: "Inspector Info")
@@ -187,11 +176,11 @@ class InspectorController: NSObject {
 			// from now on, listen to playerController's Notifications
 			let center = NotificationCenter.default
 			center.addObserver(self, selector: #selector(playInfoUpdated(_:)),
-								name: kMPCPlayInfoUpdatedNotificationName, object: playerController)
+								name: .mpcPlayInfoUpdated, object: playerController)
 			center.addObserver(self, selector: #selector(playBackStarted(_:)),
-								name: kMPCPlayStartedNotificationName, object: playerController)
+								name: .mpcPlayStarted, object: playerController)
 			center.addObserver(self, selector: #selector(playBackStopped(_:)),
-								name: kMPCPlayStoppedNotificationName, object: playerController)
+								name: .mpcPlayStopped, object: playerController)
 		}
 
 		guard let window else { return }

@@ -23,14 +23,6 @@ import SwiftUI
 import QuartzCore
 import CoreImage
 
-// PlayerController.h can't be imported here for the same reason as
-// OpenURLController's OpenURLFileLoading (import cycle through the generated
-// MPlayerX-Swift.h) -- but nothing here ever calls a method on
-// playerController, it's only ever used as the `object:` filter for
-// NSNotificationCenter observers, so a typed protocol isn't even needed.
-private let kMPCPlayFinalizedNotificationName = Notification.Name("kMPCPlayFinalizedNotification")
-private let kMPCPlayStoppedNotificationName = Notification.Name("kMPCPlayStoppedNotification")
-
 private let kCIStepBase: Double = 100_000.0
 
 private let kAutoSaveVTSettingsLifeUserDefaults = 3 /**< never reset */
@@ -171,6 +163,9 @@ class VideoTunerController: NSObject {
 	}()
 
 	@IBOutlet weak var menuVTPanel: NSMenuItem?
+	// Only ever used as the `object:` filter for NSNotificationCenter
+	// observers -- nothing calls a method on it -- so it stays untyped
+	// rather than needing a protocol.
 	@IBOutlet weak var playerController: AnyObject?
 
 	private let ud = UserDefaults.standard
@@ -201,9 +196,9 @@ class VideoTunerController: NSObject {
 
 		let center = NotificationCenter.default
 		center.addObserver(self, selector: #selector(playBackFinalized(_:)),
-							name: kMPCPlayFinalizedNotificationName, object: playerController)
+							name: .mpcPlayFinalized, object: playerController)
 		center.addObserver(self, selector: #selector(playBackStopped(_:)),
-							name: kMPCPlayStoppedNotificationName, object: playerController)
+							name: .mpcPlayStopped, object: playerController)
 	}
 
 	private func makeFilterChains() -> [CIFilter] {

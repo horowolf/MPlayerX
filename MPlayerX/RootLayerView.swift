@@ -419,8 +419,7 @@ class RootLayerView: NSView, CoreDisplayDelegate, CALayerDelegate, NSWindowDeleg
 		// shift+alt into the plain alt case; spelled out as a condition here.
 		let flags = event.modifierFlags.intersection([.shift, .control, .option, .command])
 
-		if flags == [.shift, .option] || flags == .option {
-			// kSCMDragFullScrFrameModifierFlagMask is NSAlternateKeyMask
+		if flags == [.shift, .option] || flags == kSCMDragFullScrFrameModifierFlagMask {
 			let shiftKeyPressed = (flags == [.shift, .option])
 
 			if isInFullScreenMode {
@@ -543,8 +542,7 @@ class RootLayerView: NSView, CoreDisplayDelegate, CALayerDelegate, NSWindowDeleg
 
 		let flags = event.modifierFlags.intersection([.shift, .control, .option, .command])
 
-		if flags == .option {
-			// kSCMScaleFrameKeyEquivalentModifierFlagMask is NSAlternateKeyMask
+		if flags == kSCMScaleFrameKeyEquivalentModifierFlagMask {
 			if isInFullScreenMode {
 				// only in full screen mode
 				// in Y direction
