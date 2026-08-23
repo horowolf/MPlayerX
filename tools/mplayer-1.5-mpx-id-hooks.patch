@@ -1,0 +1,111 @@
+# MPlayerX MPX_*_IDS hooks for MPlayer 1.5
+#
+# The arm64 mplayer bundled with this fork is built from pristine MPlayer 1.5
+# (build-mplayer/MPlayer-1.5, which is NOT under version control), while the
+# original MPlayerX shipped a patched MPlayer 1.0rc-era tree -- kept here as
+# the tracked mplayer/ directory. Five of the patch's MPX_* output hooks were
+# never carried over. Without MPX_AUDIO_IDS/MPX_VIDEO_IDS the app never learns
+# that a file has video tracks, so it treats every movie as audio-only: the
+# window collapses to contentMinSize on the next/previous-episode switch, the
+# Inspector's Track Info and Format stay blank, and the Switch Audio/Switch
+# Video submenus come up empty.
+#
+# Apply from build-mplayer/MPlayer-1.5 with:  patch -p1 < this-file
+# Still missing (bigger patches, not ported yet): MPX_MPXSUBNAMES and
+# MPX_MPXSUBFILEADD (subtitle track listing, needs the mpx_subid option) and
+# MPX_CHAPTERINFO (stream/stream_dvd.c, DVD/VIDEO_TS only).
+
+--- a/libmpdemux/stheader.h	2026-08-23 00:35:11
++++ b/libmpdemux/stheader.h	2026-08-23 00:35:31
+@@ -42,6 +42,7 @@
+   /* codec-specific: */ \
+   void* context;   /* codec-specific stuff (usually HANDLE or struct pointer) */ \
+   char* lang; /* track language */ \
++  char* name; /* track title, used by MPlayerX's MPX_*_IDS output */ \
+   int default_track; \
+ 
+ typedef struct sh_common {
+--- a/libmpdemux/demux_lavf.c	2026-08-23 00:35:11
++++ b/libmpdemux/demux_lavf.c	2026-08-23 00:35:31
+@@ -353,8 +353,10 @@
+                     sh_audio->format = 0x7;
+                     break;
+             }
+-            if (title && title->value)
++            if (title && title->value) {
+                 mp_msg(MSGT_IDENTIFY, MSGL_INFO, "ID_AID_%d_NAME=%s\n", priv->audio_streams, title->value);
++                sh_audio->name = strdup(title->value);
++            }
+             if (st->disposition & AV_DISPOSITION_DEFAULT)
+               sh_audio->default_track = 1;
+             if(mp_msg_test(MSGT_HEADER,MSGL_V) ) print_wave_header(sh_audio->wf, MSGL_V);
+@@ -437,8 +439,10 @@
+                 sh_video->original_aspect = codec->width * codec->sample_aspect_ratio.num
+                        / (float)(codec->height * codec->sample_aspect_ratio.den);
+             sh_video->i_bps=codec->bit_rate/8;
+-            if (title && title->value)
++            if (title && title->value) {
+                 mp_msg(MSGT_IDENTIFY, MSGL_INFO, "ID_VID_%d_NAME=%s\n", priv->video_streams, title->value);
++                sh_video->name = strdup(title->value);
++            }
+             if (st->disposition & AV_DISPOSITION_DEFAULT)
+                 sh_video->default_track = 1;
+             if (rot && rot->value)
+@@ -509,8 +513,10 @@
+                 memcpy(sh_sub->extradata, codec->extradata, codec->extradata_size);
+                 sh_sub->extradata_len = codec->extradata_size;
+             }
+-            if (title && title->value)
++            if (title && title->value) {
+                 mp_msg(MSGT_IDENTIFY, MSGL_INFO, "ID_SID_%d_NAME=%s\n", priv->sub_streams, title->value);
++                sh_sub->name = strdup(title->value);
++            }
+             if (st->disposition & AV_DISPOSITION_DEFAULT)
+               sh_sub->default_track = 1;
+             stream_id = priv->sub_streams++;
+--- a/mplayer.c	2026-08-23 00:35:11
++++ b/mplayer.c	2026-08-23 00:35:57
+@@ -3638,6 +3638,43 @@
+ 
+     print_file_properties(mpctx, filename);
+ 
++	{// QZY
++		demuxer_t *dmx;
++		
++		if ((dmx = mpctx->demuxer) != NULL) {
++			sh_audio_t *audio;
++			sh_video_t *video;
++			
++			char *pout = (char*) malloc(2000);
++			char *digits = (char*) malloc(200);
++			*digits = 0;
++			
++			*pout = 0;
++			for (int i = 0; i < MAX_A_STREAMS; i++) {
++				if ((audio = (sh_audio_t*)dmx->a_streams[i]) != NULL) {
++					snprintf(digits, 200, ";;%d^^%s^^%s", audio->aid, (audio->name)?(audio->name):("noname"), (audio->lang)?audio->lang:"unknown");
++					strcat(pout, digits);
++				}
++			}
++			if (*pout) {
++				mp_msg(MSGT_IDENTIFY,MSGL_INFO, "MPX_AUDIO_IDS=%s\n", pout+2);
++			}
++			
++			*pout=0;
++			for (int i = 0; i < MAX_V_STREAMS; i++) {
++				if ((video = (sh_video_t*)dmx->v_streams[i]) != NULL) {
++					snprintf(digits, 200, ";;%d^^%s^^%s", video->vid, (video->name)?(video->name):("noname"), (video->lang)?video->lang:"unknown");
++					strcat(pout, digits);
++				}
++			}
++			if (*pout) {
++				mp_msg(MSGT_IDENTIFY,MSGL_INFO, "MPX_VIDEO_IDS=%s\n", pout+2);
++			}
++			free(digits);
++			free(pout);
++		}
++	}
++
+     // Adjust EDL positions with start_pts
+     if (edl_start_pts && start_pts) {
+         edl_record_ptr edl = edl_records;
