@@ -415,8 +415,10 @@ class ControlUIView: NSView {
 		// initialize the time display slider and text
 		timeText.cell?.formatter = timeFormatter
 		timeText.stringValue = ""
+		useTabularFigures(timeText)
 		timeTextAlt.cell?.formatter = timeFormatter
 		timeTextAlt.stringValue = ""
+		useTabularFigures(timeTextAlt)
 
 		timeSlider.isEnabled = false
 		timeSlider.maxValue = 0
@@ -428,6 +430,7 @@ class ControlUIView: NSView {
 		hintTime.alphaValue = 0
 		hintTime.cell?.formatter = timeFormatter
 		hintTime.stringValue = ""
+		useTabularFigures(hintTime)
 
 		// initial state is hidden
 		fullScreenButton.isHidden = true
@@ -1472,6 +1475,19 @@ class ControlUIView: NSView {
 		default:
 			break
 		}
+	}
+
+	/// Make a time readout use tabular (fixed-width) figures.
+	///
+	/// The system font's digits are proportional: "-00:04:58" is 54.2pt wide while
+	/// "-00:04:57" is only 53.4pt, so a readout that is just wide enough for one
+	/// value gets tail-truncated to "-00:04:…" on the next second. Tabular figures
+	/// give every digit the same advance, so the width no longer depends on which
+	/// digits happen to be showing (it also stops the text from jittering as the
+	/// time ticks).
+	private func useTabularFigures(_ field: NSTextField) {
+		let size = field.font?.pointSize ?? NSFont.smallSystemFontSize
+		field.font = NSFont.monospacedDigitSystemFont(ofSize: size, weight: .regular)
 	}
 
 	////////////////////////////////////////////////KVO for time//////////////////////////////////////////////////
