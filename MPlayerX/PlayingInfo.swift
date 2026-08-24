@@ -27,20 +27,20 @@ import Cocoa
 @objc(PlayingInfo)
 class PlayingInfo: NSObject {
 	@objc var currentChapter: UInt8 = 0
-	@objc var currentTime: NSNumber = 0
-	@objc var currentAudioID: NSNumber?
-	@objc var currentVideoID: NSNumber?
+	@objc dynamic var currentTime: NSNumber = 0
+	@objc dynamic var currentAudioID: NSNumber?
+	@objc dynamic var currentVideoID: NSNumber?
 	@objc var currentSubID: NSNumber?
 
 	@objc var volume: Float = 100
 	@objc var audioBalance: Float = 0
 	@objc var mute: Bool = false
-	@objc var audioDelay: NSNumber = 0
-	@objc var subDelay: NSNumber = 0
+	@objc dynamic var audioDelay: NSNumber = 0
+	@objc dynamic var subDelay: NSNumber = 0
 	@objc var subPos: Float = 100
 	@objc var subScale: NSNumber = 1.5
-	@objc var speed: NSNumber = 1.0
-	@objc var cachingPercent: NSNumber = 0
+	@objc dynamic var speed: NSNumber = 1.0
+	@objc dynamic var cachingPercent: NSNumber = 0
 
 	@objc(resetWithParameterManager:)
 	func reset(with pm: ParameterManager?) {

@@ -30,19 +30,19 @@ import Cocoa
 class MovieInfo: NSObject {
 	private static let demuxValueDefault = "unknown"
 
-	@objc var demuxer: String = MovieInfo.demuxValueDefault
-	@objc var length: NSNumber = 0
-	@objc var seekable: NSNumber = 0
+	@objc dynamic var demuxer: String = MovieInfo.demuxValueDefault
+	@objc dynamic var length: NSNumber = 0
+	@objc dynamic var seekable: NSNumber = 0
 
-	@objc var playingInfo = PlayingInfo()
+	@objc dynamic var playingInfo = PlayingInfo()
 
 	@objc var metaData = NSMutableDictionary()
 
-	@objc var chapterInfo = NSMutableArray()
+	@objc dynamic var chapterInfo = NSMutableArray()
 
-	@objc var videoInfo = NSMutableArray()
-	@objc var audioInfo = NSMutableArray()
-	@objc var subInfo = NSMutableArray()
+	@objc dynamic var videoInfo = NSMutableArray()
+	@objc dynamic var audioInfo = NSMutableArray()
+	@objc dynamic var subInfo = NSMutableArray()
 
 	@objc(audioInfoForID:)
 	func audioInfo(forID audioID: NSNumber?) -> AudioInfo? {
