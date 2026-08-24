@@ -11,9 +11,9 @@
 # Video submenus come up empty.
 #
 # Apply from build-mplayer/MPlayer-1.5 with:  patch -p1 < this-file
-# Still missing (bigger patches, not ported yet): MPX_MPXSUBNAMES and
-# MPX_MPXSUBFILEADD (subtitle track listing, needs the mpx_subid option) and
-# MPX_CHAPTERINFO (stream/stream_dvd.c, DVD/VIDEO_TS only).
+# The subtitle track listing (MPX_MPXSUBNAMES / MPX_MPXSUBFILEADD) was ported
+# separately in mplayer-1.5-mpx-sub-hooks.patch; MPX_CHAPTERINFO
+# (stream/stream_dvd.c, DVD/VIDEO_TS only) is still missing.
 
 --- a/libmpdemux/stheader.h	2026-08-23 00:35:11
 +++ b/libmpdemux/stheader.h	2026-08-23 00:35:31

@@ -6,6 +6,7 @@ import Cocoa
 
 private let kPMDefaultAudioOutput = "coreaudio"
 private let kPMDefaultVideoOutput = "corevideo"
+private let kPMParFixedVO = "-fixed-vo"
 private let kPMDefaultSubLang = "en,eng,ch,chs,cht,ja,jpn"
 private let kPMParMsgLevel = "-msglevel"
 private let kPMValMsgLevel = "all=-1:global=4:cplayer=4:identify=4"
@@ -228,6 +229,14 @@ class ParameterManager: NSObject {
             } else {
                 paramArray.add(vo)
             }
+            // Keep the video output alive across a video-chain rebuild. The
+            // letterbox sends an "ass_margin" command mid-playback, which makes
+            // mplayer rebuild the chain because the frame size changes; without
+            // -fixed-vo that also destroys and re-creates the shared-buffer
+            // corevideo output, and tearing the shared buffer and its Distant
+            // Object connection down under a running render thread kills the
+            // mplayer process outright often enough to be easy to hit.
+            paramArray.add(kPMParFixedVO)
         }
 
         if let subPreferedLanguage = subPreferedLanguage {

@@ -1,0 +1,162 @@
+# MPlayerX letterbox (ass margin) support for MPlayer 1.5
+#
+# MPlayerX drives its letterbox -- the black bar it grows under (and/or over)
+# the picture so subtitles can sit outside the image -- through mplayer's
+# -ass-top-margin / -ass-bottom-margin options and an "ass_margin" slave
+# command. Both are MPlayerX's own extensions, carried in the patched
+# MPlayer 1.0rc-era tree kept here as the tracked mplayer/ directory, and
+# neither survived into the pristine MPlayer 1.5 tree this fork now builds
+# (build-mplayer/MPlayer-1.5, which is NOT under version control).
+#
+# Upstream's margins are a pixel count; MPlayerX passes a fraction of the frame
+# height instead (0.10 = a bar one tenth of the picture high), because the app
+# has no idea what the decoded frame size is when it assembles the command
+# line. Against stock 1.5 that value is rejected outright --
+#
+#     The ass-bottom-margin option must be an integer: 0.10
+#     Error parsing option on the command line: -ass-bottom-margin
+#
+# -- and mplayer refuses to start. Since LetterBoxMode is persisted in user
+# defaults, pressing "l" once left the app unable to play anything at all,
+# silently, until the preference was cleared.
+#
+# This restores both halves of the original patch: the two options now set
+# float ratios that vf_ass resolves to pixel margins once it knows the frame
+# height, and the "ass_margin" slave command lets the app change the letterbox
+# during playback (it rebuilds the video chain, since the margins change the
+# size of the frames vf_ass emits).
+#
+# Apply from build-mplayer/MPlayer-1.5 with:  patch -p1 < this-file
+
+--- a/sub/ass_mp.c
++++ b/sub/ass_mp.c
+@@ -46,6 +46,12 @@
+ float ass_line_spacing = 0.;
+ int ass_top_margin = 0;
+ int ass_bottom_margin = 0;
++/* MPlayerX drives the letterbox as a fraction of the frame height rather than
++   a pixel count, so -ass-top-margin/-ass-bottom-margin set these instead and
++   vf_ass resolves them to the two integers above once the frame size is known.
++   A negative value means "no margin on this side". */
++float ass_top_margin_ratio = -1.0f;
++float ass_bottom_margin_ratio = -1.0f;
+ int extract_embedded_fonts = 1;
+ char **ass_force_style_list = NULL;
+ int ass_use_margins = 0;
+--- a/sub/ass_mp.h
++++ b/sub/ass_mp.h
+@@ -37,6 +37,8 @@
+ extern float ass_line_spacing;
+ extern int ass_top_margin;
+ extern int ass_bottom_margin;
++extern float ass_top_margin_ratio;
++extern float ass_bottom_margin_ratio;
+ extern int extract_embedded_fonts;
+ extern char **ass_force_style_list;
+ extern int ass_use_margins;
+--- a/cfg-common.h
++++ b/cfg-common.h
+@@ -619,8 +619,8 @@
+     {"noass", &ass_enabled, CONF_TYPE_FLAG, 0, 1, 0, NULL},
+     {"ass-font-scale", &ass_font_scale, CONF_TYPE_FLOAT, CONF_RANGE, 0, 100, NULL},
+     {"ass-line-spacing", &ass_line_spacing, CONF_TYPE_FLOAT, CONF_RANGE, -1000, 1000, NULL},
+-    {"ass-top-margin", &ass_top_margin, CONF_TYPE_INT, CONF_RANGE, 0, 2000, NULL},
+-    {"ass-bottom-margin", &ass_bottom_margin, CONF_TYPE_INT, CONF_RANGE, 0, 2000, NULL},
++    {"ass-top-margin", &ass_top_margin_ratio, CONF_TYPE_FLOAT, CONF_RANGE, -1.0, 1.0, NULL},
++    {"ass-bottom-margin", &ass_bottom_margin_ratio, CONF_TYPE_FLOAT, CONF_RANGE, -1.0, 1.0, NULL},
+     {"ass-use-margins", &ass_use_margins, CONF_TYPE_FLAG, 0, 0, 1, NULL},
+     {"noass-use-margins", &ass_use_margins, CONF_TYPE_FLAG, 0, 1, 0, NULL},
+     {"embeddedfonts", &extract_embedded_fonts, CONF_TYPE_FLAG, 0, 0, 1, NULL},
+--- a/libmpcodecs/vf_ass.c
++++ b/libmpcodecs/vf_ass.c
+@@ -614,6 +614,13 @@
+     int planes, alphas;
+     int i;
+ 
++    /* Resolve the letterbox ratios now that the frame height is known; a
++       ratio that is not set leaves no margin on that side. */
++    ass_bottom_margin = (ass_bottom_margin_ratio > 0.0f) ?
++                        ((int)(height * ass_bottom_margin_ratio)) : 0;
++    ass_top_margin    = (ass_top_margin_ratio > 0.0f) ?
++                        ((int)(height * ass_top_margin_ratio)) : 0;
++
+     vf->priv->outfmt = outfmt;
+     vf->priv->outh = outh = height + ass_top_margin + ass_bottom_margin;
+     vf->priv->outw = outw = width;
+--- a/input/input.h
++++ b/input/input.h
+@@ -165,6 +165,9 @@
+   /// GUI command
+   MP_CMD_GUI,
+ 
++  /// MPlayerX letterbox command
++  MP_ASS_MARGIN,
++
+ } mp_command_type;
+ 
+ // The arg types
+--- a/input/input.c
++++ b/input/input.c
+@@ -212,6 +212,8 @@
+   { MP_CMD_AF_CMDLINE, "af_cmdline", 2, { {MP_CMD_ARG_STRING, {0}}, {MP_CMD_ARG_STRING, {0}}, {-1,{0}} } },
+ 
+   { MP_CMD_GUI, "gui", 1, { {MP_CMD_ARG_STRING, {0}}, {-1,{0}} } },
++
++  { MP_ASS_MARGIN, "ass_margin", 3, { {MP_CMD_ARG_FLOAT,{0}}, {MP_CMD_ARG_FLOAT,{0}}, {MP_CMD_ARG_INT,{0}}, {-1,{0}} } },
+ 
+   { 0, "", 0, { 0 } }
+ };
+--- a/command.c
++++ b/command.c
+@@ -22,6 +22,7 @@
+ #include <inttypes.h>
+ #include <unistd.h>
+ #include <string.h>
++#include <math.h>
+ 
+ #include "config.h"
+ #include "command.h"
+@@ -3440,7 +3441,43 @@
+             break;
+ 
+ #endif
++
++#ifdef CONFIG_ASS
++    /* MPlayerX's letterbox: "ass_margin <bottom ratio> <top ratio> <render
++       subtitles in the letterbox>". The video chain has to be rebuilt because
++       the margins change the size of the frames vf_ass produces. */
++    case MP_ASS_MARGIN:
++        if (mpctx->sh_video &&
++            ((fabsf(ass_bottom_margin_ratio - cmd->args[0].v.f) > 0.001) ||
++             (fabsf(ass_top_margin_ratio - cmd->args[1].v.f) > 0.001) ||
++             (ass_use_margins != cmd->args[2].v.i))) {
++            ass_bottom_margin_ratio = cmd->args[0].v.f;
++            ass_top_margin_ratio = cmd->args[1].v.f;
++            ass_use_margins = cmd->args[2].v.i;
+ 
++            // The video codec has to go down with the VO: reinit_video_chain()
++            // calls init_best_video_codec() unconditionally, so leaving the old
++            // decoder initialized starts a second one on top of it. With
++            // frame-level threading (-lavdopts threads=N, which MPlayerX always
++            // passes) the orphaned decoder's worker threads keep running over
++            // freed state and malloc traps a corrupted heap a few toggles later.
++            // This is the same pair mplayer's own video-track switch uninits,
++            // down to leaving the VO alone under -fixed-vo (MPlayerX passes it,
++            // so its shared-buffer corevideo output is reconfigured in place
++            // instead of being torn down under the app's render thread). And,
++            // like that path, the stream header has to be hooked back up
++            // afterwards, because uninit_player(INITIALIZED_VCODEC) clears
++            // mpctx->sh_video and reinit_video_chain() dereferences it.
++            uninit_player(INITIALIZED_VCODEC | (fixed_vo ? 0 : INITIALIZED_VO));
++            if (mpctx->d_video && mpctx->d_video->sh) {
++                mpctx->sh_video = mpctx->d_video->sh;
++                mpctx->sh_video->ds = mpctx->d_video;
++                reinit_video_chain();
++            }
++        }
++        break;
++#endif
++
+     case MP_CMD_AF_SWITCH:
+         if (sh_audio)
+         {

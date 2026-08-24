@@ -96,6 +96,35 @@ if ! grep -q 'MPX_FILENAME' mplayer.c; then
     patch -p1 < "${REPO_ROOT}/tools/mpx-hooks.patch"
 fi
 
+# A later pass recovered two more of those hooks, MPX_AUDIO_IDS and
+# MPX_VIDEO_IDS, which list the file's audio and video tracks. They are what
+# tells the app a file has video at all: without them every movie looks
+# audio-only, so the window collapses to its minimum size when switching
+# episodes and the Inspector's track fields stay blank.
+if ! grep -q 'MPX_AUDIO_IDS' mplayer.c; then
+    echo "==> applying mplayer-1.5-mpx-id-hooks.patch"
+    patch -p1 < "${REPO_ROOT}/tools/mplayer-1.5-mpx-id-hooks.patch"
+fi
+
+# MPlayerX's letterbox passes the margins as a fraction of the frame height and
+# adjusts them during playback over the slave protocol; stock 1.5 takes only an
+# integer pixel count on the command line and has no such command. Without this
+# patch mplayer refuses to start at all once the letterbox is switched on.
+if ! grep -q 'ass_bottom_margin_ratio' sub/ass_mp.c; then
+    echo "==> applying mplayer-1.5-mpx-letterbox.patch"
+    patch -p1 < "${REPO_ROOT}/tools/mplayer-1.5-mpx-letterbox.patch"
+fi
+
+# The Subtitle menu is driven by two more of MPlayerX's hooks, MPX_MPXSUBNAMES
+# (the whole track list, printed once when the file opens) and MPX_MPXSUBFILEADD
+# (one track loaded later over the slave protocol). Without them the app's
+# subtitle track list stays empty and every subtitle menu is greyed out. The
+# same patch adds MPlayerX's -subid option, which says which track to start on.
+if ! grep -q 'MPX_MPXSUBNAMES' mplayer.c; then
+    echo "==> applying mplayer-1.5-mpx-sub-hooks.patch"
+    patch -p1 < "${REPO_ROOT}/tools/mplayer-1.5-mpx-sub-hooks.patch"
+fi
+
 # ------------------------------------------------------------------ configure
 export PATH="${BREW_PREFIX}/bin:${PATH}"
 export PKG_CONFIG_PATH="${BREW_PREFIX}/lib/pkgconfig:${PKG_CONFIG_PATH:-}"

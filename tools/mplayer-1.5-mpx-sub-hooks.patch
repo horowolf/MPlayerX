@@ -1,0 +1,135 @@
+# MPlayerX subtitle-track hooks (MPX_MPXSUBNAMES / MPX_MPXSUBFILEADD) for
+# MPlayer 1.5
+#
+# MPlayerX builds its Subtitle menu -- and the "Switch Subtitle" submenu in the
+# on-screen controls -- entirely from two lines that only its own patched
+# mplayer printed:
+#
+#     MPX_MPXSUBNAMES=<name>^^<name>^^...;;<index of the selected track>
+#     MPX_MPXSUBFILEADD=<path of a subtitle file loaded during playback>
+#
+# The first lists every track the file opened with; the second announces a
+# single track added later over the slave protocol ("sub_load"). Neither exists
+# in the pristine MPlayer 1.5 tree this fork builds (build-mplayer/MPlayer-1.5,
+# which is NOT under version control), so movieInfo.subInfo stayed empty and the
+# menu was permanently greyed out. The original patch is in the MPlayer 1.0rc-era
+# tree kept here as the tracked mplayer/ directory (mplayer.c:1088 and
+# mplayer.c:3789-3816); this is a hand-port of it onto 1.5.
+#
+# The listing has to select each track in turn, because mplayer will only print
+# a track's name for the one currently selected. That is why MPlayerX also
+# carries its own -subid option: after the walk, the selection has to be put
+# back to the track the app asked for (-1 meaning "start with subtitles off",
+# which is what ParameterManager sends instead of -nosub -- -nosub would keep
+# the tracks from being loaded at all and leave the menu empty again).
+#
+# Deliberately different from the original: the name buffer is filled with a
+# bounded append instead of strncat with a running size that could go negative,
+# the "(2) name" prefix is only skipped when there really is something after
+# the ")", and the per-track name is skipped rather than printed when the
+# property read fails.
+#
+# Apply from build-mplayer/MPlayer-1.5 with:  patch -p1 < this-file
+# Still missing after this patch: MPX_CHAPTERINFO (stream/stream_dvd.c,
+# DVD/VIDEO_TS only).
+
+--- a/mplayer.c
++++ b/mplayer.c
+@@ -143,6 +143,10 @@
+ double start_pts   = MP_NOPTS_VALUE;
+ char *heartbeat_cmd;
+ float heartbeat_interval = 30.0;
++// MPlayerX's own -subid option: which subtitle track to start on, or -1 for
++// none. It is applied where MPX_MPXSUBNAMES is printed, after the track list
++// has been walked -- walking it leaves a different track selected.
++int mpx_subid = 0;
+ static int max_framesize;
+ 
+ int noconsolecontrols;
+@@ -1104,6 +1108,16 @@
+         return;
+ #endif
+     mpctx->set_of_subtitles[mpctx->set_of_sub_size] = subd;
++
++    // MPlayerX appends this one track to its Subtitle menu. Only subtitle
++    // files loaded during playback (slave "sub_load") are announced this way;
++    // the ones autoloaded while the file is opening are covered by the
++    // MPX_MPXSUBNAMES listing below, and announcing them here as well would
++    // enter every one of them twice.
++    if (!current_module || strcmp(current_module, "read_subtitles_file"))
++        mp_msg(MSGT_IDENTIFY, MSGL_INFO, "MPX_MPXSUBFILEADD=%s\n",
++               filename_recode(filename));
++
+     mp_msg(MSGT_IDENTIFY, MSGL_INFO, "ID_FILE_SUB_ID=%d\n", mpctx->set_of_sub_size);
+     mp_msg(MSGT_IDENTIFY, MSGL_INFO, "ID_FILE_SUB_FILENAME=%s\n",
+            filename_recode(filename));
+@@ -3817,6 +3831,59 @@
+         }
+ #endif
+ 
++        {
++            // The whole subtitle track list, for MPlayerX's Subtitle menu:
++            // the track names separated by "^^", then ";;" and the index of
++            // the track that ends up selected. mplayer has no property that
++            // reports a track's name without selecting it, so the list is
++            // built by stepping the "sub" property across every track and
++            // asking for its printed form each time; the selection is put
++            // back to -subid afterwards.
++            size_t valSize = 2000;
++            char *val = malloc(valSize + 1);
++            size_t used = 0;
++            int subIdx;
++
++            if (val && mpctx->global_sub_size > 0) {
++                *val = 0;
++
++                for (subIdx = 0; subIdx < mpctx->global_sub_size; subIdx++) {
++                    char *subName = NULL;
++                    const char *head;
++                    size_t len;
++
++                    mp_property_do("sub", M_PROPERTY_SET, &subIdx, mpctx);
++                    if (mp_property_do("sub", M_PROPERTY_PRINT, &subName, mpctx)
++                        != M_PROPERTY_OK || !subName)
++                        continue;
++
++                    // The printed form is "(2) name"; MPlayerX numbers the
++                    // tracks itself and wants the name alone.
++                    head = strchr(subName, ')');
++                    head = (head && head[1]) ? head + 2 : subName;
++
++                    len = strlen(head);
++                    if (used + 2 + len > valSize)
++                        len = (valSize > used + 2) ? valSize - used - 2 : 0;
++                    if (len) {
++                        memcpy(val + used, "^^", 2);
++                        memcpy(val + used + 2, head, len);
++                        used += 2 + len;
++                        val[used] = 0;
++                    }
++                    free(subName);
++                }
++
++                subIdx = mpx_subid;
++                // SET clamps out-of-range values and writes the result back,
++                // so this reports the track that is really selected.
++                mp_property_do("sub", M_PROPERTY_SET, &subIdx, mpctx);
++                mp_msg(MSGT_IDENTIFY, MSGL_INFO, "MPX_MPXSUBNAMES=%s;;%d\n",
++                       val + (used ? 2 : 0), subIdx);
++            }
++            free(val);
++        }
++
+         // MPlayerX's CoreController.m treats this as the signal that playback
+         // has actually started (it maps to kMPCPlayingState); without it,
+         // "state" never leaves kMPCOpenedState and every PlayerCouldAcceptCommand-
+--- a/cfg-mplayer.h
++++ b/cfg-mplayer.h
+@@ -364,6 +364,7 @@
+ 
+     {"vd", vd_conf, CONF_TYPE_SUBCONFIG, 0, 0, 0, NULL},
+     {"progbar-align", &progbar_align, CONF_TYPE_INT, CONF_GLOBAL, 0, 100, NULL},
++    {"subid", &mpx_subid, CONF_TYPE_INT, CONF_RANGE, -1, 512, NULL},
+     {NULL, NULL, 0, 0, 0, 0, NULL}
+ };
+ 
