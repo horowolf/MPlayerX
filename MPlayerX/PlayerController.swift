@@ -487,7 +487,7 @@ class PlayerController: NSObject, CoreControllerDelegate, SubConverterDelegate {
 		////////////////////////////////////////////////////////////////////
 
 		if ud.bool(forKey: kUDKeyAutoResume),
-		   let stime = AppController.shared().bookmarks[lastPlayedPathPre!.absoluteString] as? NSNumber {
+		   let stime = Self.bookmarkedTime(AppController.shared().bookmarks[lastPlayedPathPre!.absoluteString]) {
 			// if AutoResume is ON and there was a record in the bookmarks
 			// and 5s to help the users to remember where they left in the movie
 			mplayer.pm.startTime = stime.floatValue - 5
@@ -935,6 +935,21 @@ class PlayerController: NSObject, CoreControllerDelegate, SubConverterDelegate {
 		return opts as NSSet
 	}
 
+	/// A bookmarked stop time, whether it was stored as a number or as a string.
+	///
+	/// The time comes out of movieInfo, where it is one of the NSStrings
+	/// LogAnalyzeOperation slices straight out of mplayer's output, so both
+	/// forms are already sitting in existing bookmarks.plist files. ObjC never
+	/// noticed the difference -- it just sent -floatValue, which NSString
+	/// answers too -- but `as? NSNumber` fails on the string form, which left
+	/// auto-resume silently dead and "Play from last stopped place" greyed out
+	/// for every file. Stored values are normalized to NSNumber from here on.
+	private static func bookmarkedTime(_ value: Any?) -> NSNumber? {
+		if let number = value as? NSNumber { return number }
+		if let string = value as? NSString { return NSNumber(value: string.doubleValue) }
+		return nil
+	}
+
 	// MARK: MPlayer Notifications (CoreControllerDelegate)
 
 	func playbackOpened(_ coreController: Any!) {
@@ -953,7 +968,7 @@ class PlayerController: NSObject, CoreControllerDelegate, SubConverterDelegate {
 		}
 
 		// Use the file name to look up whether there is a previous playback record
-		let stopTime = lastPlayedPathPre.flatMap { AppController.shared().bookmarks[$0.absoluteString] }
+		let stopTime = lastPlayedPathPre.flatMap { Self.bookmarkedTime(AppController.shared().bookmarks[$0.absoluteString]) }
 		var dict: [String: Any] = [kMPCPlayOpenedURLKey as String: lastPlayedPathPre as Any]
 		if let stopTime = stopTime {
 			dict[kMPCPlayLastStoppedTimeKey as String] = stopTime
@@ -989,7 +1004,7 @@ class PlayerController: NSObject, CoreControllerDelegate, SubConverterDelegate {
 				if stoppedByForce {
 					// If it was a forced stop
 					// Use the file name as the key, and record this file's playback time
-					AppController.shared().bookmarks[lastPlayedPath.absoluteString] = dict?[kMPCPlayStoppedTimeKey]
+					AppController.shared().bookmarks[lastPlayedPath.absoluteString] = Self.bookmarkedTime(dict?[kMPCPlayStoppedTimeKey])
 				} else {
 					// Stopped naturally
 					// Remove the playback time recorded under this file's key
