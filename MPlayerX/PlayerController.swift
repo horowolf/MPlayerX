@@ -670,14 +670,15 @@ class PlayerController: NSObject, CoreControllerDelegate, SubConverterDelegate {
 	func seekTo(_ time: Float, mode seekMode: SEEK_MODE) -> Float {
 		// playingInfo's currentTime is synced by reading the log, so it's not set directly here
 		var time = time
-		// `seekable != nil` is always true (movieInfo.seekable is a non-optional
-		// NSNumber, defaulting to 0) -- this reproduces a pre-existing ObjC
-		// quirk, not something introduced by this port: the original checked
-		// `mplayer.movieInfo.seekable` as a bare pointer-truthiness test against
-		// an NSNumber* property, which is likewise always true regardless of the
-		// wrapped value. Not fixed here since it predates this stage and the
-		// actual seek command is unconditionally sent either way today.
-		if playerCouldAcceptCommand && (mplayer.movieInfo.seekable != nil) {
+		// The original guarded this with `mplayer.movieInfo.seekable`, a bare
+		// pointer-truthiness test on an NSNumber* property -- true whatever the
+		// wrapped value was, so it never actually blocked anything. The dead
+		// conjunct is dropped rather than turned into a real `.boolValue` test:
+		// the UI already refuses to seek unseekable media (ControlUIView
+		// disables timeSlider from the same flag), mplayer ignores a seek it
+		// cannot honour, and making the check real would newly depend on every
+		// container reporting ID_SEEKABLE.
+		if playerCouldAcceptCommand {
 			if seekMode == kMPCSeekModeRelative {
 				time -= mplayer.movieInfo.playingInfo.currentTime.floatValue
 			}
@@ -692,14 +693,15 @@ class PlayerController: NSObject, CoreControllerDelegate, SubConverterDelegate {
 	@objc(changeTimeBy:)
 	func changeTimeBy(_ delta: Float) -> Float {
 		// playingInfo's currentTime is synced by reading the log, so it's not set directly here
-		// `seekable != nil` is always true (movieInfo.seekable is a non-optional
-		// NSNumber, defaulting to 0) -- this reproduces a pre-existing ObjC
-		// quirk, not something introduced by this port: the original checked
-		// `mplayer.movieInfo.seekable` as a bare pointer-truthiness test against
-		// an NSNumber* property, which is likewise always true regardless of the
-		// wrapped value. Not fixed here since it predates this stage and the
-		// actual seek command is unconditionally sent either way today.
-		if playerCouldAcceptCommand && (mplayer.movieInfo.seekable != nil) {
+		// The original guarded this with `mplayer.movieInfo.seekable`, a bare
+		// pointer-truthiness test on an NSNumber* property -- true whatever the
+		// wrapped value was, so it never actually blocked anything. The dead
+		// conjunct is dropped rather than turned into a real `.boolValue` test:
+		// the UI already refuses to seek unseekable media (ControlUIView
+		// disables timeSlider from the same flag), mplayer ignores a seek it
+		// cannot honour, and making the check real would newly depend on every
+		// container reporting ID_SEEKABLE.
+		if playerCouldAcceptCommand {
 			let delta = mplayer.setTimePos(delta, mode: kMPCSeekModeRelative)
 			mplayer.la.stop()
 			return delta

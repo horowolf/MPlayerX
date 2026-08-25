@@ -208,7 +208,12 @@ class RootLayerView: NSView, CoreDisplayDelegate, CALayerDelegate, NSWindowDeleg
 		fourFingersPinch = kFourFingersPinchInit
 		fourFingersPinchDistance = 1
 
-		acceptsTouchEvents = true
+		// acceptsTouchEvents has been deprecated since 10.12.2. .indirect is the
+		// trackpad, which is what every gesture below is written against -- the
+		// three-finger tap, the three- and four-finger pinches, magnify, rotate
+		// and the two-axis scroll. .direct would be a touchscreen or the Touch
+		// Bar, neither of which this view has anything to say about.
+		allowedTouchTypes = .indirect
 		wantsRestingTouches = false
 	}
 
@@ -307,8 +312,7 @@ class RootLayerView: NSView, CoreDisplayDelegate, CALayerDelegate, NSWindowDeleg
 		canMoveAcrossMenuBar = doesPrimaryScreenHasScreenAbove()
 		MPLogString("canMoveAcrossMenuBar:\(canMoveAcrossMenuBar)")
 
-		if MPXGetSysVersion() >= kMPXSysVersionLion,
-		   fullScreenStatus == kFullScreenStatusOld,
+		if fullScreenStatus == kFullScreenStatusOld,
 		   NSScreen.screens.count == 1 {
 			// if it is a Lion system but the old fullscreen method was used, that means there were multiple screens at the time
 			// but now there is only one screen, meaning the user unplugged the video cable, so we need to exit fullscreen
@@ -1007,8 +1011,10 @@ class RootLayerView: NSView, CoreDisplayDelegate, CALayerDelegate, NSWindowDeleg
 
 		if fullScreenStatus == kFullScreenStatusNone {
 			// if not in fullscreen state, decide based on the current situation
-			oldWay = (MPXGetSysVersion() < kMPXSysVersionLion) ||
-					 (NSScreen.screens.count > 1) ||
+			// The pre-Lion arm of this test is gone: on an 11.0 deployment
+			// target the system always has the native fullscreen path, so the
+			// old method is only chosen for multiple screens or by preference.
+			oldWay = (NSScreen.screens.count > 1) ||
 					 ud.bool(forKey: kUDKeyOldFullScreenMethod)
 		} else {
 			// currently in fullscreen state, about to exit fullscreen

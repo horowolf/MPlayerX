@@ -29,8 +29,6 @@ import CoreText
 
 let kMPCStringMPlayerX = "MPlayerX"
 
-let kMPXSysVersionLion: Int32 = 0x1070
-
 private var logEnable = false
 
 /// Was the variadic MPLog(); Swift call sites interpolate instead, so this
@@ -41,16 +39,6 @@ func MPLogString(_ str: String) {
 
 func MPSetLogEnable(_ enable: Bool) {
 	logEnable = enable
-}
-
-/// The original called Gestalt(gestaltSystemVersion), which has been
-/// deprecated since 10.8 and saturates below 10.10 anyway. The encoding only
-/// has to keep the comparisons against kMPXSysVersionLion at the two call
-/// sites meaningful; on the 11.0 deployment target both are now always true,
-/// so the pre-Lion branches they guard are dead code waiting to be removed.
-func MPXGetSysVersion() -> Int32 {
-	let v = ProcessInfo.processInfo.operatingSystemVersion
-	return Int32(v.majorVersion) << 8 | Int32(min(v.minorVersion, 15)) << 4
 }
 
 extension NSColor {

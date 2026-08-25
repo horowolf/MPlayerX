@@ -93,74 +93,43 @@ class TitleView: NSView {
 
 		let graphite = UserDefaults.standard.integer(forKey: "AppleAquaColorVariant") == 6
 
-		if MPXGetSysVersion() < kMPXSysVersionLion {
-			// in snow leopard
-			if graphite {
-				imgCloseActive = NSImage(named: "close-active-graphite.tiff")
-				imgCloseInactive = NSImage(named: "close-inactive-disabled-graphite.tiff")
-				imgCloseRollover = NSImage(named: "close-rollover-graphite.tiff")
+		// The Snow Leopard titlebar art -- the *.tiff button set, and a window
+		// with no fullscreen button -- sat behind a pre-Lion branch that cannot
+		// be reached on an 11.0 deployment target. Only the Lion artwork is left.
+		if graphite {
+			// graphite theme
+			imgCloseActive = NSImage(named: "close-active-graphite-lion.png")
+			imgCloseInactive = NSImage(named: "close-inactive-disabled-graphite-lion.png")
+			imgCloseRollover = NSImage(named: "close-rollover-graphite-lion.png")
 
-				imgMiniActive = NSImage(named: "minimize-active-graphite.tiff")
-				imgMiniInactive = NSImage(named: "minimize-inactive-disabled-graphite.tiff")
-				imgMiniRollover = NSImage(named: "minimize-rollover-graphite.tiff")
+			imgMiniActive = NSImage(named: "minimize-active-graphite-lion.png")
+			imgMiniInactive = NSImage(named: "minimize-inactive-disabled-graphite-lion.png")
+			imgMiniRollover = NSImage(named: "minimize-rollover-graphite-lion.png")
 
-				imgZoomActive = NSImage(named: "zoom-active-graphite.tiff")
-				imgZoomInactive = NSImage(named: "zoom-inactive-disabled-graphite.tiff")
-				imgZoomRollover = NSImage(named: "zoom-rollover-graphite.tiff")
-			} else {
-				imgCloseActive = NSImage(named: "close-active.tiff")
-				imgCloseInactive = NSImage(named: "close-inactive-disabled.tiff")
-				imgCloseRollover = NSImage(named: "close-rollover.tiff")
-
-				imgMiniActive = NSImage(named: "minimize-active.tiff")
-				imgMiniInactive = NSImage(named: "minimize-inactive-disabled.tiff")
-				imgMiniRollover = NSImage(named: "minimize-rollover.tiff")
-
-				imgZoomActive = NSImage(named: "zoom-active.tiff")
-				imgZoomInactive = NSImage(named: "zoom-inactive-disabled.tiff")
-				imgZoomRollover = NSImage(named: "zoom-rollover.tiff")
-			}
-
-			fsButton = nil
-			imgFSActive = nil
-			imgFSRollver = nil
+			imgZoomActive = NSImage(named: "zoom-active-graphite-lion.png")
+			imgZoomInactive = NSImage(named: "zoom-inactive-disabled-graphite-lion.png")
+			imgZoomRollover = NSImage(named: "zoom-rollover-graphite-lion.png")
 		} else {
-			// in lion
-			if graphite {
-				// graphite theme
-				imgCloseActive = NSImage(named: "close-active-graphite-lion.png")
-				imgCloseInactive = NSImage(named: "close-inactive-disabled-graphite-lion.png")
-				imgCloseRollover = NSImage(named: "close-rollover-graphite-lion.png")
+			imgCloseActive = NSImage(named: "close-active-lion.png")
+			imgCloseInactive = NSImage(named: "close-inactive-disabled-lion.png")
+			imgCloseRollover = NSImage(named: "close-rollover-lion.png")
 
-				imgMiniActive = NSImage(named: "minimize-active-graphite-lion.png")
-				imgMiniInactive = NSImage(named: "minimize-inactive-disabled-graphite-lion.png")
-				imgMiniRollover = NSImage(named: "minimize-rollover-graphite-lion.png")
+			imgMiniActive = NSImage(named: "minimize-active-lion.png")
+			imgMiniInactive = NSImage(named: "minimize-inactive-disabled-lion.png")
+			imgMiniRollover = NSImage(named: "minimize-rollover-lion.png")
 
-				imgZoomActive = NSImage(named: "zoom-active-graphite-lion.png")
-				imgZoomInactive = NSImage(named: "zoom-inactive-disabled-graphite-lion.png")
-				imgZoomRollover = NSImage(named: "zoom-rollover-graphite-lion.png")
-			} else {
-				imgCloseActive = NSImage(named: "close-active-lion.png")
-				imgCloseInactive = NSImage(named: "close-inactive-disabled-lion.png")
-				imgCloseRollover = NSImage(named: "close-rollover-lion.png")
-
-				imgMiniActive = NSImage(named: "minimize-active-lion.png")
-				imgMiniInactive = NSImage(named: "minimize-inactive-disabled-lion.png")
-				imgMiniRollover = NSImage(named: "minimize-rollover-lion.png")
-
-				imgZoomActive = NSImage(named: "zoom-active-lion.png")
-				imgZoomInactive = NSImage(named: "zoom-inactive-disabled-lion.png")
-				imgZoomRollover = NSImage(named: "zoom-rollover-lion.png")
-			}
-			// read the image
-			imgFSActive = NSImage(named: "fullscreen-active-lion")
-			imgFSRollver = NSImage(named: "fullscreen-rollover-lion")
-			//
-			let fs = MPXWindowButton(frame: NSRect(x: 4, y: 0, width: 22, height: 22), type: .fullscreenButtonType)
-			fs.image = imgFSActive
-			fs.autoresizingMask = [.minXMargin, .maxYMargin]
-			fsButton = fs
+			imgZoomActive = NSImage(named: "zoom-active-lion.png")
+			imgZoomInactive = NSImage(named: "zoom-inactive-disabled-lion.png")
+			imgZoomRollover = NSImage(named: "zoom-rollover-lion.png")
 		}
+		// read the image
+		imgFSActive = NSImage(named: "fullscreen-active-lion")
+		imgFSRollver = NSImage(named: "fullscreen-rollover-lion")
+		//
+		let fs = MPXWindowButton(frame: NSRect(x: 4, y: 0, width: 22, height: 22), type: .fullscreenButtonType)
+		fs.image = imgFSActive
+		fs.autoresizingMask = [.minXMargin, .maxYMargin]
+		fsButton = fs
 
 		closeButton = MPXWindowButton(frame: NSRect(x: 4, y: 0, width: 22, height: 22), type: .closeButtonType)
 		miniButton = MPXWindowButton(frame: NSRect(x: 25, y: 0, width: 22, height: 22), type: .minimizeButtonType)
