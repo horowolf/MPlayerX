@@ -24,11 +24,8 @@ private let kSnapshotSaveDefaultPath = "~/Pictures"
 
 private let kMPCFMTBookmarkPath = "bookmarks.plist"
 // mplayerx.org belongs to the original project, not to this fork, so the
-// feedback link goes to this repository's issue tracker instead. The wiki is
-// still the upstream one on purpose: it holds the original usage documentation
-// and this fork has none of its own yet.
+// feedback link goes to this repository's issue tracker instead.
 private let kMPXFeedbackURL = "https://github.com/horowolf/MPlayerX/issues"
-private let kMPXWikiURL = "https://github.com/niltsh/MPlayerX/wiki"
 private let kMPXSponsorURL = "https://github.com/sponsors/horowolf"
 private let kMPXEAFPlaceHolder = ""
 
@@ -219,12 +216,6 @@ class AppController: NSObject, NSApplicationDelegate, NSMenuItemValidation, SPMe
 		}
 	}
 
-	@IBAction func gotoWikiPage(_ sender: Any?) {
-		if let url = URL(string: kMPXWikiURL) {
-			NSWorkspace.shared.open(url)
-		}
-	}
-
 	@IBAction func writeSnapshotToFile(_ sender: Any?) {
 		// get the image data
 		guard let snapshot = dispView.snapshot() else { return }
@@ -282,10 +273,16 @@ class AppController: NSObject, NSApplicationDelegate, NSMenuItemValidation, SPMe
 		NSWorkspace.shared.recycle([path], completionHandler: nil)
 	}
 
-	/// Was a legacy PayPal "non-hosted" donation URL carrying the original
-	/// author's mail address in a `business=` query parameter -- both the wrong
-	/// recipient for this fork and a form that publishes someone's mail address
-	/// in a link. GitHub Sponsors takes neither an address nor a currency guess.
+	/// The Donate menu item is hidden in MainMenu.xib and this never runs today
+	/// -- the fork takes no donations for now. Both are kept, rather than
+	/// deleted, so turning it back on is one checkbox in the xib once (and if)
+	/// a Sponsors profile is enabled on that account.
+	///
+	/// What it replaced was a legacy PayPal "non-hosted" donation URL carrying
+	/// the original author's mail address in a `business=` query parameter --
+	/// both the wrong recipient for this fork and a form that publishes
+	/// someone's mail address in a link. GitHub Sponsors takes neither an
+	/// address nor the locale-based currency guess that URL needed.
 	@IBAction func donate(_ sender: Any?) {
 		if let url = URL(string: kMPXSponsorURL) {
 			NSWorkspace.shared.open(url)

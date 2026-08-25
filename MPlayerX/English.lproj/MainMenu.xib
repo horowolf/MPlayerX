@@ -24,7 +24,7 @@
                                     <action selector="orderFrontStandardAboutPanel:" target="-1" id="974"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Donate..." id="1009">
+                            <menuItem title="Donate..." hidden="YES" id="1009">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="donate:" target="961" id="1010"/>
@@ -582,12 +582,6 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="Help" systemMenu="help" id="491">
                         <items>
-                            <menuItem title="MPlayerX Wiki Page" keyEquivalent="?" id="492">
-                                <connections>
-                                    <action selector="gotoWikiPage:" target="-1" id="1000"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem isSeparatorItem="YES" id="1011"/>
                             <menuItem title="Report bugs / Feedback..." id="1012">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
