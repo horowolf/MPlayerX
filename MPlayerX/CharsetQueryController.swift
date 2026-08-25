@@ -178,6 +178,16 @@ private struct CharsetQueryView: View {
 					.keyboardShortcut(.defaultAction)
 			}
 		}
+		// The explicit width is load-bearing, not cosmetic. Nothing else in this
+		// hierarchy has a definite width, so when the hosting view is a window's
+		// content view AppKit and SwiftUI feed each other: a narrower proposal
+		// makes the wrapping hint text taller, the taller content makes the window
+		// grow, the growth re-proposes a width, and the panel ends up as a
+		// full-screen-height sliver with the form floating in the middle of it
+		// (measured: 436x116 at build time, 246x1531 a second later). Pinning the
+		// width breaks the loop and leaves the height free to follow the hint text.
+		// 436 - 2 * 16 padding = the original SubEncoding.xib panel width.
+		.frame(width: 404)
 		.padding(16)
 	}
 }
@@ -209,9 +219,9 @@ class CharsetQueryController: NSObject {
 	private func buildWindowIfNeeded() {
 		guard window == nil else { return }
 
-		// Same fixed content size and style (titled/miniaturizable/utility,
-		// deliberately not closable -- Cancel/OK are the only way out) as the
-		// original SubEncoding.xib's NSPanel.
+		// Same style (titled/miniaturizable/utility, deliberately not closable --
+		// Cancel/OK are the only way out) as the original SubEncoding.xib's
+		// NSPanel, and the same 436pt width.
 		let contentRect = NSRect(x: 0, y: 0, width: 436, height: 116)
 		let panel = NSPanel(contentRect: contentRect,
 							 styleMask: [.titled, .miniaturizable, .utilityWindow],
@@ -220,13 +230,19 @@ class CharsetQueryController: NSObject {
 		panel.title = NSLocalizedString("Subtitle Encoding", comment: "SubEncoding")
 		panel.isReleasedWhenClosed = false
 		panel.setFrameAutosaveName("SubtitleEncoding")
-		panel.minSize = contentRect.size
-		panel.maxSize = contentRect.size
 
 		let view = CharsetQueryView(model: model,
 									 onConfirm: { [weak self] in self?.confirmed() },
 									 onCancel: { [weak self] in self?.canceled() })
-		panel.contentView = NSHostingView(rootView: view)
+		let hosting = NSHostingView(rootView: view)
+		// The height the form actually needs -- the xib's 116pt is one line short
+		// of the three-line detection hint. No minSize/maxSize: the panel has no
+		// .resizable in its style mask, so the user can't resize it anyway, and
+		// clamping the window smaller than its content only cut the hint off.
+		let fitting = hosting.fittingSize
+		panel.contentView = hosting
+		panel.setContentSize(fitting)
+		panel.center()
 
 		window = panel
 	}
