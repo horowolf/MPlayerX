@@ -273,10 +273,13 @@ class AppController: NSObject, NSApplicationDelegate, NSMenuItemValidation, SPMe
 		NSWorkspace.shared.recycle([path], completionHandler: nil)
 	}
 
-	/// The Donate menu item is hidden in MainMenu.xib and this never runs today
-	/// -- the fork takes no donations for now. Both are kept, rather than
-	/// deleted, so turning it back on is one checkbox in the xib once (and if)
-	/// a Sponsors profile is enabled on that account.
+	/// The Donate menu item is hidden in MainMenu.xib and this never runs
+	/// today: the fork deliberately takes no donations. A player that cannot
+	/// be anyone's income is not worth the tax paperwork and the personal
+	/// details a payment page puts on public record, and the URL below points
+	/// at a Sponsors profile that has not been enabled. Both the item and this
+	/// method are kept rather than deleted, so should that ever change it is
+	/// one checkbox in the xib plus a working URL here.
 	///
 	/// What it replaced was a legacy PayPal "non-hosted" donation URL carrying
 	/// the original author's mail address in a `business=` query parameter --

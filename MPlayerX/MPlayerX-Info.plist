@@ -231,7 +231,7 @@
 	<key>MPXCommitHash</key>
 	<string>75fc25a1edb244ca0e1fdd4a2a85542f80615269</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2009-2011, Zongyao QU. Portions Copyright © 2026 horowolf: Swift port and macOS 11+ revival.</string>
+	<string>Copyright © 2009-2011, Zongyao QU. Portions Copyright © 2026 horowolf: Swift port and macOS 11+ revival. Unofficial fork, not affiliated with or endorsed by the original author.</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>

@@ -4,6 +4,10 @@ A movie player for macOS, built as a graphical front end to
 [MPlayer](https://www.mplayerhq.hu/). MPlayerX does not decode anything itself:
 it spawns an `mplayer` process and drives it over the MPlayer slave protocol.
 
+This is an unofficial fork, maintained by horowolf. It is not affiliated with
+or endorsed by Zongyao QU, who wrote MPlayerX and stopped work on it in 2011;
+please report problems with this fork here rather than to him.
+
 This branch revives the project on Apple Silicon and builds arm64 only. It
 targets Apple Silicon Macs exclusively; Intel Mac users should keep using the
 original 2011-2012 release. Upstream development stopped in November 2011,
@@ -97,13 +101,30 @@ on nothing from Homebrew at runtime. Homebrew is a build-time requirement only.
   where. Sparkle, which was declared as a submodule but never actually
   compiled into the app, was dropped instead of vendored.
 
-## Support
+## Releases and verifying a download
 
-The **MPlayerX ▸ Donate...** menu item opens this fork's GitHub Sponsors page.
-Until 2026 it opened a PayPal donation page for Zongyao QU, who wrote
-MPlayerX; that link dated from 2011, was never verified as still working, and
-carried his mail address in a query parameter, so it was replaced rather than
-kept alongside.
+Builds are published as a `MPlayerX-<version>.dmg` on this repository's
+releases page, and every release note lists the disk image's SHA-256. Check it
+before opening the image:
+
+```
+shasum -a 256 MPlayerX-2.0.0.dmg
+```
+
+Compare the output against the hash in the release notes, not against a
+checksum file downloaded alongside the image.
+
+**Why this matters.** A GitHub URL that contains this repository's name does
+not mean the file came from this repository. Anyone can attach a file to an
+issue or a comment on any public repository; GitHub stores it under that
+repository's URL and keeps serving it even if the comment is deleted or never
+submitted. The technique has been used to pass malware off as downloads from
+well-known projects. A file is a release of this fork only if its SHA-256
+matches a hash printed in a release note here.
+
+The only builds distributed by this fork come from
+[tools/mplayerx-package.sh](tools/mplayerx-package.sh), which prints the
+SHA-256 of the image it produces.
 
 ## License
 
@@ -127,4 +148,6 @@ MPlayerX was written by Zongyao QU, copyright 2009-2011.
 
 This fork -- the Apple Silicon port, the Swift rewrite and the macOS 11+
 revival -- is maintained by horowolf, copyright 2026, and was carried out
-with Claude Opus 5 (Anthropic).
+with Claude Opus 5 (Anthropic). It keeps the MPlayerX name to credit where it
+came from; it is not an official continuation, and the original author has no
+involvement in it.

@@ -122,8 +122,16 @@ hdiutil create \
     -ov -format UDZO \
     "${DMG}" >/dev/null
 
+SHA256="$(shasum -a 256 "${DMG}" | awk '{print $1}')"
+
 echo
 echo "done. ${DMG}"
+echo
+echo "SHA-256: ${SHA256}"
+echo
+echo "Publish that hash in the release notes themselves. A checksum uploaded"
+echo "as a separate file proves nothing: anyone can attach files to a public"
+echo "repository's URLs, so the hash has to live somewhere only you can write."
 echo
 echo "Drag MPlayerX to Applications to install."
 if [ "${SIGN_IDENTITY}" = "-" ]; then
