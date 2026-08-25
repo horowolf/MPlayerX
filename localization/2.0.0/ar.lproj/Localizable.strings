@@ -16,8 +16,26 @@
 /* OSD hint media info */
 "%@, %d×%d, %.1ffps\n" = "%1$@, %2$d×%3$d, %4$.1ffps\n";
 
-/* PrefToolBarLabel */
+/* Pref General */
+"absolute time position" = "وقت الموضع الذي يشير إليه المؤشر";
+
+/* Pref Video & PrefToolBarLabel */
 "Advanced" = "متقدم";
+
+/* Pref Subtitle */
+"Alignment:" = "المحاذاة:";
+
+/* Pref Subtitle */
+"Allow overlapping subtitles" = "السماح بتراكب الترجمات";
+
+/* Pref General */
+"Always" = "دائماً";
+
+/* Pref Video */
+"Always hide Dock in fullscreen mode" = "إخفاء Dock دائماً في وضع ملء الشاشة";
+
+/* Pref Video */
+"Always try to use secondary screen" = "حاول دائماً استخدام شاشة ثانوية";
 
 /* Text Enc */
 "Arabic (ISO 8859-6)" = "العربية (ISO 8859-6)";
@@ -61,17 +79,35 @@
 /* Text Enc */
 "Baltic (Windows-1257)" = "البلطيقية (Windows-1257)";
 
+/* Pref Subtitle */
+"Border Color:" = "لون الحواف:";
+
+/* Pref Subtitle */
+"Bottom - Left" = "في الأسفل وإلى اليسار";
+
+/* Pref Subtitle */
+"Bottom - Middle" = "في الأسفل وفي المنتصف";
+
+/* Pref Subtitle */
+"Bottom - Right" = "في الأسفل وإلى اليمين";
+
+/* Pref Subtitle */
+"Bottom only" = "فقط في الأسفل";
+
+/* Video Tuner Panel */
+"Brightness:" = "السطوع:";
+
+/* Pref Network */
+"Cache size for stream:" = "حجم التخزين المؤقت لتدفق البيانات:";
+
 /* OSD hint */
 "Caching: %4.2f%%" = "يجري التخزين المؤقت: %4.2f%%";
 
 /* No comment provided by engineer. */
 "Can't find a proper file to play" = "لم يتم العثور على ملف مناسب ليُشغل";
 
-/* Playlist warning */
-"Can't find next episode.\nPerhaps this is already the last episode." = "لم يتم العثور على الحلقة التالية، قد تكون هذه الحلقة الأخيرة.";
-
-/* Playlist warning */
-"Can't find previous episode.\nPerhaps this is already the first episode." = "لم يتم العثور على الحلقة السابقة، قد تكون هذه الحلقة الأولى.";
+/* Panel Button */
+"Cancel" = "إلغاء";
 
 /* Text Enc */
 "Celtic (ISO 8859-14)" = "السلتية (ISO 8859-14)";
@@ -121,8 +157,17 @@
 /* Text Enc */
 "Chinese Traditional (Windows-950)" = "الصينية التقليدية (Windows-950)";
 
+/* SubEncoding */
+"Choose a proper encoding method:" = "إختر طريقة الترميز المناسبة:";
+
 /* open url panel */
 "Clear Menu..." = "مسح القائمة...";
+
+/* Pref Subtitle */
+"contains the video file name" = "يحوي اسم ملف الفيديو";
+
+/* Video Tuner Panel */
+"Contrast:" = "التباين:";
 
 /* Text Enc */
 "Cyrillic (ISO 8859-5)" = "السيريلية (ISO 8859-5)";
@@ -139,20 +184,80 @@
 /* Text Enc */
 "Cyrillic (Windows-1251)" = "السيريلية (Windows-1251)";
 
+/* Pref Subtitle */
+"Default (use the value in sub file)" = "إفتراضي (إستخدام القيمة في ملف الترجمة)";
+
+/* Pref Video */
+"Deinterlace method" = "أسلوب تشابك الإطارات:";
+
+/* Inspector Info */
+"Demuxer:" = "الخالط:";
+
+/* Pref Audio */
+"Detect SPDIF digital output automatically" = "اكتشاف خرج SPDIF الرقمي تلقائياً";
+
 /* SubEncoding */
 "Detected file:\t%@\nEncoding:\t\t%@\nconfidence:\t%2.1f%%" = "ملف محذوف:\t%1$@\nالترميز:\t\t%2$@\nالوثوقية:\t%3$.1f%%";
 
 /* No comment provided by engineer. */
 "Disable" = "تعطيل";
 
+/* Pref Advanced */
+"Disable horizontal mouse scrolling to seek" = "تعطيل استخدام التمرير الأفقي للفأرة لتغير موضع التشغيل";
+
+/* Pref Advanced */
+"Disable vertical mouse scrolling to change volume" = "تعطيل استخدام التمرير الرأسي للفأرة لتغير الصوت";
+
+/* Pref Audio & Pref Video */
+"Do not keep, always reset the settings when the playback stops" = "عدم الإحتفاظ بالإعدادات وإعادة ضبطها دائماً عندما يتوقف التشغيل";
+
+/* Pref General */
+"Enable \"Open Recent\" menu" = "تفعيل قائمة \"العناصر الحديثة\"";
+
+/* Pref Advanced */
+"Enable media keys(F7, F8, F9) to control playback (need restart to take effect)" = "تفعيل استخدام مفاتيح الوسائط (F7, F8, F9) للتحكم بالتشغيل (يسري مفعول هذا الخيار بعد إعادة التشغيل)";
+
 /* menu */
 "Enter Fullscreen" = "الدخول في وضع ملئ الشاشة";
+
+/* Pref Video */
+"Enter fullscreen when playback starts" = "الدخول إلى وضع ملء الشاشة عند بدء تشغيل الفيلم";
+
+/* Equalizer Panel */
+"Equalizer" = "موازن الصوت";
 
 /* No comment provided by engineer. */
 "Error" = "خطأ";
 
 /* menu */
 "Exit Fullscreen" = "الخروج من وضع ملئ الشاشة";
+
+/* Pref Advanced */
+"Extra options" = "خيارات إضافية:";
+
+/* Pref General */
+"Find and play next file automatically" = "إيجاد وتشغيل الملف التالي بشكل تلقائي";
+
+/* Pref General */
+"Font Color" = "لون الخط";
+
+/* Pref Subtitle */
+"Font Color:" = "لون الخط:";
+
+/* Pref Subtitle */
+"Font Style" = "شكل الخط";
+
+/* Pref Subtitle */
+"Font:" = "الخط:";
+
+/* Pref Video */
+"Force index rebuilding" = "فرض إعادة بناء المحتوى";
+
+/* Inspector Info */
+"Format:" = "الصيغة:";
+
+/* Video Tuner Panel */
+"Gamma:" = "غاما:";
 
 /* PrefToolBarLabel */
 "General" = "عام";
@@ -175,11 +280,41 @@
 /* Text Enc */
 "Hebrew (Windows-1255)" = "العبرية (Windows-1255)";
 
+/* Pref Subtitle */
+"height:" = "بارتفاع:";
+
 /* menu */
 "Hide Auxiliary Controls" = "إخفاء عناصر التحكم المساعدة";
 
+/* Pref General */
+"Hide in" = "إخفاء بعد:";
+
 /* menu */
 "Hide Letterbox" = "إخفاء حيز الترجمة";
+
+/* Pref Audio */
+"How to keep the settings in the \"Equalizer\" ?" = "كيفية حفظ إعدادات \"موازن الصوت\":";
+
+/* Pref Video */
+"How to keep the settings in the \"Video Tuner\" ?" = "كيفية حفظ إعدادات \"ألوان الفيديو\":";
+
+/* Video Tuner Panel */
+"Hue:" = "تدرج اللون:";
+
+/* Pref Subtitle */
+"If confidence ≤" = "إن كانت الثقة ≤";
+
+/* Pref Audio */
+"If you use the built-in 2.0 speakers or minijack, please turn this on" = "الرجاء تفعيل هذا الخيار إن كنت تستخدم السماعات الداخلية أو سماعات الرأس";
+
+/* Pref Video */
+"Image Enhancement" = "تحسين الصورة:";
+
+/* Inspector Info */
+"Inspector" = "المفتش";
+
+/* Pref Subtitle */
+"is any name" = "أي اسم";
 
 /* Text Enc */
 "Japanese (EUC)" = "اليابانية (EUC)";
@@ -196,6 +331,9 @@
 /* Text Enc */
 "Japanese (Windows-932)" = "اليابانية (Windows-932)";
 
+/* Pref General */
+"Keep window on top:" = "إبقاء النافذة في الأمام:";
+
 /* Text Enc */
 "Korean (EUC)" = "الكورية (EUC)";
 
@@ -208,8 +346,26 @@
 /* Text Enc */
 "Korean (Windows-949)" = "الكورية (Windows-949)";
 
+/* Pref Subtitle */
+"Letterbox" = "حيز الترجمة";
+
+/* Pref Subtitle */
+"Load but don't display subtitle when playback starts" = "تحميل الترجمة دون عرضها عندما يبدأ تشغيل الفيلم";
+
+/* Pref Subtitle */
+"Load subtitle, if the sub file name" = "تحميل الترجمة إذا كان اسم الملف الحاوي لها:";
+
+/* Playlist OSD hint */
+"Local files only" = "الملفات المحلية فقط";
+
 /* menu */
 "Lock Aspect Ratio" = "تثبيت نسبة الأبعاد";
+
+/* Pref Subtitle */
+"matches the video file name exactly" = "يطابق اسم ملف الفيديو تماماً";
+
+/* OpenURL Panel */
+"Media URL" = "موقع الملف:";
 
 /* OSD hint */
 "Mute OFF" = "إلغاء كتم الصوت";
@@ -220,17 +376,50 @@
 /* PrefToolBarLabel */
 "Network" = "الشبكة";
 
-/* Playlist warning */
-"Next/Previous is only supported on local media" = "التالي/اللاحق تدعم الوسائط المحلية فقط";
+/* Pref General */
+"Never" = "مطلقاً";
+
+/* Pref Audio & Pref Video */
+"Never reset, save it as my preferences" = "عدم إعادة ضبط الإعدادات نهائياً، والإحتفاظ بها كتفضيلات";
 
 /* Inspector Info */
 "No Info" = "لا تتوفر معلومات";
 
-/* No comment provided by engineer. */
+/* Pref Subtitle */
+"No letterbox" = "تعطيل";
+
+/* Playlist OSD hint */
+"No next episode" = "لا يوجد مقطع تالٍ";
+
+/* Playlist OSD hint */
+"No previous episode" = "لا يوجد مقطع سابق";
+
+/* Pref Video */
+"None" = "بلا";
+
+/* Pref Video */
+"Normal" = "عادي";
+
+/* Video Tuner Panel */
+"NR:" = "الغبش:";
+
+/* Pref Video */
+"Number of threads" = "عدد المسالك:";
+
+/* Pref Subtitle */
+"of movie's height" = "من إرتفاع الفيلم";
+
+/* Panel Button */
 "OK" = "موافق";
+
+/* Pref General */
+"on the right of control bar" = "على يمين لوحة التحكم";
 
 /* No comment provided by engineer. */
 "Open Media Files" = "فتح ملفات الوسائط";
+
+/* OpenURL Panel */
+"Open URL" = "فتح موقع";
 
 /* No comment provided by engineer. */
 "Open VIDEO_TS" = "فتح وسائط DVD...";
@@ -238,8 +427,62 @@
 /* OSD hint */
 "OSD settings changed" = "تم تعديل إعدادات العرض على الشاشة";
 
+/* Pref Audio */
+"Output" = "مخرج الصوت";
+
+/* Pref Audio */
+"Pass through:" = "التمرير من خلال:";
+
 /* OSD hint */
 "Paused" = "إيقاف مؤقت";
+
+/* Pref Video */
+"Performance & Quality" = "الجودة والأداء";
+
+/* Pref General */
+"Player Control" = "متحكم التشغيل";
+
+/* Pref Network */
+"Prefer IPV6" = "أولوية الاستخدام لبروتوكول IPV6";
+
+/* Pref */
+"Preferences" = "تفضيلات...";
+
+/* Pref General */
+"Quit when window closed" = "إنهاء البرنامج عند إغلاق النافذة";
+
+/* Pref General */
+"relative time to current" = "الوقت نسبةً لموضع التشغيل";
+
+/* Pref General */
+"remaining time" = "الوقت المتبقي";
+
+/* Pref Audio */
+"Remix DTS 5.1 to Stereo" = "إعادة دمج قنوات DTS 5.1 إلى ستيريو";
+
+/* Equalizer & Video Tuner Panel */
+"Reset" = "إعادة ضبط";
+
+/* Pref Audio & Pref Video */
+"Reset the settings when the application quits" = "إعادة ضبط الإعدادات عند إنهاء البرنامج";
+
+/* Pref Audio & Pref Video */
+"Reset the settings when there is no next one to play" = "إعادة ضبط الإعدادات إذا لم يوجد ملف تالي ليُشغل";
+
+/* Pref General */
+"Resume playing from last stopped place" = "متابعة التشغيل من الموضع الأخير للتشغيل";
+
+/* Video Tuner Panel */
+"Saturation:" = "الإشباع:";
+
+/* Pref Subtitle */
+"set encoding by" = "حدد الترميز بـ:";
+
+/* Video Tuner Panel */
+"Sharpness:" = "الحدّة:";
+
+/* Pref General */
+"Show" = "عرض:";
 
 /* menu */
 "Show Auxiliary Controls" = "إظهار عناصر التحكم المساعدة";
@@ -247,11 +490,23 @@
 /* menu */
 "Show Letterbox" = "إظهار حيز الترجمة";
 
+/* Pref General */
+"Show OSD" = "إظهار OSD";
+
+/* Pref Subtitle */
+"Size:" = "حجم الخط:";
+
+/* Inspector Info */
+"Source:" = "مصدر الملف:";
+
 /* Text Enc */
 "South Europe (ISO 8859-3)" = "أوروبا الجنوبية (ISO 8859-3)";
 
 /* OSD hint */
 "Speed: %.1fX" = "السرعة: %.1fX";
+
+/* Pref General */
+"Start to play when media opened" = "بدء التشغيل عند فتح الملف";
 
 /* OSD hint */
 "Stopped" = "إيقاف";
@@ -265,8 +520,14 @@
 /* PrefToolBarLabel */
 "Subtitle" = "الترجمة";
 
+/* SubEncoding */
+"Subtitle Encoding" = "ترميز الترجمة";
+
 /* Inspector Info */
 "Subtitle:%d" = "الترجمة:%d";
+
+/* Pref Subtitle */
+"Text Encoding Detection" = "الكشف عن ترميز النص";
 
 /* Text Enc */
 "Thai (ISO 8859-11)" = "التايلاندية (ISO 8859-11)";
@@ -285,6 +546,33 @@
 
 /* No comment provided by engineer. */
 "The URL is not supported by MPlayerX." = "هذا العنوان غير مدعوم من قبل MPlayerX";
+
+/* Pref Subtitle */
+"Top + Bottom" = "في الأسفل والأعلى";
+
+/* Pref Subtitle */
+"Top - Left" = "في الأعلى وإلى اليسار";
+
+/* Pref Subtitle */
+"Top - Middle" = "في الأعلى وفي المنتصف";
+
+/* Pref Subtitle */
+"Top - Right" = "في الأعلى وإلى اليمين";
+
+/* Pref Subtitle */
+"Top only" = "فقط في الأعلى";
+
+/* Pref General */
+"total time" = "الوقت الإجمالي";
+
+/* Inspector Info */
+"Track Info:" = "معلومات الملف:";
+
+/* Pref Network */
+"Transfer RTSP stream over HTTP protocol" = "استخدام بروتوكول HTTP عوضاً عن RTSP عند نقل تدفق البيانات";
+
+/* Pref General */
+"Transparency" = "الشفافية:";
 
 /* Text Enc */
 "Turkish (ISO 8859-9)" = "التركية (ISO 8859-9)";
@@ -313,11 +601,20 @@
 /* menu */
 "Unlock Aspect Ratio" = "إلغاء تثبيت نسبة الأبعاد";
 
+/* Pref Subtitle */
+"Use embedded font if possible" = "استخدام الخطوط المضمنة إن أمكن";
+
+/* Pref Network */
+"Use ffmpeg to handle the stream" = "استخدام FFMPEG في معالجة تدفق البيانات";
+
 /* PrefToolBarLabel */
 "Video" = "الفيديو";
 
 /* OSD hint */
 "Video %@" = "الفيديو %@";
+
+/* Video Tuner Panel */
+"Video Tuner" = "ألوان الفيديو";
 
 /* Inspector Info */
 "Video:%d" = "الفيديو:%d";
@@ -342,6 +639,18 @@
 
 /* Text Enc */
 "Western Europe (Windows-1252)" = "أوروبا الغربية (Windows-1252)";
+
+/* Pref Video */
+"When entered fullscreen, DO NOT blank out other screens" = "عدم إفراغ باقي الشاشات عند الدخول إلى وضع ملئ الشاشة";
+
+/* Pref General */
+"when hovering over the timeline" = "عند تمرير المؤشر فوق خط الزمن";
+
+/* Pref General */
+"While playing" = "أثناء التشغيل";
+
+/* Pref Video */
+"With this setting ON, MPlayerX will recalculate the index to make the video seekable, useful on some broken files. But this may delay playback start by several seconds" = "بتفعيل هذا الخيار سيقوم MPlayerX بإعادة تجميع المحتوى لجعل الفيديو قابلاً للتمرير لأي موضع، يفيد هذا الخيار في بعض الملفات المعطوبة، ولكنه قد يؤخر تشغيل الفيلم بضع ثواني.";
 
 /* OpenURL Panel */
 "⌘-OK: Use FFMpeg to handle the stream" = "اضغط على مفتاح ⌘ مع موافق لاستخدام ffmpeg في معالجة تدفق البيانات";
