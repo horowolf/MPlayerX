@@ -40,7 +40,21 @@ TARGET_NIBS = $(addprefix $(DESTROOT)/, $(NIBS))
 TARGET_RTFS = $(addprefix $(DESTROOT)/, $(RTFS))
 
 ########################## Tragets #############################
-all: $(TARGET_NIBS) $(TARGET_STRS) $(TARGET_RTFS)
+# The .lproj sources in this tree are 1.0.x-era xibs in the old
+# NSKeyedArchiver format, and their outlets and actions target Objective-C
+# classes the Swift rewrite removed. A MainMenu.nib built from one of them
+# makes the app exit at launch in every language that ships it: on the same
+# binary, -AppleLanguages '(en)' runs and '(zh-Hant)' dies within seconds
+# with no crash report, and moving zh_TW.lproj/MainMenu.nib out of the built
+# bundle fixes it. Pref/Inspector/Equalizer/VideoTuner/SubEncoding are dead
+# weight on top of that -- those dialogs are SwiftUI now and their xibs are
+# gone from the project.
+#
+# So no nib is built or shipped. The strings and Credits.rtf still are, which
+# leaves non-English users a working app with English menus and translated
+# strings, instead of one that will not start. Put $(TARGET_NIBS) back here
+# once the xibs have been regenerated from the current MainMenu.xib.
+all: $(TARGET_STRS) $(TARGET_RTFS)
 
 .PHONY:clean
 clean:
