@@ -33,6 +33,7 @@ import Cocoa
 	var lastPlayedPath: URL? { get }
 	func stop()
 	func loadFiles(_ files: [String], fromLocal local: Bool)
+	func displayOSDMessage(_ message: String)
 }
 
 // Scans `name` from the end backwards, returning the range of every maximal
@@ -156,7 +157,7 @@ class PlayListController: NSObject {
 		guard let lastURL = playerController?.lastPlayedPath else { return }
 
 		guard lastURL.isFileURL else {
-			showAlertPanelModal(NSLocalizedString("Next/Previous is only supported on local media", comment: "Playlist warning"))
+			playerController?.displayOSDMessage(NSLocalizedString("Local files only", comment: "Playlist OSD hint"))
 			return
 		}
 
@@ -172,7 +173,7 @@ class PlayListController: NSObject {
 			playerController?.stop()
 			playerController?.loadFiles([nextPath], fromLocal: true)
 		} else {
-			showAlertPanelModal(NSLocalizedString("Can't find next episode.\nPerhaps this is already the last episode.", comment: "Playlist warning"))
+			playerController?.displayOSDMessage(NSLocalizedString("No next episode", comment: "Playlist OSD hint"))
 		}
 	}
 
@@ -181,7 +182,7 @@ class PlayListController: NSObject {
 		guard let lastURL = playerController?.lastPlayedPath else { return }
 
 		guard lastURL.isFileURL else {
-			showAlertPanelModal(NSLocalizedString("Next/Previous is only supported on local media", comment: "Playlist warning"))
+			playerController?.displayOSDMessage(NSLocalizedString("Local files only", comment: "Playlist OSD hint"))
 			return
 		}
 
@@ -193,7 +194,7 @@ class PlayListController: NSObject {
 			playerController?.stop()
 			playerController?.loadFiles([nextPath], fromLocal: true)
 		} else {
-			showAlertPanelModal(NSLocalizedString("Can't find previous episode.\nPerhaps this is already the first episode.", comment: "Playlist warning"))
+			playerController?.displayOSDMessage(NSLocalizedString("No previous episode", comment: "Playlist OSD hint"))
 		}
 	}
 

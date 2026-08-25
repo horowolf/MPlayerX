@@ -590,6 +590,14 @@ class PlayerController: NSObject, CoreControllerDelegate, SubConverterDelegate {
 
 	// MARK: cooperative actions with UI
 
+	/// Forwards a transient message to the main window's OSD. Exists so
+	/// PlayListController -- which has no view of its own -- can report
+	/// "already the last episode" without putting up a modal panel; see
+	/// ControlUIView.displayOSDMessage(_:).
+	@objc func displayOSDMessage(_ message: String) {
+		controlUI?.displayOSDMessage(message)
+	}
+
 	@objc func stop() {
 		mplayer.performStop()
 		// Once the window is closed, clear lastPlayPath so that even reopening the window won't play the previous file

@@ -578,6 +578,26 @@ class ControlUIView: NSView {
 		}
 	}
 
+	/// Transient, user-triggered feedback ("this is already the last episode",
+	/// "next/previous only works on local media") used to come up as an
+	/// app-modal NSAlert. That panel is small, untitled and easy to miss on top
+	/// of a playing video, and until it is dismissed it swallows *every*
+	/// subsequent key press -- almost certainly the long-standing "the space
+	/// bar / `,` / `.` sometimes stop working" reports. Messages like these
+	/// belong on the OSD instead.
+	///
+	/// Forced visible even when the OSD is currently inactive (playback stopped,
+	/// or the "Show OSD" preference is off): this is a direct answer to a key
+	/// the user just pressed, so silently dropping it would leave them with no
+	/// feedback at all. The previous active state is restored afterwards, since
+	/// hiding is driven by the auto-hide timer, not by `active`.
+	@objc func displayOSDMessage(_ message: String) {
+		let oldAct = osd.active
+		osd.active = true
+		osd.setStringValue(message, owner: .other, updateTimer: true)
+		osd.active = oldAct
+	}
+
 	////////////////////////////////////////////////AutoHideThings//////////////////////////////////////////////////
 	@objc func refreshAutoHideTimer() {
 		let ti = ud.double(forKey: kUDKeyCtrlUIAutoHideTime)
