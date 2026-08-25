@@ -1289,7 +1289,7 @@
 				INSTALL_PATH = /Applications;
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_NAME = MPlayerX;
-				PRODUCT_BUNDLE_IDENTIFIER = "org.horowolf.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_BUNDLE_IDENTIFIER = org.horowolf.MPlayerX;
 				SWIFT_OBJC_BRIDGING_HEADER = "MPlayerX-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
@@ -1346,7 +1346,7 @@
 				INSTALL_PATH = /Applications;
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_NAME = MPlayerX;
-				PRODUCT_BUNDLE_IDENTIFIER = "org.horowolf.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_BUNDLE_IDENTIFIER = org.horowolf.MPlayerX;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "MPlayerX-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -1379,7 +1379,7 @@
 				INSTALL_PATH = /Applications;
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_NAME = MPlayerX;
-				PRODUCT_BUNDLE_IDENTIFIER = "org.horowolf.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_BUNDLE_IDENTIFIER = org.horowolf.MPlayerX;
 				SWIFT_OBJC_BRIDGING_HEADER = "MPlayerX-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
