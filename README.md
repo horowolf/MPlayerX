@@ -124,5 +124,6 @@ through the Mac App Store, whose terms conflict with the GPL.
 
 MPlayerX was written by Zongyao QU, copyright 2009-2011.
 
-The Apple Silicon port and the Swift rewrite in this branch were carried out
-by Claude Opus 5 (Anthropic).
+This fork -- the Apple Silicon port, the Swift rewrite and the macOS 11+
+revival -- is maintained by horowolf, copyright 2026, and was carried out
+with Claude Opus 5 (Anthropic).
