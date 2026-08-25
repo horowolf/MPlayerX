@@ -26,7 +26,53 @@ import Cocoa
 @objc(MPApplication)
 class MPApplication: NSApplication {
 
+	/// Unmodified key equivalents that have to act once per physical press.
+	///
+	/// While a key is held down the window server keeps delivering keyDown
+	/// events with `isARepeat` set, and neither NSButton nor NSMenu filters
+	/// them out before invoking the action. For a toggle that means the state
+	/// flips once per repeat, so whether a held key appears to have done
+	/// anything comes down to whether the number of repeats happened to be
+	/// odd. Measured on a 900ms press: 13 repeats, 14 play/pause flips, the
+	/// video still playing -- which is the long-standing report that the space
+	/// bar "doesn't always work". The episode keys fail more visibly: holding
+	/// `.` walks several files down the playlist instead of advancing one.
+	///
+	/// Only the unmodified keys are listed. The modified variants of these same
+	/// characters are the step controls -- window size, subtitle scale, audio
+	/// and subtitle delay -- where repeating is the whole point, as it is for
+	/// volume and for the arrow keys that seek.
+	private static let keysThatMustNotAutorepeat: Set<String> = [
+		kSCMPlayPauseKeyEquivalent,             // space
+		kSCMNextEpisodeKeyEquivalent,           // .
+		kSCMPrevEpisodeKeyEquivalent,           // ,
+		kSCMFullScrnKeyEquivalent,              // f
+		kSCMSwitchAudioKeyEquivalent,           // a
+		kSCMSwitchVideoKeyEquivalent,           // v
+		kSCMShowMediaInfoKeyEquivalent,         // i
+		kSCMToggleLetterBoxKeyEquivalent,       // l
+		kSCMAcceControlKeyEquivalent,           // c
+		kSCMVideoTunerPanelKeyEquivalent,       // d
+		kSCMEqualizerPanelKeyEquivalent,        // e
+		kSCMToggleLockAspectRatioKeyEquivalent, // r
+		kSCMMuteKeyEquivalent,                  // m
+	]
+
+	private func shouldDropAutorepeat(of event: NSEvent) -> Bool {
+		guard event.modifierFlags.intersection([.command, .option, .control, .shift]).isEmpty,
+			  let chars = event.charactersIgnoringModifiers,
+			  Self.keysThatMustNotAutorepeat.contains(chars.lowercased()) else { return false }
+
+		// Never intercept while text is being edited: holding a key down to
+		// type a run of the same character still has to work in the Open URL
+		// sheet, the preferences and anywhere else with a field editor.
+		return !(keyWindow?.firstResponder is NSText)
+	}
+
 	override func sendEvent(_ event: NSEvent) {
+		if event.type == .keyDown, event.isARepeat, shouldDropAutorepeat(of: event) {
+			return
+		}
 		// If event tap is not installed, handle events that reach the app instead
 		if !SPMediaKeyTap.usesGlobalMediaKeyTap(),
 		   event.type == .systemDefined,
