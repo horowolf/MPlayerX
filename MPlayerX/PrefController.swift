@@ -101,7 +101,16 @@ private func plainIntFormatter() -> NumberFormatter {
 }
 
 private func checkboxRow(_ title: String, isOn: Binding<Bool>) -> some View {
-	Toggle(title, isOn: isOn).toggleStyle(.checkbox)
+	// Toggle's string label is laid out on one line and truncates. One of
+	// these labels is deliberately two lines ("When entering into full screen
+	// mode, \nadjust the letterbox's height..."), and showed as "When entering
+	// into full screen mode,..." with the rest cut off. Handing the label over
+	// as a Text that may grow vertically keeps it whole and leaves every
+	// single-line label laid out exactly as before.
+	Toggle(isOn: isOn) {
+		Text(title).fixedSize(horizontal: false, vertical: true)
+	}
+	.toggleStyle(.checkbox)
 }
 
 private func explanationText(_ text: String) -> some View {
