@@ -97,12 +97,13 @@ on nothing from Homebrew at runtime. Homebrew is a build-time requirement only.
   where. Sparkle, which was declared as a submodule but never actually
   compiled into the app, was dropped instead of vendored.
 
-## Support the original author
+## Support
 
-The **MPlayerX ▸ Donate...** menu item opens a PayPal donation page for
-Zongyao QU, who wrote MPlayerX. It has been left exactly as it was, and it
-still points at the original author rather than at anyone maintaining this
-branch. The link dates from 2011 and has not been verified as still working.
+The **MPlayerX ▸ Donate...** menu item opens this fork's GitHub Sponsors page.
+Until 2026 it opened a PayPal donation page for Zongyao QU, who wrote
+MPlayerX; that link dated from 2011, was never verified as still working, and
+carried his mail address in a query parameter, so it was replaced rather than
+kept alongside.
 
 ## License
 

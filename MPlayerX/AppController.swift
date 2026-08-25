@@ -23,8 +23,13 @@ import Cocoa
 private let kSnapshotSaveDefaultPath = "~/Pictures"
 
 private let kMPCFMTBookmarkPath = "bookmarks.plist"
-private let kMPXFeedbackURL = "http://mplayerx.org/#contact"
+// mplayerx.org belongs to the original project, not to this fork, so the
+// feedback link goes to this repository's issue tracker instead. The wiki is
+// still the upstream one on purpose: it holds the original usage documentation
+// and this fork has none of its own yet.
+private let kMPXFeedbackURL = "https://github.com/horowolf/MPlayerX/issues"
 private let kMPXWikiURL = "https://github.com/niltsh/MPlayerX/wiki"
+private let kMPXSponsorURL = "https://github.com/sponsors/horowolf"
 private let kMPXEAFPlaceHolder = ""
 
 /// The ObjC original was a singleton built the 2009 way: it overrode
@@ -277,20 +282,12 @@ class AppController: NSObject, NSApplicationDelegate, NSMenuItemValidation, SPMe
 		NSWorkspace.shared.recycle([path], completionHandler: nil)
 	}
 
+	/// Was a legacy PayPal "non-hosted" donation URL carrying the original
+	/// author's mail address in a `business=` query parameter -- both the wrong
+	/// recipient for this fork and a form that publishes someone's mail address
+	/// in a link. GitHub Sponsors takes neither an address nor a currency guess.
 	@IBAction func donate(_ sender: Any?) {
-		let langs = Locale.preferredLanguages
-		let currency: String
-
-		if langs.first == "ja" {
-			MPLogString("Japanese user")
-			currency = "JPY"
-		} else {
-			currency = "USD"
-		}
-
-		let urlStr = "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=mplayerx%2eqzy%40gmail%2ecom&lc=US&item_name=MPlayerX&no_note=0&currency_code=\(currency)&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHostedGuest"
-
-		if let url = URL(string: urlStr) {
+		if let url = URL(string: kMPXSponsorURL) {
 			NSWorkspace.shared.open(url)
 		}
 	}
