@@ -1370,6 +1370,11 @@ class ControlUIView: NSView {
 			menuAudioChannels.isEnabled = true
 			for mitem in menuAudioChannels.submenu?.items ?? [] {
 				mitem.state = (mitem.tag == Int(kMPCMonoAudioNone)) ? .on : .off
+				// The submenu is autoenablesItems="NO", so nothing enables these
+				// but this. Only the parent item's enabled state was ever
+				// managed, which left every channel mapping permanently greyed
+				// out -- the whole Audio > Channels feature was unreachable.
+				mitem.isEnabled = !mitem.isSeparatorItem
 			}
 			// if it is a DD setting, ParameterManager will not set the volume.
 			// but if the file ends up not playing as DD, the volume needs to be set again
@@ -1426,6 +1431,9 @@ class ControlUIView: NSView {
 		menuSubDelayDec.isEnabled = false
 
 		menuAudioChannels.isEnabled = false
+		for mitem in menuAudioChannels.submenu?.items ?? [] {
+			mitem.isEnabled = false
+		}
 	}
 
 	@objc private func playInfoUpdated(_ notif: Notification) {
