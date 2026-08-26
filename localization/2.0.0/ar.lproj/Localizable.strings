@@ -214,9 +214,6 @@
 /* Pref General */
 "Enable \"Open Recent\" menu" = "تفعيل قائمة \"العناصر الحديثة\"";
 
-/* Pref Advanced */
-"Enable media keys(F7, F8, F9) to control playback (need restart to take effect)" = "تفعيل استخدام مفاتيح الوسائط (F7, F8, F9) للتحكم بالتشغيل (يسري مفعول هذا الخيار بعد إعادة التشغيل)";
-
 /* menu */
 "Enter Fullscreen" = "الدخول في وضع ملئ الشاشة";
 

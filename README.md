@@ -73,8 +73,10 @@ on nothing from Homebrew at runtime. Homebrew is a build-time requirement only.
 - **Native arm64 mplayer.** Added, so playback no longer depends on Rosetta.
 - **Startup crash.** `SPMediaKeyTap` asserted that `CGEventTapCreate` succeeded.
   Since macOS 10.14 that call requires Accessibility access, which a freshly
-  built copy has not been granted, so the app aborted on launch. Media key
-  support now degrades instead of aborting.
+  built copy has not been granted, so the app aborted on launch. The media key
+  feature has since been removed outright — on current macOS the system Now
+  Playing controls claim F7/F8/F9 before an event tap sees them, so it could
+  not work however the crash was handled.
 - **UniversalDetector.** Was linked as a prebuilt framework from a path that
   does not exist in a fresh clone. Its sources are now compiled into the app,
   matching how BGHUDAppKit and Apple Remote Control were already handled.
@@ -88,11 +90,10 @@ on nothing from Homebrew at runtime. Homebrew is a build-time requirement only.
   finally the leftovers. The main window stays AppKit, written in Swift rather
   than converted to SwiftUI: it is tied closely to CALayer, the mmap'd frame
   buffer and custom slider drawing, where a rewrite would be high risk for
-  little gain. `MainMenu.xib` is unchanged. Six Objective-C files remain on
+  little gain. `MainMenu.xib` is unchanged. Four Objective-C files remain on
   purpose — `coredef.m` (the Distributed Objects protocols, which pass
-  `char**`), three small trampolines for things Swift cannot express
-  (`NSConnection`/`shm_open`, `@try`/`@catch` around `NSException`), and the
-  two vendored SPMediaKeyTap files.
+  `char**`) and three small trampolines for things Swift cannot express
+  (`NSConnection`/`shm_open`, `@try`/`@catch` around `NSException`).
 - **Submodules vendored.** BGHUDAppKit, UniversalDetector, Apple Remote
   Control and the localization strings used to be git submodules pointing at
   niltsh's own forks, dormant since 2011-2015 with no way to push further

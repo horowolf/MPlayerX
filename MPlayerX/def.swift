@@ -26,13 +26,3 @@ import Cocoa
 let kMPCChapterTimeBase = 1000
 
 let kMPCDefaultSubFontPath = "wqy-microhei.ttc"
-
-// These were `extern NSString * const kMPXMediaKey*Notification`, which the
-// Objective-C importer surfaced to Swift as NSNotification.Name members. They
-// are declared that way directly now, so the call sites keep their spelling
-// and the posted names keep their string values.
-extension NSNotification.Name {
-	static let mpxMediaKeyPlayPause = NSNotification.Name("MPXMediaKeyPlayPause")
-	static let mpxMediaKeyForward = NSNotification.Name("MPXMediaKeyForward")
-	static let mpxMediaKeyBackward = NSNotification.Name("MPXMediaKeyBackward")
-}

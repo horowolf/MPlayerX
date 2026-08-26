@@ -524,7 +524,6 @@ private struct AdvancedPrefView: View {
 	@AppStorage(kUDKeyExtraOptions) private var extraOptions: String = ""
 	@AppStorage(kUDKeyDisableHScrollSeek) private var disableHScroll: Bool = true
 	@AppStorage(kUDKeyDisableVScrollVol) private var disableVScroll: Bool = false
-	@AppStorage(kUDKeyEnableMediaKeyTap) private var enableMediaKeyTap: Bool = true
 
 	var body: some View {
 		VStack(alignment: .leading, spacing: 14) {
@@ -536,7 +535,6 @@ private struct AdvancedPrefView: View {
 			explanationText(NSLocalizedString("The extra options will be passed to mplayer directly.\nMake sure you are really a mplayer professional before you modify this, otherwise please leave it blank.", comment: "Pref Advanced"))
 			checkboxRow(NSLocalizedString("Disable horizontal mouse scrolling to seek", comment: "Pref Advanced"), isOn: $disableHScroll)
 			checkboxRow(NSLocalizedString("Disable vertical mouse scrolling to change volume", comment: "Pref Advanced"), isOn: $disableVScroll)
-			checkboxRow(NSLocalizedString("Enable media keys(F7, F8, F9) to control playback (need restart to take effect)", comment: "Pref Advanced"), isOn: $enableMediaKeyTap)
 
 			Spacer(minLength: 0)
 		}

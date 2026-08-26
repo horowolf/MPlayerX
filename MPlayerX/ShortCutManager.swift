@@ -85,33 +85,10 @@ class ShortCutManager: NSObject {
 												name: NSApplication.willBecomeActiveNotification, object: NSApp)
 		NotificationCenter.default.addObserver(self, selector: #selector(applicationWillResignActive(_:)),
 												name: NSApplication.willResignActiveNotification, object: NSApp)
-		NotificationCenter.default.addObserver(self, selector: #selector(mediaKeyPressed(_:)),
-												name: NSNotification.Name.mpxMediaKeyPlayPause, object: NSApp)
-		NotificationCenter.default.addObserver(self, selector: #selector(mediaKeyPressed(_:)),
-												name: NSNotification.Name.mpxMediaKeyForward, object: NSApp)
-		NotificationCenter.default.addObserver(self, selector: #selector(mediaKeyPressed(_:)),
-												name: NSNotification.Name.mpxMediaKeyBackward, object: NSApp)
 	}
 
 	deinit {
 		NotificationCenter.default.removeObserver(self)
-	}
-
-	@objc private func mediaKeyPressed(_ notif: Notification) {
-		switch notif.name {
-		case NSNotification.Name.mpxMediaKeyPlayPause:
-			controlUI?.togglePlayPause(nil)
-		case NSNotification.Name.mpxMediaKeyForward:
-			if let ev = NSEvent.makeKeyDownEvent(kSCMNextEpisodeKeyEquivalent, modifierFlags: 0) {
-				_ = mainMenu?.performKeyEquivalent(with: ev)
-			}
-		case NSNotification.Name.mpxMediaKeyBackward:
-			if let ev = NSEvent.makeKeyDownEvent(kSCMPrevEpisodeKeyEquivalent, modifierFlags: 0) {
-				_ = mainMenu?.performKeyEquivalent(with: ev)
-			}
-		default:
-			break
-		}
 	}
 
 	@objc(processKeyDown:)

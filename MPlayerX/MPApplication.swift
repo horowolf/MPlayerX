@@ -73,12 +73,6 @@ class MPApplication: NSApplication {
 		if event.type == .keyDown, event.isARepeat, shouldDropAutorepeat(of: event) {
 			return
 		}
-		// If event tap is not installed, handle events that reach the app instead
-		if !SPMediaKeyTap.usesGlobalMediaKeyTap(),
-		   event.type == .systemDefined,
-		   event.subtype.rawValue == Int16(SPSystemDefinedEventMediaKeys) {
-			(delegate as? SPMediaKeyTapDelegate)?.mediaKeyTap(nil, receivedMediaKeyEvent: event)
-		}
 		super.sendEvent(event)
 	}
 }

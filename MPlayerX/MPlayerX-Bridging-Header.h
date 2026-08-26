@@ -7,7 +7,6 @@
 
 #import "MPXExceptionTrap.h"
 #import "coredef.h"
-#import "SPMediaKeyTap.h"
 #import "MPXLegacyAccessibility.h"
 #import <BGHUDSliderCell.h>
 #import <BGHUDButtonCell.h>

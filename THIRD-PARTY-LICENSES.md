@@ -124,28 +124,16 @@ MPlayer 1.5 tarball instead, since this tree's 2012-era `configure` script
 predates Apple Silicon and has no AArch64 support. Kept vendored here purely
 as the corresponding-source record for where the patch hunks came from.
 
-## Vendored into the MPlayerX sources
+## Removed: SPMediaKeyTap
 
-| Component | Location | License | Upstream |
-|---|---|---|---|
-| SPMediaKeyTap | `MPlayerX/SPMediaKeyTap.{h,m}` | BSD 2-Clause-style (see `MPlayerX/SPMediaKeyTap-LICENSE.txt`), Copyright (c) 2010 Spotify AB / (c) 2011 Joachim Bengtsson | <https://github.com/nevyn/SPMediaKeyTap> |
-| NSObject+SPInvocationGrabbing | `MPlayerX/NSObject+SPInvocationGrabbing.{h,m}` | Same license, same upstream repository | <https://gist.github.com/511181> (bundled in the SPMediaKeyTap repository above) |
-
-**Resolved 2026-08-12** (previously a gap): neither file carried a license
-grant in this repository, only a bare copyright comment. The upstream
-repository's own convention is a single root `LICENSE` file covering every
-source file in it (it does not use per-file header comments either) — a
-BSD 2-Clause-style license, not MIT as originally guessed here before the
-upstream text was actually fetched. `MPlayerX/SPMediaKeyTap-LICENSE.txt` now
-carries that text verbatim, and all four source files (`SPMediaKeyTap.{h,m}`,
-`NSObject+SPInvocationGrabbing.{h,m}`) point at it.
-
-**Local modification (2026-08-20)**: `SPMediaKeyTap.h` declares its delegate
-callback as a formal `@protocol SPMediaKeyTapDelegate` instead of the original
-informal `@interface NSObject (SPMediaKeyTapDelegate)` category. Swift cannot
-override a member declared in an Objective-C category on `NSObject`, so the
-Swift `AppController` could not otherwise implement it. Four lines in the
-header; `SPMediaKeyTap.m` still messages `id` and is unchanged.
+SPMediaKeyTap and NSObject+SPInvocationGrabbing (BSD 2-Clause-style,
+Copyright (c) 2010 Spotify AB / (c) 2011 Joachim Bengtsson,
+<https://github.com/nevyn/SPMediaKeyTap>) used to be vendored here to give the
+F7/F8/F9 media keys control over playback. They were removed along with the
+feature: the event tap they install has required Accessibility access since
+macOS 10.14, and on current macOS the keys are claimed by the system Now
+Playing controls before any tap sees them, so the feature could not work as
+shipped. Nothing in this repository links against them any more.
 
 ## A note on distribution channels
 

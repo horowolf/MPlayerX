@@ -38,7 +38,7 @@ private let kMPXEAFPlaceHolder = ""
 /// for sharedAppController, and the lazy branch below only exists as a
 /// fallback so the getter never returns nil.
 @objc(AppController)
-class AppController: NSObject, NSApplicationDelegate, NSMenuItemValidation, SPMediaKeyTapDelegate {
+class AppController: NSObject, NSApplicationDelegate, NSMenuItemValidation {
 
 	private static var sharedInstance: AppController?
 
@@ -58,7 +58,6 @@ class AppController: NSObject, NSApplicationDelegate, NSMenuItemValidation, SPMe
 	@objc private(set) var supportSubFormats: NSSet = []
 	@objc private(set) var playableFormats: NSSet = []
 
-	private var keyTap: SPMediaKeyTap?
 
 	@IBOutlet weak var playerController: PlayerController!
 	@IBOutlet weak var openUrlController: OpenURLController!
@@ -74,8 +73,6 @@ class AppController: NSObject, NSApplicationDelegate, NSMenuItemValidation, SPMe
 			kUDKeyLogMode: false,
 			kUDKeySnapshotSavePath: kSnapshotSaveDefaultPath,
 			"AppleMomentumScrollSupported": "NO",
-			kMediaKeyUsingBundleIdentifiersDefaultsKey: SPMediaKeyTap.defaultMediaKeyUserBundleIdentifiers() ?? [],
-			kUDKeyEnableMediaKeyTap: true,
 			kUDKeyDisableLastStopBookmark: false,
 		])
 
@@ -298,39 +295,6 @@ class AppController: NSObject, NSApplicationDelegate, NSMenuItemValidation, SPMe
 		}
 	}
 
-	//////////////////////////////////////Media Key Delegate//////////////////////////////////////
-	func mediaKeyTap(_ keyTap: SPMediaKeyTap?, receivedMediaKeyEvent event: NSEvent) {
-		assert(event.type == .systemDefined && event.subtype.rawValue == Int16(SPSystemDefinedEventMediaKeys),
-			   "Unexpected NSEvent in mediaKeyTap:receivedMediaKeyEvent:")
-		// here be dragons...
-		let keyCode = Int32((event.data1 & 0xFFFF_0000) >> 16)
-		let keyFlags = event.data1 & 0x0000_FFFF
-		let keyIsPressed = ((keyFlags & 0xFF00) >> 8) == 0xA
-		let keyRepeat = keyFlags & 0x1
-
-		guard keyRepeat == 0 else { return }
-
-		switch keyCode {
-		case Int32(NX_KEYTYPE_PLAY):
-			if !keyIsPressed {
-				MPLogString("Media Key: play/pause")
-				NotificationCenter.default.post(name: NSNotification.Name.mpxMediaKeyPlayPause, object: NSApp)
-			}
-		case Int32(NX_KEYTYPE_FAST):
-			if keyIsPressed {
-				MPLogString("Media Key: forward")
-				NotificationCenter.default.post(name: NSNotification.Name.mpxMediaKeyForward, object: NSApp)
-			}
-		case Int32(NX_KEYTYPE_REWIND):
-			if keyIsPressed {
-				MPLogString("Media Key: backward")
-				NotificationCenter.default.post(name: NSNotification.Name.mpxMediaKeyBackward, object: NSApp)
-			}
-		default:
-			MPLogString("Media Key \(keyCode) pressed")
-		}
-	}
-
 	/////////////////////////////////////Application Delegate//////////////////////////////////////
 	func application(_ sender: NSApplication, openFile filename: String) -> Bool {
 		var isDir: ObjCBool = false
@@ -368,8 +332,6 @@ class AppController: NSObject, NSApplicationDelegate, NSMenuItemValidation, SPMe
 	}
 
 	func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
-		keyTap?.stopWatchingMediaKeys()
-
 		playerController.stop()
 
 		ud.synchronize()
@@ -387,15 +349,6 @@ class AppController: NSObject, NSApplicationDelegate, NSMenuItemValidation, SPMe
 	}
 
 	func applicationDidFinishLaunching(_ notification: Notification) {
-		if ud.bool(forKey: kUDKeyEnableMediaKeyTap) {
-			keyTap = SPMediaKeyTap(delegate: self)
-			if SPMediaKeyTap.usesGlobalMediaKeyTap() {
-				keyTap?.startWatchingMediaKeys()
-			} else {
-				MPLogString("MediaKey monitoring Disabled.")
-			}
-		}
-
 		// start listening to the AudioDevice
 		// if the app was opened by double-clicking a file, application:openFile: will be called before this method
 		// which means play would need to start before startListening
