@@ -109,7 +109,7 @@ releases page, and every release note lists the disk image's SHA-256. Check it
 before opening the image:
 
 ```
-shasum -a 256 MPlayerX-2.0.0.dmg
+shasum -a 256 MPlayerX-2.1.0.dmg
 ```
 
 Compare the output against the hash in the release notes, not against a

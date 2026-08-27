@@ -103,7 +103,7 @@ def fold(text):
 
 
 def main():
-    version = sys.argv[1] if len(sys.argv) > 1 else "2.0.0"
+    version = sys.argv[1] if len(sys.argv) > 1 else "2.1.0"
     root = os.path.join("localization", version)
     if not os.path.isdir(root) or not os.path.exists(NIB):
         sys.exit("run this from the repository root (looked for %s and %s)" % (root, NIB))
