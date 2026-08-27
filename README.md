@@ -22,10 +22,11 @@ and the tree as it stood could not be built by any current version of Xcode.
 | Source language | Swift, apart from four Objective-C files (see below) |
 | Playback backend | MPlayer 1.5, built natively for arm64 |
 
-Video and audio playback, subtitle rendering and charset detection work. Some
-interface layout is visibly off on current macOS; the XIBs date from 2011 and
-were laid out against AppKit metrics that have since changed. That is being
-addressed separately and does not affect playback.
+Video and audio playback, subtitle rendering and charset detection work.
+Preferences have been rebuilt in SwiftUI. `Base.lproj/MainMenu.xib` is the one
+XIB left, and the player window and control bar it carries were laid out in
+2011 against AppKit metrics that have since changed, so some spacing there is
+still off. It does not affect playback.
 
 ## Building
 
