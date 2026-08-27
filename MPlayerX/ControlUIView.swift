@@ -823,6 +823,8 @@ class ControlUIView: NSView {
 				menuShrinkFrame.isEnabled = true
 				menuEnlargeFrame2.isEnabled = true
 				menuShrinkFrame2.isEnabled = true
+				menuResetFrameScaleRatio.isEnabled = true
+				menuMoveFrameToCenter.isEnabled = true
 				menuWndFitToScrn.isEnabled = false
 
 				if ud.bool(forKey: kUDKeyLBAutoHeightInFullScrn) {
@@ -857,6 +859,8 @@ class ControlUIView: NSView {
 				menuShrinkFrame.isEnabled = false
 				menuEnlargeFrame2.isEnabled = false
 				menuShrinkFrame2.isEnabled = false
+				menuResetFrameScaleRatio.isEnabled = false
+				menuMoveFrameToCenter.isEnabled = false
 				menuWndFitToScrn.isEnabled = true
 
 				if ud.bool(forKey: kUDKeyLBAutoHeightInFullScrn) {
@@ -877,6 +881,8 @@ class ControlUIView: NSView {
 			menuShrinkFrame.isEnabled = false
 			menuEnlargeFrame2.isEnabled = false
 			menuShrinkFrame2.isEnabled = false
+			menuResetFrameScaleRatio.isEnabled = false
+			menuMoveFrameToCenter.isEnabled = false
 			menuWndFitToScrn.isEnabled = false
 		}
 		windowHasResized(nil)

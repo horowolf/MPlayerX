@@ -333,14 +333,14 @@
                                     <action selector="stepFrameScale:" target="540" id="1048"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Reset Frame Size" toolTip="In fullscreen mode, you could also enlarge/shrink frame by alt + scroll or magnify on touchpad" id="1033">
+                            <menuItem title="Reset Frame Size" toolTip="In fullscreen mode, you could also enlarge/shrink frame by alt + scroll or magnify on touchpad" enabled="NO" id="1033">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="resetFrameScaleRatio:" target="540" id="1035"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="1040"/>
-                            <menuItem title="Move Frame To Center" toolTip="In fullscreen mode, you could move the frame by alt + dragging, or alt + shift +dragging" id="1001">
+                            <menuItem title="Move Frame To Center" toolTip="In fullscreen mode, you could move the frame by alt + dragging, or alt + shift +dragging" enabled="NO" id="1001">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="moveFrameToCenter:" target="540" id="1004"/>
