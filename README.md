@@ -19,7 +19,7 @@ and the tree as it stood could not be built by any current version of Xcode.
 |---|---|
 | Builds | Xcode 26 on macOS 26, arm64 only |
 | Minimum macOS | 11.0 |
-| Source language | Swift, apart from six Objective-C files (see below) |
+| Source language | Swift, apart from four Objective-C files (see below) |
 | Playback backend | MPlayer 1.5, built natively for arm64 |
 
 Video and audio playback, subtitle rendering and charset detection work. Some
