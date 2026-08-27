@@ -240,7 +240,7 @@ private struct GeneralPrefView: View {
 			Spacer(minLength: 0)
 		}
 		.padding(20)
-		.frame(width: 560, alignment: .topLeading)
+		.frame(width: 640, alignment: .topLeading)
 	}
 }
 
@@ -313,7 +313,7 @@ private struct VideoPrefView: View {
 			Spacer(minLength: 0)
 		}
 		.padding(20)
-		.frame(width: 560, alignment: .topLeading)
+		.frame(width: 640, alignment: .topLeading)
 	}
 }
 
@@ -355,7 +355,7 @@ private struct AudioPrefView: View {
 			Spacer(minLength: 0)
 		}
 		.padding(20)
-		.frame(width: 560, alignment: .topLeading)
+		.frame(width: 640, alignment: .topLeading)
 	}
 }
 
@@ -487,7 +487,7 @@ private struct SubtitlePrefView: View {
 			Spacer(minLength: 0)
 		}
 		.padding(20)
-		.frame(width: 560, alignment: .topLeading)
+		.frame(width: 640, alignment: .topLeading)
 	}
 }
 
@@ -516,7 +516,7 @@ private struct NetworkPrefView: View {
 			Spacer(minLength: 0)
 		}
 		.padding(20)
-		.frame(width: 560, alignment: .topLeading)
+		.frame(width: 640, alignment: .topLeading)
 	}
 }
 
@@ -539,7 +539,7 @@ private struct AdvancedPrefView: View {
 			Spacer(minLength: 0)
 		}
 		.padding(20)
-		.frame(width: 560, alignment: .topLeading)
+		.frame(width: 640, alignment: .topLeading)
 	}
 }
 
@@ -669,22 +669,22 @@ class PrefController: NSObject, NSToolbarDelegate {
 		// match those pixel-for-pixel, so this is a starting point for the
 		// next GUI pass to tune, not an exact reproduction.
 		let generalView = NSHostingView(rootView: GeneralPrefView(actions: actions))
-		generalView.frame = NSRect(x: 0, y: 0, width: 560, height: 428)
+		generalView.frame = NSRect(x: 0, y: 0, width: 640, height: 428)
 
 		let videoView = NSHostingView(rootView: VideoPrefView(actions: actions))
-		videoView.frame = NSRect(x: 0, y: 0, width: 560, height: 397)
+		videoView.frame = NSRect(x: 0, y: 0, width: 640, height: 397)
 
 		let audioView = NSHostingView(rootView: AudioPrefView())
-		audioView.frame = NSRect(x: 0, y: 0, width: 560, height: 231)
+		audioView.frame = NSRect(x: 0, y: 0, width: 640, height: 231)
 
 		let subtitleView = NSHostingView(rootView: SubtitlePrefView(charsetSelection: charsetSelection, fontPopup: fontPopup, actions: actions))
-		subtitleView.frame = NSRect(x: 0, y: 0, width: 560, height: 604)
+		subtitleView.frame = NSRect(x: 0, y: 0, width: 640, height: 604)
 
 		let networkView = NSHostingView(rootView: NetworkPrefView())
-		networkView.frame = NSRect(x: 0, y: 0, width: 560, height: 154)
+		networkView.frame = NSRect(x: 0, y: 0, width: 640, height: 154)
 
 		let advancedView = NSHostingView(rootView: AdvancedPrefView())
-		advancedView.frame = NSRect(x: 0, y: 0, width: 560, height: 194)
+		advancedView.frame = NSRect(x: 0, y: 0, width: 640, height: 194)
 
 		prefViews = [generalView, videoView, audioView, subtitleView, networkView, advancedView]
 
