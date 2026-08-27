@@ -161,7 +161,7 @@ class RootLayerView: NSView, CoreDisplayDelegate, CALayerDelegate, NSWindowDeleg
 			kUDKeyQuitOnClose: false,
 			kUDKeyPinPMode: false,
 			kUDKeyAlwaysHideDockInFullScrn: false,
-			kUDKeyDisableHScrollSeek: true,
+			kUDKeyDisableHScrollSeek: false,
 			kUDKeyDisableVScrollVol: false,
 			kUDKeyThreeFingersPinchThreshRatio: Float(1.5),
 			kUDKeyFourFingersPinchThreshRatio: Float(1.8),

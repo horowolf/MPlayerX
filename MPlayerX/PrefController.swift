@@ -522,7 +522,7 @@ private struct NetworkPrefView: View {
 
 private struct AdvancedPrefView: View {
 	@AppStorage(kUDKeyExtraOptions) private var extraOptions: String = ""
-	@AppStorage(kUDKeyDisableHScrollSeek) private var disableHScroll: Bool = true
+	@AppStorage(kUDKeyDisableHScrollSeek) private var disableHScroll: Bool = false
 	@AppStorage(kUDKeyDisableVScrollVol) private var disableVScroll: Bool = false
 
 	var body: some View {
